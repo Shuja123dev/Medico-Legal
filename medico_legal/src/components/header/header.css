@@ -1,0 +1,129 @@
+.header-container{
+  position: fixed;
+  top: 0px;
+  right: inherit;
+  width: 100%;
+  z-index: 1;
+  background-color: white;
+}
+
+.lan-dropdown{
+  background-color: white;
+}
+
+.lan-nav-item{
+  position: relative;
+}
+
+.lan-nav-item ul{
+  display: none;
+}
+
+.lan-nav-item:hover ul{
+  display: block;
+  position: absolute;
+}
+
+.pointer{
+  cursor: pointer;
+}
+
+.lan-nav-item:hover .bi-chevron-down{
+  color: #2F4058;
+  animation: rotate 250ms ease-in-out forwards;
+  font-weight: 600;
+}
+
+@keyframes rotate {
+  0%{
+    transform: rotate(0deg);
+  }
+  100%{
+    transform: rotate(180deg);
+  }
+}
+
+li{
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.link{
+  text-decoration: none;
+  color: #2F4058;
+}
+.link:hover{
+  color: #2F4058;
+}
+
+.sign-in-link,.sign-up-link{
+  padding: 5px 15px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 5px;
+  height: 35px;
+  width: 100px;
+  text-align: center;
+}
+
+.sign-up-link{
+  background-color: #2F4058;
+  color: white;
+}
+.sign-up-link:hover{
+  background-color: white;
+  border: #2F4058 1px solid;
+  color: #2F4058;
+}
+
+.sign-in-link{
+  color: #2F4058;
+}
+
+.sign-in-link:hover{
+  border: #2F4058 1px solid;
+  color: #2F4058;
+}
+
+/* Styles for small devices (mobile phones) */
+@media (max-width: 576px) {
+    .header{
+        display: block;
+        width: 100%;
+    }
+  }
+  
+  /* Styles for medium devices (tablets) */
+  @media (min-width: 577px) and (max-width: 768px) {
+    .header{
+        display: block;
+        width: 100%;
+    }
+  }
+  
+  /* Styles for large devices (small laptops) */
+  @media (min-width: 769px) and (max-width: 992px) {
+    .header{
+        display: block;
+        width: 100%;
+    }
+  }
+  
+  /* Styles for extra-large devices (laptops and desktops) */
+  @media (min-width: 993px) and (max-width: 1200px) {
+    .header{
+        display: block;
+        width: 90%;
+    }
+  }
+  
+  /* Styles for extra-extra-large devices (large desktops) */
+  @media (min-width: 1201px) {
+    .header{
+        display: block;
+        width: 80%;
+        max-width: 80%;
+    }
+  }
+  
