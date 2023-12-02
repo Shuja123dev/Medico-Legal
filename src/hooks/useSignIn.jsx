@@ -1,43 +1,42 @@
 import { useState } from 'react';
-import { redirect } from 'react-router-dom';
+import { redirect, useNavigate } from 'react-router-dom';
 
 
 const useSignIn = () => {
-    const [formData, setFormData] = useState({
-        phoneNumber: '',
-        password: ''
-      });
+  const [formData, setFormData] = useState({
+    phoneNumber: '',
+    password: ''
+  });
 
   const [errors, setErrors] = useState({});
 
   const validateForm = () => {
     const newErrors = {};
 
-    if(!formData.phoneNumber.trim() || !formData.password.trim()){
-        newErrors.fillAllFields = true;
+    if (!formData.phoneNumber.trim() || !formData.password.trim()) {
+      newErrors.fillAllFields = true;
     }
-    else
-    {
-        const phoneRegex = /^(\+966|0)(5\d{8})$/;
-        if (!formData.phoneNumber.match(phoneRegex)) {
-            newErrors.phoneNumber = true;
-        }
+    else {
+      const phoneRegex = /^(\+966|0)(5\d{8})$/;
+      if (!formData.phoneNumber.match(phoneRegex)) {
+        newErrors.phoneNumber = true;
+      }
 
-        // Validate Password Length
-        if (formData.password.length < 8) {
-            newErrors.password = true;
-        }
+      // Validate Password Length
+      if (formData.password.length < 8) {
+        newErrors.password = true;
+      }
     }
-    
+
     setErrors(newErrors);
 
     // Return true if there are no errors, indicating the form is valid
     return Object.keys(newErrors).length === 0;
   }
-
+  const navigate = useNavigate();
   const handleSubmit = (event) => {
     event.preventDefault();
-
+    navigate("/admin/progress")
     if (validateForm()) {
       // Perform signup or submission logic
       console.log('Form is valid, submit the data:', formData);
