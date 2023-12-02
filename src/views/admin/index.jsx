@@ -4,7 +4,7 @@ import "./index.css";
 import AdminSideBar from '../user/containers/sidebar/AdminSideBar'
 import { useSelector } from 'react-redux';
 import { barsIcon } from "../user/assets";
-import { UserPicCard } from '../user/components';
+import { H2, UserPicCard } from '../user/components';
 import { Route, Routes } from 'react-router-dom';
 import Contracts from './components/contracts/Contracts';
 import Membership from './components/membership/Membership';
@@ -16,6 +16,11 @@ import CaseDetails from './components/clients/CaseDetails';
 import Payments from './components/payments/Payments';
 import ProfileRequests from './components/requests/ProfileRequests';
 import { Chat } from '../user/screens';
+import Support from './components/support/Support';
+import Blogs from './components/Blogs/Blogs';
+import BlogDetails from './components/Blogs/BlogDetails';
+import EditBlog from './components/Blogs/EditBlog';
+import AddBlog from './components/Blogs/AddBlog';
 
 const Admin = () => {
     const lang = useSelector((state) => state.language.value);
@@ -59,10 +64,24 @@ const Admin = () => {
                         <Route path='/promos' element={<Promos />} />
                         <Route path='/clients' element={<Clients />} />
                         <Route path='/payments' element={<Payments />} />
-                        <Route path='/clients-chat' element={<Chat />} />
-                        <Route path='/experts-chat' element={<Chat />} />
-                        <Route path='/cases-chat' element={<Chat />} />
-                        <Route path='//profile-requests' element={<ProfileRequests />} />
+                        <Route path='/clients-chat' element={<>
+                            <H2 text={"CHAT"} className='mb-4' />
+                            <Chat />
+                        </>} />
+                        <Route path='/experts-chat' element={<>
+                            <H2 text={"CHAT"} className='mb-4' />
+                            <Chat />
+                        </>} />
+                        <Route path='/cases-chat' element={<>
+                            <H2 text={"CHAT"} className='mb-4' />
+                            <Chat />
+                        </>} />
+                        <Route path='/support' element={<Support />} />
+                        <Route path='/blogs' element={<Blogs />} />
+                        <Route path='/blogs/edit' element={<EditBlog />} />
+                        <Route path='/blogs/add-new-blog' element={<AddBlog />} />
+                        <Route path='/blogs/:blogId' element={<BlogDetails />} />
+                        <Route path='/profile-requests' element={<ProfileRequests />} />
                         <Route path='/clients/:clientId' element={<ClientDetails />} />
                         <Route path='/clients/:clientId/details' element={<CaseDetails />} />
                     </Routes>

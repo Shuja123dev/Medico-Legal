@@ -138,7 +138,7 @@ const AdminSideBar = ({ isSidebarHidden, toggleSidebar }) => {
                         toggleSidebar={toggleSidebar}
                     />
                     <SidebarItem
-                        to={"/admin/blog"}
+                        to={"/admin/blogs"}
                         icon={blogWhite}
                         iconWhite={blogs}
                         text={"Blog"}
