@@ -10,6 +10,7 @@ const ChatRightSidebar = ({
   toggleRightSidebar,
   chatmembers,
   documents,
+  type = null
 }) => {
   const { t } = useTranslation();
   const lang = useSelector((state) => state.language.value);
@@ -17,16 +18,15 @@ const ChatRightSidebar = ({
   return (
     <>
       <div
-        className={`user_chatRightSidebar ${
-          isRightSidebarHidden ? "user_chatRightSidebar--hidden" : ""
-        } ${lang === "ar" ? "user_chatRightSidebar_ar" : ""}`}>
+        className={`user_chatRightSidebar ${isRightSidebarHidden ? "user_chatRightSidebar--hidden" : ""
+          } ${lang === "ar" ? "user_chatRightSidebar_ar" : ""}`}>
         <button
           onClick={toggleRightSidebar}
           className="user_chatRightSidebar__close_btn">
           <img src={xIcon} alt="x" />
         </button>
         <div className="user_chatRightSidebar__top">
-          <H3 text={t("UserPanel.Chat.ChatMembers")} />
+          <H3 text={((type === "support") ? "Ticket " : "Chat ") + "members"} />
           <div className="user_chatRightSidebar__chatMembers_div">
             {chatmembers.map(({ name, type }, index) => (
               <ChatMemberItem key={index} name={name} type={type} />
@@ -38,7 +38,7 @@ const ChatRightSidebar = ({
           <div>
             <div className="d-flex align-items-center justify-content-between">
               <h5>{t("UserPanel.Cases.AddNewCasePage.User")}</h5>
-              <Button1 icon={plusIcon} />
+              {type !== "support" && <Button1 icon={plusIcon} />}
             </div>
             {documents
               .filter((doc) => doc.type === "user")

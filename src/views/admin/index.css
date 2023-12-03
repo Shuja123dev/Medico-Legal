@@ -226,3 +226,42 @@ a {
   display: contents;
   text-decoration: none;
 }
+
+.status_color {
+  height: 7px;
+  width: 7px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.support_light_txt {
+  width: 50%;
+  color: #BFC0C2;
+  font-weight: 500;
+}
+
+.flex-direction-column {
+  flex-direction: column !important;
+}
+
+.expert_cards_box p {
+  margin: 0;
+}
+
+.expert_cards_box h4 {
+  margin-bottom: 2rem;
+}
+
+.expert_cards_box .col-lg-6 {
+  min-width: 270px;
+}
+
+select {
+  border-radius: 8px;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.expert_cards_box img {
+  cursor: pointer;
+}

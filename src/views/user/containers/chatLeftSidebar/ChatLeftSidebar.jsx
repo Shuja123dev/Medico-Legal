@@ -19,22 +19,22 @@ const ChatLeftSidebar = ({
   setCurrentEntry,
   chatType,
   toggleTicketModal,
+  type = ""
 }) => {
   const { t } = useTranslation();
   const lang = useSelector((state) => state.language.value);
   const [searchVal, setSearchVal] = useState("");
-
   return (
     <>
       <div
         className={`user_chatLeftSidebar ${isLeftSidebarHidden ? "user_chatLeftSidebar--hidden" : ""
-          } ${lang === "ar" ? "user_chatLeftSidebar_ar" : ""}`}>
+          } ${lang === "ar" ? "user_chatLeftSidebar_ar" : ""} ${type === "support" ? "ticketMax" : ""}`}>
         <button
           onClick={toggleLeftSidebar}
           className="user_chatLeftSidebar__close_btn">
           <img src={xIcon} alt="x" />
         </button>
-        {(chatType == "experts-chat" || chatType === "support") && (
+        {(chatType == "experts-chat") && (
           <>
             {chatType === "experts-chat" ? (
               <H3 text={t("UserPanel.Chat.Experts")} />
@@ -122,6 +122,41 @@ const ChatLeftSidebar = ({
                     </div>
                   </ChatLeftbarItemLayout>
                 ))}
+            </div>
+          </>
+        )}
+
+        {chatType == "support" && (
+          <>
+            <H3 text={t("UserPanel.Chat.Tickets")} className="mb-3 fw-700" />
+            <div className="user_chatLeftSidebar__items">
+              {entries.map((entry, index) => (
+                <ChatLeftbarItemLayout
+                  toggleSidebar={toggleLeftSidebar}
+                  value={entry}
+                  key={index}
+                  currentValue={currentEntry}
+                  setCurrentValue={setCurrentEntry}>
+                  <div className="w-100 d-flex flex-column align-items-start">
+                    <H4
+                      text={`#${entry.name}`}
+                      className="text-start text-capitalize "
+                    />
+                    <p className="my-2" style={{ color: "#5C6D85" }}>
+                      {"Subject"}
+                    </p>
+                    <div className="d-flex align-items-center justify-content-between m-0 user_chatLeftSidebar__item__text user_chatLeftSidebar__item__text--case">
+                      <span className="d-flex align-items-center ">
+                        <div className="status_color" style={{ backgroundColor: `${entry.status === "Completed" && "#7ECD7C" || entry.status === "Progress" && "#4A8AE6" || entry.status === "Active" && "#FDF52E"}` }}></div>
+                        {entry.status}</span>
+                      <div className="d-flex align-items-center">
+                        <span className="mx-2">Created: </span>
+                        <p className="m-0" style={{ color: "#2F4058" }}>{entry.created}</p>
+                      </div>
+                    </div>
+                  </div>
+                </ChatLeftbarItemLayout>
+              ))}
             </div>
           </>
         )}

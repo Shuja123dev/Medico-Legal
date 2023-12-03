@@ -2,17 +2,20 @@ import React, { useState } from 'react'
 import { H2 } from '../../../user/components'
 import { CardLayout } from '../../../user/containers'
 import clientAvatar from "./clientAvatar.png"
-import MembrshipDetails from './MembrshipDetails'
-import ContactInfo from './ContactInfo'
-import ClientCases from './ClientCases'
+import ContactInfo from '../clients/ContactInfo'
+import ClientCases from '../clients/ClientCases'
 
-const ClientDetails = () => {
-
+const ExpertDetails = () => {
     const buttonsTxt = [
-        "Membership",
         "Contact Information",
         "Cases"
     ]
+
+    const [activeInx, setActiveIndx] = useState(0);
+
+    const showContent = (index) => {
+        setActiveIndx(index);
+    }
 
     const casesData = [
         {
@@ -32,22 +35,9 @@ const ClientDetails = () => {
         },
     ]
 
-    const [content, setContent] = useState(<MembrshipDetails />)
-    const [activeInx, setActiveIndx] = useState(0);
-
-    const showContent = (index) => {
-        setActiveIndx(index);
-        if (index === 0)
-            setContent(<MembrshipDetails />)
-        else if (index === 1)
-            setContent(<ContactInfo phNo={"+966 14847 9797"} email="example@gmail.com" />)
-        else
-            setContent(<ClientCases cases={casesData} />)
-    }
-
     return (
         <>
-            <H2 text={"CLIENT"} className='mb-4' />
+            <H2 text={"EXPERT"} className='mb-4' />
             <CardLayout className='mb-5'>
                 <div className="row">
                     <div className="col-md-1">
@@ -92,11 +82,11 @@ const ClientDetails = () => {
                     }
                 </div>
                 <div className="col-md-9">
-                    {content}
+                    {(activeInx === 0) ? <ContactInfo phNo={"+966 14847 9797"} email="example@gmail.com" /> : <ClientCases cases={casesData} />}
                 </div>
             </div>
         </>
     )
 }
 
-export default ClientDetails
+export default ExpertDetails

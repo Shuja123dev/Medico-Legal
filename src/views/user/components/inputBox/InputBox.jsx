@@ -11,13 +11,13 @@ const InputBox = ({
   value = "",
   className = "",
   onChange,
+  rows = 3
 }) => {
   return (
     <>
       <div
-        className={`${className} user_input_box ${
-          disabled ? "user_input_box_disabled" : ""
-        }`}>
+        className={`${className} user_input_box ${disabled ? "user_input_box_disabled" : ""
+          }`}>
         {label && <label htmlFor={nameIdHtmlFor}>{label}</label>}
         {(type === "text" || type === "number") && (
           <input
@@ -43,7 +43,7 @@ const InputBox = ({
         )}
         {type === "textarea" && (
           <textarea
-            rows={3}
+            rows={rows}
             name={nameIdHtmlFor}
             id={nameIdHtmlFor}
             value={value}

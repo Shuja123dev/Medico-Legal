@@ -20,26 +20,34 @@ const BlogDisplayTable = ({ labels, pageCasesToDisplay, path }) => {
                     </thead>
                     <tbody>
                         {pageCasesToDisplay.map((caseItem, index) => (
-                            <tr key={index} className="user_cases_display_table__row" style={{ height: "6rem", cursor: "pointer" }} onClick={() => navigate(path + caseItem.id)}>
-                                {/* <Link className="w-100 d-block user_cases_display_table__cell_link" to={path + caseItem.id}> */}
+                            <tr key={index} className="user_cases_display_table__row" style={{ height: "6rem", cursor: "pointer" }}>
                                 {Object.keys(caseItem).map((data, dataIndex) =>
-                                    dataIndex === 1 ? (
-                                        <td key={dataIndex}>
-                                            <img src={caseItem[data]} alt="" />
-                                        </td>
-                                    ) : (
-                                        <td
-                                            key={dataIndex}
-                                            className="user_cases_display_table__cell">
-                                            {caseItem[data]}
-                                        </td>
-                                    )
+                                    dataIndex === 2 ?
+                                        <Link className="w-100 d-block user_cases_display_table__cell_link" to={path + caseItem.id}>
+                                            <td
+                                                key={dataIndex}
+                                                className="user_cases_display_table__cell">
+                                                {caseItem[data]}
+                                            </td>
+                                        </Link>
+                                        :
+                                        dataIndex === 1 ? (
+                                            <td key={dataIndex} className='tableImgTd'>
+                                                <img src={caseItem[data]} alt="" />
+                                            </td>
+                                        ) : (
+                                            <td
+                                                key={dataIndex}
+                                                className="user_cases_display_table__cell">
+                                                {caseItem[data]}
+                                            </td>
+                                        )
+
                                 )}
                                 <td className="user_cases_display_table__cell memberActions">
-                                    <button style={{ color: "rgb(53, 115, 201)" }}>Edit</button> /
+                                    <button style={{ color: "rgb(53, 115, 201)" }} onClick={() => navigate(path + caseItem.id + "/edit")}>Edit</button> /
                                     <button style={{ color: "rgb(238, 51, 51)" }}>Delete</button>
                                 </td>
-                                {/* </Link> */}
                             </tr>
                         ))}
                     </tbody>

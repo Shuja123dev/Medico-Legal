@@ -1,38 +1,40 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Card from '../Card/Card'
-import { Button1, CasesDisplayTable, H2, LinkButton1, Pagination, SearchBar } from '../../../user/components'
+import { Button1, H2, LinkButton1, Pagination, SearchBar } from '../../../user/components'
+import { CardLayout } from '../../../user/containers'
+import ClientsDisplayTable from '../clients/ClientsDisplayTable'
 import plusIcon from "../management/plusIcon.png"
 import filterIcon from "../management/filter.svg"
-import { CardLayout } from '../../../user/containers'
-import ClientsDisplayTable from './ClientsDisplayTable'
 
-const Clients = () => {
+const Experts = () => {
 
-    const clients = [
+    const experts = [
         {
             id: "123",
             name: "Ali Ahmad",
-            type: "Doctor, Surgeon",
-            contractId: "1234",
-            contractName: "Complete Protection",
-            cases: 2,
+            expertise: "Public and Insurance",
+            experience: 10,
+            totalCases: 10,
+            won: 3,
+            lost: 3,
             status: "Active"
         },
         {
             id: "123",
-            name: "Zaid Ahmad",
-            type: "Doctor, Surgeon",
-            contractId: "1234",
-            contractName: "Complete Protection",
-            cases: 2,
-            status: "Deactive"
+            name: "Raza Ahmad",
+            expertise: "Public and Insurance",
+            experience: 20,
+            totalCases: 17,
+            won: 3,
+            lost: 3,
+            status: "dEACTIVE"
         },
     ]
 
     const statusSelectRef = useRef(null);
     const [searchVal, setSearchVal] = useState("");
-    const [casesToDisplay, setCasesToDisplay] = useState(clients);
-    const [pageCasesToDisplay, setPageCasesToDisplay] = useState(clients);
+    const [casesToDisplay, setCasesToDisplay] = useState(experts);
+    const [pageCasesToDisplay, setPageCasesToDisplay] = useState(experts);
     const [recordsPerPage, setRecordsPerPage] = useState(10);
     const [currentPage, setCurrentPage] = useState(1);
     const [status, setStatus] = useState("All");
@@ -43,7 +45,7 @@ const Clients = () => {
 
     useEffect(() => {
         setCasesToDisplay(
-            clients.filter(
+            experts.filter(
                 (item) =>
                     (searchVal === "" ||
                         item.name.toLowerCase().includes(searchVal.toLowerCase())) &&
@@ -85,9 +87,9 @@ const Clients = () => {
             </div>
             <div className="user_cases_outer mt-5">
                 <div className="d-flex align-items-center justify-content-between ">
-                    <H2 text={"CLIENTS"} />
+                    <H2 text={"EXPERTS"} />
                     <LinkButton1
-                        text={"Add new Client"}
+                        text={"Add new Expert"}
                         icon={plusIcon}
                         to={"/user/cases/add-new-case"}
                     />
@@ -111,14 +113,15 @@ const Clients = () => {
                 <CardLayout>
                     <div className="user_cases_table_outer">
                         <ClientsDisplayTable
-                            path='/admin/clients/'
+                            path='/admin/experts/'
                             labels={[
                                 "ID",
                                 "NAME",
-                                "TYPE",
-                                "CONTRACT ID",
-                                "CONTRACT NAME",
-                                "CASES",
+                                "EXPERTIES",
+                                "EXPERIENCE",
+                                "TOTAL CASES",
+                                "WON",
+                                "LOST",
                                 "STATUS"
                             ]}
                             pageCasesToDisplay={pageCasesToDisplay}
@@ -150,4 +153,4 @@ const Clients = () => {
     )
 }
 
-export default Clients
+export default Experts

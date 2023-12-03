@@ -18,6 +18,10 @@
   width: 100%;
 }
 
+.f-700 {
+  font-weight: 700 !important;
+}
+
 .user_base_main {
   padding: 6rem 1.5rem 1.5rem 1.5rem;
   width: 100%;
@@ -65,4 +69,8 @@
   .user_bars_btn {
     display: none;
   }
+}
+
+.ticketMax {
+  max-width: 19rem !important;
 }

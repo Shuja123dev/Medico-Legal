@@ -89,9 +89,8 @@ const BillingChannel = () => {
           </div>
         </div>
         <div
-          className={`user_billingChannel__body_outer ${
-            isChannelExpanded ? "user_billingChannel__body_outer-expanded" : ""
-          }`}>
+          className={`user_billingChannel__body_outer ${isChannelExpanded ? "user_billingChannel__body_outer-expanded" : ""
+            }`}>
           <div className="user_billingChannel__body">
             {membershipStatus !== "expired" && (
               <div className="user_billingChannel__radio_divs">

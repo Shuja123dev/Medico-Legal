@@ -60,7 +60,7 @@ const Blogs = () => {
             <div className="d-flex align-items-center justify-content-between mb-4">
                 <H2 text={"CLIENTS"} />
                 <LinkButton1
-                    text={"Blog"}
+                    text={"Add new Blog"}
                     icon={plusIcon}
                     to={"/admin/blogs/add-new-blog"}
                 />

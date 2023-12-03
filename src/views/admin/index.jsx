@@ -21,6 +21,9 @@ import Blogs from './components/Blogs/Blogs';
 import BlogDetails from './components/Blogs/BlogDetails';
 import EditBlog from './components/Blogs/EditBlog';
 import AddBlog from './components/Blogs/AddBlog';
+import RespondTicket from './components/support/RespondTicket';
+import Experts from './components/experts/Experts';
+import ExpertDetails from './components/experts/ExpertDetails';
 
 const Admin = () => {
     const lang = useSelector((state) => state.language.value);
@@ -77,13 +80,16 @@ const Admin = () => {
                             <Chat />
                         </>} />
                         <Route path='/support' element={<Support />} />
+                        <Route path='/support/respond' element={<RespondTicket />} />
                         <Route path='/blogs' element={<Blogs />} />
-                        <Route path='/blogs/edit' element={<EditBlog />} />
+                        <Route path='/blogs/:blogId/edit' element={<EditBlog />} />
                         <Route path='/blogs/add-new-blog' element={<AddBlog />} />
                         <Route path='/blogs/:blogId' element={<BlogDetails />} />
                         <Route path='/profile-requests' element={<ProfileRequests />} />
                         <Route path='/clients/:clientId' element={<ClientDetails />} />
                         <Route path='/clients/:clientId/details' element={<CaseDetails />} />
+                        <Route path='/experts' element={<Experts />} />
+                        <Route path='/experts/:expertId' element={<ExpertDetails />} />
                     </Routes>
                 </main>
             </div>

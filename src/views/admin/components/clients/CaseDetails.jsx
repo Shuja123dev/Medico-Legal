@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { CardLayout } from '../../../user/containers'
 import { Button1, CaseDetailsTable, CasesDisplayTable, ExpertDisplay, H3, H4, InputBox, Pdf } from '../../../user/components'
+import { NavLink } from 'react-router-dom';
+import deleteIcon from "../support/deleteIcon.svg"
 
 const experts = [
     {
@@ -24,7 +26,7 @@ const experts = [
     },
 ];
 
-const CaseDetails = () => {
+const CaseDetails = ({ role = null }) => {
 
     const modalData = {
         expertRemoval: {
@@ -70,8 +72,23 @@ const CaseDetails = () => {
                                 />
                             )}
                         </div>
-                        <div className="user_caseDetails__case_div--edit">
-
+                        <div className="row my-4 mb-5">
+                            <div className="col-md-12 d-flex my-2">
+                                <H4 text={"NAME"} className='support_light_txt' />
+                                <p>Name of the case</p>
+                            </div>
+                            <div className="col-md-12 d-flex my-2">
+                                <H4 text={"TYPE"} className='support_light_txt' />
+                                <p>Public Court</p>
+                            </div>
+                            <div className="col-md-12 d-flex my-2">
+                                <H4 text={"STATUS"} className='support_light_txt' />
+                                <select>
+                                    <option value="">Active</option>
+                                    <option value="">Completed</option>
+                                    <option value="">Progress</option>
+                                </select>
+                            </div>
                         </div>
                         {editStatus && (
                             <div className="w-100 d-flex justify-content-end my-5">
@@ -81,6 +98,33 @@ const CaseDetails = () => {
                                 />
                             </div>
                         )}
+                    </div>
+                    <div className="user_caseDetails__experts_div">
+                        <H4 text={"Client"} />
+                        <div className="row my-4 mb-5">
+                            {
+                                role === "admin" ? "admin"
+                                    :
+                                    <>
+                                        <div className="col-md-12 d-flex my-2">
+                                            <H4 text={"NAME"} className='support_light_txt' />
+                                            <p>Name of the client</p>
+                                        </div>
+                                        <div className="col-md-12 d-flex my-2">
+                                            <H4 text={"TYPE"} className='support_light_txt' />
+                                            <p>Type of the client</p>
+                                        </div>
+                                        <div className="col-md-12 d-flex my-2">
+                                            <H4 text={"SPECIALITY"} className='support_light_txt' />
+                                            <p>Gastroentrology</p>
+                                        </div>
+                                        <div className="col-md-12 d-flex my-2">
+                                            <H4 text={"EXPERIENCE"} className='support_light_txt' />
+                                            <p>4 years</p>
+                                        </div>
+                                    </>
+                            }
+                        </div>
                     </div>
                     <div className="user_caseDetails__experts_div">
                         {editStatus && (
@@ -95,8 +139,54 @@ const CaseDetails = () => {
                             </div>
                         )}
                         <H4 text={"Experts"} />
-                        <div className="user_caseDetails__experts_div__inner">
-
+                        <div className="row my-4">
+                            <div className="col-md-12 d-flex">
+                                <select name="" id="" className='px-2' style={{ width: "70%", marginRight: "1rem" }}>
+                                    <option value="">Expert Name</option>
+                                </select>
+                                <Button1 text={"Add"} />
+                            </div>
+                        </div>
+                        <div className="row expert_cards_box">
+                            <div className="col-lg-6 col-md-12 my-3">
+                                <CardLayout className='p-4'>
+                                    <div className="row">
+                                        <div className="col-md-10">
+                                            <H4 text={"Name of the Expert"} />
+                                            <p>Area of experties</p>
+                                        </div>
+                                        <div className="col-md-2 d-flex text-center align-items-center">
+                                            <img src={deleteIcon} alt="" />
+                                        </div>
+                                    </div>
+                                </CardLayout>
+                            </div>
+                            <div className="col-lg-6 col-md-12 my-3">
+                                <CardLayout className='p-4'>
+                                    <div className="row">
+                                        <div className="col-md-10">
+                                            <H4 text={"Name of the Expert"} />
+                                            <p>Area of experties</p>
+                                        </div>
+                                        <div className="col-md-2 d-flex text-center align-items-center">
+                                            <img src={deleteIcon} alt="" />
+                                        </div>
+                                    </div>
+                                </CardLayout>
+                            </div>
+                            <div className="col-lg-6 col-md-12 my-3">
+                                <CardLayout className='p-4'>
+                                    <div className="row">
+                                        <div className="col-md-10">
+                                            <H4 text={"Name of the Expert"} />
+                                            <p>Area of experties</p>
+                                        </div>
+                                        <div className="col-md-2 d-flex text-center align-items-center">
+                                            <img src={deleteIcon} alt="" />
+                                        </div>
+                                    </div>
+                                </CardLayout>
+                            </div>
                         </div>
                     </div>
                 </div>
