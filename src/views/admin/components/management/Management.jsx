@@ -40,38 +40,44 @@ const Management = () => {
         {
             clientID: "123",
             clientName: "Raza Ahmad",
-            clientType: "Doctor, Surgeon",
+            clientType: "Surgeon",
             contractID: "1234",
             contractName: "Complete Protection",
             contractYear: "2",
             amount: "5000",
-            date: "10/22/2023"
+            date: "10/22/2022"
         },
     ];
 
     const statusSelectRef = useRef(null);
+    const statusSelectRef1 = useRef(null);
     const [searchVal, setSearchVal] = useState("");
     const [casesToDisplay, setCasesToDisplay] = useState(clientsMemberships);
     const [pageCasesToDisplay, setPageCasesToDisplay] = useState(clientsMemberships);
-    const [status, setStatus] = useState("All");
+    const [clientType, setClientType] = useState("All");
+    const [year, setYear] = useState("All");
     const [recordsPerPage, setRecordsPerPage] = useState(10);
     const [currentPage, setCurrentPage] = useState(1);
 
     const filterHandler = () => {
-        setStatus(statusSelectRef.current.value);
-    };
+        setClientType(statusSelectRef1.current.value);
+        setYear(statusSelectRef.current.value)
 
+    };
     useEffect(() => {
         setCasesToDisplay(
             clientsMemberships.filter(
                 (item) =>
                     (searchVal === "" ||
                         item.clientName.toLowerCase().includes(searchVal.toLowerCase())) &&
-                    (status.toLowerCase() === "all" ||
-                        item.status.toLowerCase() === status.toLowerCase())
+                    (year === "All" ||
+                        item.date.includes(year))
+                    &&
+                    (clientType.toLowerCase() === "all" ||
+                        item.clientType.includes(clientType))
             )
         );
-    }, [searchVal, status]);
+    }, [searchVal, clientType]);
 
     useEffect(() => {
         const startIndex = (currentPage - 1) * recordsPerPage;
@@ -164,14 +170,16 @@ const Management = () => {
                     <SearchBar setSearchVal={setSearchVal} />
                     <div className="user_cases__select_div">
                         <span>{"Year"}</span>
-                        <select ref={statusSelectRef}>
+                        <select value={year} ref={statusSelectRef} onChange={(e) => setYear(e.target.value)}>
+                            <option>{"All"}</option>
                             <option>{"2023"}</option>
                             <option>{"2022"}</option>
                         </select>
                         <span>{"Client Type"}</span>
-                        <select ref={statusSelectRef}>
+                        <select value={clientType} ref={statusSelectRef1} onChange={(e) => setClientType(e.target.value)}>
+                            <option>{"All"}</option>
                             <option>{"Doctor"}</option>
-                            <option>{"Sergon"}</option>
+                            <option>{"Surgeon"}</option>
                         </select>
                         <Button1
                             onClick={filterHandler}
