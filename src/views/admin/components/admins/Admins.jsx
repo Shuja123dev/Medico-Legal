@@ -88,9 +88,9 @@ const Admins = () => {
                 <div className="d-flex align-items-center justify-content-between ">
                     <H2 text={"CLIENTS"} />
                     <LinkButton1
-                        text={"Add new Client"}
+                        text={"Add new Admin"}
                         icon={plusIcon}
-                        to={"/admin/clients/add-client"}
+                        to={"/admin/admins/add-admin"}
                     />
                 </div>
                 <div className="d-flex flex-column flex-md-row align-items-center justify-content-end gap-4">

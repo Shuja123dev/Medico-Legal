@@ -33,6 +33,10 @@
 }
 
 
+.barGraph {
+  width: 72%;
+}
+
 .user_bars_btn {
   border: none;
   background-color: #fff;
