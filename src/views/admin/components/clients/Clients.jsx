@@ -65,23 +65,31 @@ const Clients = () => {
 
     return (
         <>
-            <div className="row p-2" style={{ gap: '2rem' }}>
-                <Card className='col-md-4'>
-                    <p>Total Clients</p>
-                    <h1>203</h1>
-                </Card>
-                <Card className='col-md-4'>
-                    <p>Surgeon Doctors</p>
-                    <h1>45</h1>
-                </Card>
-                <Card className='col-md-4'>
-                    <p>Non - Surgeon Doctors</p>
-                    <h1>120</h1>
-                </Card>
-                <Card className='col-md-4'>
-                    <p>Medical Professional</p>
-                    <h1>38</h1>
-                </Card>
+            <div className="row p-2">
+                <div className="p-2 col-md-3">
+                    <Card >
+                        <p>Total Clients</p>
+                        <h1>203</h1>
+                    </Card>
+                </div>
+                <div className="p-2 col-md-3">
+                    <Card >
+                        <p>Surgeon Doctors</p>
+                        <h1>45</h1>
+                    </Card>
+                </div>
+                <div className="p-2 col-md-3">
+                    <Card >
+                        <p>Non - Surgeon Doctors</p>
+                        <h1>120</h1>
+                    </Card>
+                </div>
+                <div className="p-2 col-md-3">
+                    <Card >
+                        <p>Medical Professional</p>
+                        <h1>38</h1>
+                    </Card>
+                </div>
             </div>
             <div className="user_cases_outer mt-5">
                 <div className="d-flex align-items-center justify-content-between ">
@@ -89,7 +97,7 @@ const Clients = () => {
                     <LinkButton1
                         text={"Add new Client"}
                         icon={plusIcon}
-                        to={"/user/cases/add-new-case"}
+                        to={"/admin/clients/add-client"}
                     />
                 </div>
                 <div className="d-flex flex-column flex-md-row align-items-center justify-content-end gap-4">

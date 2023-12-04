@@ -1,40 +1,36 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Card from '../Card/Card'
-import { Button1, H2, LinkButton1, Pagination, SearchBar } from '../../../user/components'
 import { CardLayout } from '../../../user/containers'
-import ClientsDisplayTable from '../clients/ClientsDisplayTable'
+import { Button1, H2, LinkButton1, Pagination, SearchBar } from '../../../user/components'
 import plusIcon from "../management/plusIcon.png"
 import filterIcon from "../management/filter.svg"
+import AdminDisplayTable from './AdminDisplayTable'
 
-const Experts = () => {
+const Admins = () => {
 
-    const experts = [
+    const admins = [
         {
             id: "123",
-            name: "Ali Ahmad",
-            expertise: "Public and Insurance",
-            experience: 10,
-            totalCases: 10,
-            won: 3,
-            lost: 3,
+            name: "Ali Ahmed",
+            phNo: "12345678",
+            password: "asdfg",
+            role: "Admin",
             status: "Active"
         },
         {
-            id: "123",
-            name: "Raza Ahmad",
-            expertise: "Public and Insurance",
-            experience: 20,
-            totalCases: 17,
-            won: 3,
-            lost: 3,
-            status: "dEACTIVE"
+            id: "456",
+            name: "Raza Ahmed",
+            phNo: "12345678",
+            password: "asdfg",
+            role: "Admin",
+            status: "Deactive"
         },
     ]
 
     const statusSelectRef = useRef(null);
     const [searchVal, setSearchVal] = useState("");
-    const [casesToDisplay, setCasesToDisplay] = useState(experts);
-    const [pageCasesToDisplay, setPageCasesToDisplay] = useState(experts);
+    const [casesToDisplay, setCasesToDisplay] = useState(admins);
+    const [pageCasesToDisplay, setPageCasesToDisplay] = useState(admins);
     const [recordsPerPage, setRecordsPerPage] = useState(10);
     const [currentPage, setCurrentPage] = useState(1);
     const [status, setStatus] = useState("All");
@@ -45,7 +41,7 @@ const Experts = () => {
 
     useEffect(() => {
         setCasesToDisplay(
-            experts.filter(
+            admins.filter(
                 (item) =>
                     (searchVal === "" ||
                         item.name.toLowerCase().includes(searchVal.toLowerCase())) &&
@@ -65,41 +61,36 @@ const Experts = () => {
         setCurrentPage(1);
     }, [recordsPerPage]);
 
+
     return (
         <>
             <div className="row p-2">
-                <div className="p-2 col-md-3">
+                <div className="p-3 col-md-3">
                     <Card >
-                        <p>Total Clients</p>
+                        <p>Total Admins</p>
                         <h1>203</h1>
                     </Card>
                 </div>
-                <div className="p-2 col-md-3">
+                <div className="p-3 col-md-3">
                     <Card >
-                        <p>Surgeon Doctors</p>
+                        <p>Active admins</p>
                         <h1>45</h1>
                     </Card>
                 </div>
-                <div className="p-2 col-md-3">
+                <div className="p-3 col-md-3">
                     <Card >
-                        <p>Non - Surgeon Doctors</p>
+                        <p>Inactive admins</p>
                         <h1>120</h1>
-                    </Card>
-                </div>
-                <div className="p-2 col-md-3">
-                    <Card >
-                        <p>Medical Professional</p>
-                        <h1>38</h1>
                     </Card>
                 </div>
             </div>
             <div className="user_cases_outer mt-5">
                 <div className="d-flex align-items-center justify-content-between ">
-                    <H2 text={"EXPERTS"} />
+                    <H2 text={"CLIENTS"} />
                     <LinkButton1
-                        text={"Add new Expert"}
+                        text={"Add new Client"}
                         icon={plusIcon}
-                        to={"/admin/experts/add-expert"}
+                        to={"/admin/clients/add-client"}
                     />
                 </div>
                 <div className="d-flex flex-column flex-md-row align-items-center justify-content-end gap-4">
@@ -120,17 +111,15 @@ const Experts = () => {
                 </div>
                 <CardLayout>
                     <div className="user_cases_table_outer">
-                        <ClientsDisplayTable
-                            path='/admin/experts/'
+                        <AdminDisplayTable
                             labels={[
                                 "ID",
                                 "NAME",
-                                "EXPERTIES",
-                                "EXPERIENCE",
-                                "TOTAL CASES",
-                                "WON",
-                                "LOST",
-                                "STATUS"
+                                "PHONE NO",
+                                "PASSWORD",
+                                "ROLE",
+                                "STATUS",
+                                "ACTION"
                             ]}
                             pageCasesToDisplay={pageCasesToDisplay}
                         />
@@ -161,4 +150,4 @@ const Experts = () => {
     )
 }
 
-export default Experts
+export default Admins

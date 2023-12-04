@@ -265,3 +265,17 @@ select {
 .expert_cards_box img {
   cursor: pointer;
 }
+
+.cardsRow {
+  gap: 1rem;
+  justify-content: space-evenly;
+}
+
+.record_row {
+  border-bottom: 1px solid #E3E3E4;
+}
+
+.record_row>* {
+  margin: 0;
+  font-size: 18px;
+}

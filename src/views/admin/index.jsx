@@ -15,7 +15,7 @@ import ClientDetails from './components/clients/ClientDetails';
 import CaseDetails from './components/clients/CaseDetails';
 import Payments from './components/payments/Payments';
 import ProfileRequests from './components/requests/ProfileRequests';
-import { Chat } from '../user/screens';
+import { AddNewCase, Chat } from '../user/screens';
 import Support from './components/support/Support';
 import Blogs from './components/Blogs/Blogs';
 import BlogDetails from './components/Blogs/BlogDetails';
@@ -24,6 +24,9 @@ import AddBlog from './components/Blogs/AddBlog';
 import RespondTicket from './components/support/RespondTicket';
 import Experts from './components/experts/Experts';
 import ExpertDetails from './components/experts/ExpertDetails';
+import AddExpert from './components/experts/AddExpert';
+import AdminCases from './components/cases/AdminCases';
+import Admins from './components/admins/Admins';
 
 const Admin = () => {
     const lang = useSelector((state) => state.language.value);
@@ -66,6 +69,7 @@ const Admin = () => {
                         <Route path='/management' element={<Management />} />
                         <Route path='/promos' element={<Promos />} />
                         <Route path='/clients' element={<Clients />} />
+                        <Route path='/clients/add-client' element={<AddExpert type='clients' />} />
                         <Route path='/payments' element={<Payments />} />
                         <Route path='/clients-chat' element={<>
                             <H2 text={"CHAT"} className='mb-4' />
@@ -90,6 +94,11 @@ const Admin = () => {
                         <Route path='/clients/:clientId/details' element={<CaseDetails />} />
                         <Route path='/experts' element={<Experts />} />
                         <Route path='/experts/:expertId' element={<ExpertDetails />} />
+                        <Route path='/experts/add-expert' element={<AddExpert />} />
+                        <Route path='/cases' element={<AdminCases />} />
+                        <Route path='/cases/add-new-case' element={<AddNewCase />} />
+                        <Route path='/cases/:caseId' element={<CaseDetails />} />
+                        <Route path='/admins' element={<Admins />} />
                     </Routes>
                 </main>
             </div>

@@ -1,6 +1,5 @@
 import React from 'react'
 import { H2 } from '../../../user/components'
-import MainPagesCard from '../../../../components/mainPageCard/MainPagesCard'
 import Card from '../Card/Card'
 import lineChart from "./Line chart.png"
 import barChart from "./BarChart.png"

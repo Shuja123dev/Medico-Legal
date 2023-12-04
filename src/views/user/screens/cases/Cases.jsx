@@ -12,7 +12,7 @@ import {
 import { filterIcon, plusIcon } from "../../assets";
 import { CardLayout } from "../../containers";
 
-const Cases = ({ cases }) => {
+const Cases = ({ cases, role = "user" }) => {
   const statusSelectRef = useRef(null);
   const { t } = useTranslation();
   const [searchVal, setSearchVal] = useState("");
@@ -57,7 +57,7 @@ const Cases = ({ cases }) => {
           <LinkButton1
             text={t("UserPanel.Cases.AddNewCase")}
             icon={plusIcon}
-            to={"/user/cases/add-new-case"}
+            to={`/${role}/cases/add-new-case`}
           />
         </div>
         <div className="d-flex flex-column flex-md-row align-items-center justify-content-end gap-4">
@@ -84,6 +84,7 @@ const Cases = ({ cases }) => {
         <CardLayout>
           <div className="user_cases_table_outer">
             <CasesDisplayTable
+              path={`/${role}/cases/`}
               labels={[
                 t("UserPanel.Cases.Id"),
                 t("UserPanel.Cases.Name"),
