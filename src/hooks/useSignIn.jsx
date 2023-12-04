@@ -36,7 +36,7 @@ const useSignIn = () => {
   const navigate = useNavigate();
   const handleSubmit = (event) => {
     event.preventDefault();
-    navigate("/admin/progress")
+    navigate("/expert/tickets")
     if (validateForm()) {
       // Perform signup or submission logic
       console.log('Form is valid, submit the data:', formData);

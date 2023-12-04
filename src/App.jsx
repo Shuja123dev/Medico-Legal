@@ -33,7 +33,7 @@ function App() {
         <Route exect path="/signup/*" element={<SignUp />} />
         <Route path="/admin/*" element={<Admin />} />
         <Route path="/user/*" element={<User />} />
-        <Route path="/expert" element={<h1>expert</h1>} />
+        <Route path="/expert/*" element={<Expert />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </Router>
