@@ -29,6 +29,7 @@ import AdminCases from './components/cases/AdminCases';
 import Admins from './components/admins/Admins';
 import AdminDetails from './components/admins/AdminDetails';
 import AddAdmin from './components/admins/AddAdmin';
+import EditAdmin from './components/admins/EditAdmin';
 
 const Admin = () => {
     const lang = useSelector((state) => state.language.value);
@@ -103,6 +104,7 @@ const Admin = () => {
                         <Route path='/admins' element={<Admins />} />
                         <Route path='/admins/:adminId' element={<AdminDetails />} />
                         <Route path='/admins/add-admin' element={<AddAdmin />} />
+                        <Route path='/admins/edit-admin' element={<EditAdmin />} />
                     </Routes>
                 </main>
             </div>

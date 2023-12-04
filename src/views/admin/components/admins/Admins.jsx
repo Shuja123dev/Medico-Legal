@@ -86,7 +86,7 @@ const Admins = () => {
             </div>
             <div className="user_cases_outer mt-5">
                 <div className="d-flex align-items-center justify-content-between ">
-                    <H2 text={"CLIENTS"} />
+                    <H2 text={"ADMINS"} />
                     <LinkButton1
                         text={"Add new Admin"}
                         icon={plusIcon}

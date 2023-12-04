@@ -4,10 +4,11 @@ import ClientAvatar from "./clientAvatar.png"
 import { Button1, H2, H3, InputBox } from '../../../user/components'
 import { NavLink } from 'react-router-dom'
 
-const AddAdmin = () => {
+
+const EditAdmin = () => {
     return (
         <>
-            <H2 text={"NEW ADMIN"} className='mb-4 ' />
+            <H2 text={"EDIT ADMIN DETAILS"} className='mb-4 ' />
             <CardLayout>
                 <div className='flex_box px-1' style={{ justifyContent: "start" }}>
                     <H3 text={"Admin Details"} />
@@ -50,7 +51,7 @@ const AddAdmin = () => {
                             </div>
                             <div className="col-md-5 col-sm-12 mb-3 d-flex align-items-end justify-content-end">
                                 <NavLink to={"/admin/admins"}>
-                                    <Button1 text={"Add"} className='px-4' />
+                                    <Button1 text={"Update"} className='px-4' />
                                 </NavLink>
                             </div>
                         </div>
@@ -61,4 +62,4 @@ const AddAdmin = () => {
     )
 }
 
-export default AddAdmin
+export default EditAdmin

@@ -1,7 +1,8 @@
 import React from 'react'
-import { H2, H4 } from '../../../user/components'
+import { Button1, H2, H4 } from '../../../user/components'
 import { CardLayout } from '../../../user/containers'
 import ClientAvatar from "./clientAvatar.png"
+import { NavLink } from 'react-router-dom'
 
 const AdminDetails = () => {
     return (
@@ -46,6 +47,12 @@ const AdminDetails = () => {
                             <H4 text={"PASSWORD"} className='support_light_txt col-md-6' />
                             <p className='col-md-6'>Password</p>
                         </div>
+                    </div>
+                    <div className="col-lg-6 col-md-12 my-2 d-flex">
+                        <NavLink to={"/admin/admins/edit-admin"}>
+                            <Button1 text={"Edit"} className='px-5' />
+                        </NavLink>
+                        <Button1 text={"Delete"} className='mx-3 px-4 outline_delete' />
                     </div>
                 </div>
             </CardLayout>
