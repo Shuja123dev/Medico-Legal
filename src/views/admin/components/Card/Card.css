@@ -9,7 +9,7 @@
     flex-direction: column;
     border: none;
     color: var(--theme-blue);
-    min-width: 250px;
+    /* min-width: 250px; */
 }
 
 .dataCard h1 {
@@ -26,7 +26,6 @@
 }
 
 .nameBox {
-    width: 50%;
     display: flex;
     align-items: center;
     justify-content: space-between;

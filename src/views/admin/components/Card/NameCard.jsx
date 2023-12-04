@@ -2,10 +2,10 @@ import React from 'react'
 import nameAvatar from "./NameAvatar.png"
 import "./Card.css"
 
-const NameCard = ({ value = 50 }) => {
+const NameCard = ({ value = 50, className = "" }) => {
     return (
         <>
-            <div className='nameBox'>
+            <div className={'nameBox ' + className}>
                 <div className="imgBox">
                     <img src={nameAvatar} alt="" />
                 </div>

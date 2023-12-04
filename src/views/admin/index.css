@@ -289,3 +289,11 @@ select {
   color: #E33;
   border: 1px solid #E33;
 }
+
+.contarct_card_container .dataCard {
+  width: 100%;
+}
+
+.bar_chart img {
+  width: 100%;
+}
