@@ -33,10 +33,6 @@
 }
 
 
-.barGraph {
-  width: 72%;
-}
-
 .user_bars_btn {
   border: none;
   background-color: #fff;
@@ -110,7 +106,7 @@
 }
 
 .barGraph {
-  width: 75%;
+  width: 72%;
 }
 
 .flex_box {

@@ -17,6 +17,7 @@
   padding: 2rem;
   border: none;
   color: var(--theme-blue);
+  text-decoration: none;
 }
 
 .user_packages_table_outer {

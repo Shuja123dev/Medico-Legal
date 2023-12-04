@@ -38,7 +38,13 @@ const ChatRightSidebar = ({
           <div>
             <div className="d-flex align-items-center justify-content-between">
               <h5>{t("UserPanel.Cases.AddNewCasePage.User")}</h5>
-              {type !== "support" && <Button1 icon={plusIcon} />}
+              <Button1
+                icon={plusIcon}
+                onClick={() => {
+                  toggleDocumentUploadModal();
+                  toggleRightSidebar();
+                }}
+              />
             </div>
             {documents
               .filter((doc) => doc.type === "user")

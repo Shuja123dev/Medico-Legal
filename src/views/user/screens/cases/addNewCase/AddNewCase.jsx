@@ -27,9 +27,9 @@ const AddNewCase = () => {
     description: "",
     status: t("UserPanel.Cases.AddNewCasePage.New"),
     additionalNotes: "",
-    scfhsCopyCheck: false,
+    scfhsCopyCheck: true,
     medicalCopyCheck: false,
-    governmentIdCheck: false,
+    governmentIdCheck: true,
     nationalAddressCheck: false,
     nationalAddress: "",
   });
@@ -148,12 +148,14 @@ const AddNewCase = () => {
                       },
                     })
                   }
+                  onUploadClick={() =>
+                    uploadSubmitClickHandler("documentUpload")
+                  }
                   value={newCase.scfhsCopyCheck}
                 />
                 <CheckboxInput
                   label={t("UserPanel.Cases.AddNewCasePage.MedicalCopy")}
                   nameIdHtmlFor={"medicalCopyCheck"}
-                  uploadButton={true}
                   onUploadClick={() =>
                     uploadSubmitClickHandler("documentUpload")
                   }
@@ -178,12 +180,14 @@ const AddNewCase = () => {
                       },
                     })
                   }
+                  onUploadClick={() =>
+                    uploadSubmitClickHandler("documentUpload")
+                  }
                   value={newCase.governmentIdCheck}
                 />
                 <CheckboxInput
                   label={t("UserPanel.Cases.AddNewCasePage.NationalAddress")}
                   nameIdHtmlFor={"nationalAddressCheck"}
-                  uploadButton={true}
                   onUploadClick={() =>
                     uploadSubmitClickHandler("addressUpload")
                   }
@@ -224,9 +228,11 @@ const AddNewCase = () => {
                 onClick={() => uploadSubmitClickHandler("submit")}>
                 {t("UserPanel.Cases.AddNewCasePage.Submit")}
               </button>
-              <p className="text-danger m-0">
-                {t("UserPanel.Cases.AddNewCasePage.PleaseUpload")}
-              </p>
+              {newCase.caseExistance === "existingCase" && (
+                <p className="text-danger m-0">
+                  {t("UserPanel.Cases.AddNewCasePage.PleaseUpload")}
+                </p>
+              )}
             </div>
           </form>
         </CardLayout>

@@ -8,9 +8,12 @@ import {
   Billing,
   CaseDetails,
   Cases,
+  ChangePassword,
   Chat,
   Home,
+  PackageDetails,
   Packages,
+  Profile,
 } from "./screens";
 import { UserPicCard } from "./components";
 import { barsIcon } from "./assets";
@@ -159,6 +162,25 @@ const dummyCases = [
   },
 ];
 
+const availablePackages = [
+  {
+    packageId: 1,
+    pkgName: "General Court",
+    description:
+      "Lorem ipsum dolor sit dipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut.",
+    year: 2,
+    amount: 1500,
+  },
+  {
+    packageId: 2,
+    pkgName: "General Court and Insurance",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut ion ullamco laboris nisi ut.",
+    year: 2,
+    amount: 2000,
+  },
+];
+
 const User = () => {
   const userBaseMainRef = useRef(null);
   const [isSidebarHidden, setIsSidebarHidden] = useState(true);
@@ -203,7 +225,15 @@ const User = () => {
                 path="/packages"
                 element={
                   <>
-                    <Packages />
+                    <Packages availablePackages={availablePackages} />
+                  </>
+                }
+              />
+              <Route
+                path="/packages/:packageId"
+                element={
+                  <>
+                    <PackageDetails availablePackages={availablePackages} />
                   </>
                 }
               />
@@ -236,6 +266,8 @@ const User = () => {
               <Route path="/admin-chat" element={<Chat />} />
               <Route path="/support" element={<Chat />} />
               <Route path="/billing" element={<Billing />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/change-password" element={<ChangePassword />} />
             </Routes>
           </main>
         </div>

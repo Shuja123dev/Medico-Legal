@@ -54,7 +54,11 @@ const ChatLeftSidebar = ({
             <ChatSearchBar setSearchVal={setSearchVal} />
             <div className="user_chatLeftSidebar__items">
               {entries
-                .filter((entry) => !searchVal || entry.name.includes(searchVal))
+                .filter(
+                  (entry) =>
+                    !searchVal ||
+                    entry.name.toLowerCase().includes(searchVal.toLowerCase())
+                )
                 .map((entry, index) => (
                   <ChatLeftbarItemLayout
                     toggleSidebar={toggleLeftSidebar}
@@ -99,7 +103,11 @@ const ChatLeftSidebar = ({
             <ChatSearchBar setSearchVal={setSearchVal} />
             <div className="user_chatLeftSidebar__items">
               {entries
-                .filter((entry) => !searchVal || entry.name.includes(searchVal))
+                .filter(
+                  (entry) =>
+                    !searchVal ||
+                    entry.name.toLowerCase().includes(searchVal.toLowerCase())
+                )
                 .map((entry, index) => (
                   <ChatLeftbarItemLayout
                     toggleSidebar={toggleLeftSidebar}

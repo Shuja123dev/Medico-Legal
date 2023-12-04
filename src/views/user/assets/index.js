@@ -1,5 +1,7 @@
 export { default as userIcon } from "./user.svg";
 export { default as userImg } from "./user.png";
+export { default as user2Img } from "./user2.png";
+export { default as dummyImg} from "./dummy.png";
 
 // Icons
 export { default as chevronDownIcon } from "./icons/chevronDown.svg";

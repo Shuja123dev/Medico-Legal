@@ -1,6 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./chatMain.css";
-import { Button1, CreateTicketForm, H3, Modal } from "../../components";
+import {
+  Button1,
+  CreateTicketForm,
+  H3,
+  Modal,
+  Dropzone,
+  UploadModal,
+} from "../../components";
 import { barsLeftIcon, barsRightIcon, sendIcon, userImg } from "../../assets";
 import ChatMessagesBox from "../chatMessagesBox/ChatMessagesBox";
 import { useTranslation } from "react-i18next";
@@ -17,6 +24,8 @@ const ChatMain = ({
   newTicket,
   createTicketModal,
   toggleTicketModal,
+  documentUploadModal,
+  toggleDocumentUploadModal,
 }) => {
   const { t } = useTranslation();
   const textareaRef = useRef();
@@ -131,6 +140,25 @@ const ChatMain = ({
               />
               <Button1
                 onClick={toggleTicketModal}
+                text={t("UserPanel.Cases.AddNewCasePage.Submit")}
+              />
+            </div>
+          </Modal>
+        )}
+        {documentUploadModal && (
+          <Modal toggleModal={toggleDocumentUploadModal}>
+            <UploadModal
+              modalType={"documentUpload"}
+              toggleModal={toggleDocumentUploadModal}
+            />
+            <div className="d-flex align-items-center justify-content-between mt-4 ">
+              <Button1
+                onClick={toggleDocumentUploadModal}
+                text={t("UserPanel.Cases.AddNewCasePage.Cancel")}
+                color="gray"
+              />
+              <Button1
+                onClick={toggleDocumentUploadModal}
                 text={t("UserPanel.Cases.AddNewCasePage.Submit")}
               />
             </div>

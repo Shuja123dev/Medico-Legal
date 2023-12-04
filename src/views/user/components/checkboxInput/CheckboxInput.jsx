@@ -5,16 +5,19 @@ import { useTranslation } from "react-i18next";
 const CheckboxInput = ({
   label,
   nameIdHtmlFor,
-  uploadButton = false,
   value,
   onChange,
   onUploadClick,
 }) => {
   const { t } = useTranslation();
-  const [isUploadEnable, setisUploadEnable] = useState(value);
+  const [isUploadAvailable, setisUploadAvailable] = useState(true);
 
   useEffect(() => {
-    setisUploadEnable(value);
+    if (value === true) {
+      setisUploadAvailable(false);
+    } else {
+      setisUploadAvailable(true);
+    }
   }, [value]);
 
   return (
@@ -24,18 +27,15 @@ const CheckboxInput = ({
           type="checkbox"
           name={nameIdHtmlFor}
           id={nameIdHtmlFor}
-          value={value}
+          defaultChecked={value}
           onChange={onChange}
         />
         <label htmlFor={nameIdHtmlFor}>{label}</label>
-        {uploadButton && (
+        {isUploadAvailable && (
           <button
-            disabled={!isUploadEnable}
             type="button"
             onClick={onUploadClick}
-            className={`checkbox_input_upload ${
-              !isUploadEnable ? "checkbox_input_upload--disabled" : ""
-            }`}>
+            className={`checkbox_input_upload`}>
             {t("UserPanel.Cases.AddNewCasePage.Upload")}
           </button>
         )}

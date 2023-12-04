@@ -4,6 +4,7 @@ export { default as H2 } from "./h2/H2";
 export { default as H3 } from "./h3/H3";
 export { default as H4 } from "./h4/H4";
 export { default as CurrentPackageDetailsTable } from "./currentPackageDetailsTable/CurrentPackageDetailsTable";
+export { default as AvailablePackageDetailsTable } from "./availablePackageDetailsTable/AvailablePackageDetailsTable";
 export { default as Button1 } from "./button1/Button1";
 export { default as LinkButton1 } from "./linkButton1/LinkButton1";
 export { default as SearchBar } from "./serachBar/SearchBar";
@@ -21,5 +22,7 @@ export { default as ChatMessageItem } from "./chatMessageItem/ChatMessageItem";
 export { default as ChatLeftbarItemLayout } from "./chatLeftbarItemLayout/ChatLeftbarItemLayout";
 export { default as ChatSearchBar } from "./chatSearchBar/ChatSearchBar";
 export { default as ChatMemberItem } from "./chatMemberItem/ChatMemberItem";
-export { default as CreateTicketForm } from "./createTicketForm/CreateTicketForm"
-export { default as BillingHistoryTable } from "./billingHistoryTable/BillingHistoryTable"
+export { default as CreateTicketForm } from "./createTicketForm/CreateTicketForm";
+export { default as BillingHistoryTable } from "./billingHistoryTable/BillingHistoryTable";
+export { default as ProfileUploadBox } from "./profileUploadBox/ProfileUploadBox";
+export { default as OtpInput } from "./otpInput/OtpInput";

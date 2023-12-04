@@ -1,6 +1,6 @@
 .user_billingHistory_table {
   width: 100%;
-  min-width: 60rem;
+  min-width: 32rem;
 }
 
 .user_billingHistory_table__head {
@@ -38,4 +38,23 @@
 
 .user_billingHistory_table__cell_link:hover {
   text-decoration: underline;
+}
+
+@media only screen and (min-width: 992px) {
+
+  .user_billingHistory_table__label,
+  .user_billingHistory_table__cell,
+  .user_billingHistory_table__cell_link {
+    padding: 1rem .25rem;
+  }
+
+}
+
+@media only screen and (min-width: 1200px) {
+
+  .user_billingHistory_table__label,
+  .user_billingHistory_table__cell,
+  .user_billingHistory_table__cell_link {
+    padding: 1rem 1rem;
+  }
 }

@@ -19,7 +19,10 @@ const InputBox = ({
         className={`${className} user_input_box ${disabled ? "user_input_box_disabled" : ""
           }`}>
         {label && <label htmlFor={nameIdHtmlFor}>{label}</label>}
-        {(type === "text" || type === "number") && (
+        {(type === "text" ||
+          type === "number" ||
+          type === "email" ||
+          type === "password") && (
           <input
             type={type}
             id={nameIdHtmlFor}

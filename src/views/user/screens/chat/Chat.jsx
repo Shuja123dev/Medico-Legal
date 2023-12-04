@@ -284,6 +284,10 @@ const Chat = () => {
   const { t } = useTranslation();
   const location = useLocation().pathname.split("/")[2];
   const [chatType, setChatType] = useState("");
+  const [documentUploadModal, setDocumentUploadModal] = useState(false);
+  const toggleDocumentUploadModal = () => {
+    setDocumentUploadModal((prevState) => !prevState);
+  };
 
   useEffect(() => {
     setChatType(location);
@@ -383,12 +387,15 @@ const Chat = () => {
             newTicket={newTicket}
             toggleTicketModal={toggleTicketModal}
             createTicketModal={createTicketModal}
+            documentUploadModal={documentUploadModal}
+            toggleDocumentUploadModal={toggleDocumentUploadModal}
           />
           <ChatRightSidebar
             isRightSidebarHidden={isRightSidebarHidden}
             toggleRightSidebar={toggleRightSidebar}
             chatmembers={chatmembers}
             documents={documents}
+            toggleDocumentUploadModal={toggleDocumentUploadModal}
           />
         </CardLayout>
       </div>

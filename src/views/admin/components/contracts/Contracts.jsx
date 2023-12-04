@@ -66,7 +66,7 @@ const Contracts = () => {
             <H2 text={"CASES"} />
             <div className='contract_summary casesBox'>
                 <div className='flex_box'>
-                    <div className="cards_box columnFlexBox">
+                    <div className="cards_box columnFlexBox" style={{ width: '25%' }}>
                         <Card>
                             <p>Total Cases</p>
                             <h1>137</h1>
@@ -76,7 +76,7 @@ const Contracts = () => {
                             <h1>23</h1>
                         </Card>
                     </div>
-                    <CardLayout className=''>
+                    <CardLayout className='barGraph'>
                         <p className='blurTxt'>Last Year</p>
                         <img src={barChart} alt="" />
                     </CardLayout>
