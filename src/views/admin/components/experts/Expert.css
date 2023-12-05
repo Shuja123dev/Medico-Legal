@@ -35,7 +35,7 @@
     align-items: center;
 }
 
-
+/* responsive */
 
 @media(min-width: 767px) {
     .expertInputBox {
