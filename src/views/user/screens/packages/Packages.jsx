@@ -1,9 +1,10 @@
 import "./packages.css";
-import React from "react";
+import React, { useEffect } from "react";
 import { CardLayout } from "../../containers";
 import { CurrentPackageDetailsTable, H2, H3 } from "../../components";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const currentPackage = {
   pkgName: "Full Protection",
@@ -15,8 +16,27 @@ const currentPackage = {
   timeRemaining: 45,
 };
 
+
 const Packages = ({ availablePackages }) => {
   const { t } = useTranslation();
+
+
+  // const fetchData = async () => {
+  //   const resposne = await axios.get("http://202.182.110.16/medical/api/getpackages", {
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //       'Accept': 'application/json',
+  //       'Authorization': 'Bearer <token_here>'
+  //     }
+  //   });
+  //   console.log(resposne);
+  // }
+
+  // useEffect(() => {
+  //   fetchData();
+  // }, [])
+
+
   return (
     <>
       <div className="user_packages_outer">

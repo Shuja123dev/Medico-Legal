@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useState } from 'react';
 import { redirect, useNavigate } from 'react-router-dom';
 
@@ -34,15 +35,23 @@ const useSignIn = () => {
     return Object.keys(newErrors).length === 0;
   }
   const navigate = useNavigate();
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    navigate("/expert/tickets")
     if (validateForm()) {
       // Perform signup or submission logic
       console.log('Form is valid, submit the data:', formData);
     } else {
       console.log('Form contains errors, please correct them.');
     }
+
+    // const response = await axios.post("http://202.182.110.16/medical/api/login", {
+    //   "user": {
+    //     "uid": 1,
+    //     "phoneno": "03325501021"
+    //   },
+    //   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzAxODY3Mjg0LCJleHAiOjE3MDIwNDAwODR9.O9R5nieg3L0roq34528KeAIbvbppbZRZpIg7PT99mqc"
+    // })
+    // console.log(response);
   };
 
   const handleChange = (event) => {
