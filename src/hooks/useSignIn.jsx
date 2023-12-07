@@ -44,14 +44,13 @@ const useSignIn = () => {
       console.log('Form contains errors, please correct them.');
     }
 
-    // const response = await axios.post("http://202.182.110.16/medical/api/login", {
-    //   "user": {
-    //     "uid": 1,
-    //     "phoneno": "03325501021"
-    //   },
-    //   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzAxODY3Mjg0LCJleHAiOjE3MDIwNDAwODR9.O9R5nieg3L0roq34528KeAIbvbppbZRZpIg7PT99mqc"
-    // })
-    // console.log(response);
+    const response = await axios.post("http://202.182.110.16/medical/api/login", {
+      "params": {
+        PhoneNo: "03325501021",
+        Password: "abc123"
+      },
+    })
+    console.log(response);
   };
 
   const handleChange = (event) => {
