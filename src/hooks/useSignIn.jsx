@@ -53,6 +53,7 @@ const useSignIn = () => {
     axios.post("http://202.182.110.16/medical/api/login", {
       ...formData
     }).then(response => {
+      console.log(response);
       Cookies.set('token', response.data.token, { expires: 30 })
       // console.log(Cookies.get('token'));
       navigate("/user/packages");
