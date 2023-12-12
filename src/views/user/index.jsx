@@ -18,6 +18,8 @@ import {
 import { UserPicCard } from "./components";
 import { barsIcon } from "./assets";
 import { useSelector } from "react-redux";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 const dummyCases = [
   {
@@ -162,35 +164,32 @@ const dummyCases = [
   },
 ];
 
-const availablePackages = [
-  {
-    packageId: 1,
-    pkgName: "General Court",
-    description:
-      "Lorem ipsum dolor sit dipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut.",
-    year: 2,
-    amount: 1500,
-  },
-  {
-    packageId: 2,
-    pkgName: "General Court and Insurance",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut ion ullamco laboris nisi ut.",
-    year: 2,
-    amount: 2000,
-  },
-];
-
 const User = () => {
   const userBaseMainRef = useRef(null);
   const [isSidebarHidden, setIsSidebarHidden] = useState(true);
+  const [availablePackages, setAvailablePackages] = useState()
   const lang = useSelector((state) => state.language.value);
   const [cases, setCases] = useState(dummyCases);
   const { t } = useTranslation();
 
+  const token = Cookies.get('token') || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzAyMzkxMDg4LCJleHAiOjE3MDI1NjM4ODh9.N9NbD6o9_ByWAm0bTYIYHQrYMNUK3YWYnrBfZ6X-QmM";
+
   const toggleSidebar = () => {
     setIsSidebarHidden((prevState) => !prevState);
   };
+
+
+  const fetchPackages = async () => {
+    await axios.get("http://202.182.110.16/medical/api/getpackages", {
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    }).then(response => {
+      setAvailablePackages(response.data.response.data);
+    })
+  }
 
   useEffect(() => {
     if (isSidebarHidden) {
@@ -199,6 +198,10 @@ const User = () => {
       userBaseMainRef.current.classList.remove("user_main_full_width");
     }
   }, [isSidebarHidden]);
+
+  useEffect(() => {
+    fetchPackages()
+  }, [])
 
   return (
     <>

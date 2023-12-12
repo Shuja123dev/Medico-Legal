@@ -10,19 +10,19 @@ const AvailablePackageDetailsTable = ({ data }) => {
         <tbody>
           <AvailablePackageDetailsTableRow
             dataKey={t("UserPanel.Packages.Name")}
-            dataValue={data["pkgName"]}
+            dataValue={data && data["PackageName"]}
           />
           <AvailablePackageDetailsTableRow
             dataKey={t("UserPanel.Packages.Description")}
-            dataValue={data["description"]}
+            dataValue={data && data["Description"]}
           />
           <AvailablePackageDetailsTableRow
             dataKey={t("UserPanel.Packages.Year")}
-            dataValue={data["year"]}
+            dataValue={data && data["Valid"]}
           />
           <AvailablePackageDetailsTableRow
             dataKey={t("UserPanel.Packages.Amount")}
-            dataValue={`${data["amount"]} SR`}
+            dataValue={data && `${data["Fee"]} SR`}
           />
         </tbody>
       </table>
@@ -35,10 +35,10 @@ const AvailablePackageDetailsTableRow = ({ dataKey, dataValue }) => {
     <>
       <tr>
         <td className="user_available_package_details_table__key py-3 px-3">
-          {dataKey}
+          {dataKey && dataKey}
         </td>
         <td className="user_available_package_details_table__value py-3 px-3">
-          {dataValue}
+          {dataValue && dataValue}
         </td>
       </tr>
     </>

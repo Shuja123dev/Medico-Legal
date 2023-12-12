@@ -1,31 +1,36 @@
 import axios from 'axios';
 import { useState } from 'react';
 import { redirect, useNavigate } from 'react-router-dom';
-
+import useFetch from './useFetch';
+import Cookies from 'js-cookie';
 
 const useSignIn = () => {
+
   const [formData, setFormData] = useState({
-    phoneNumber: '',
-    password: ''
+    PhoneNo: '',
+    Password: ''
   });
 
   const [errors, setErrors] = useState({});
 
+
+
+
   const validateForm = () => {
     const newErrors = {};
 
-    if (!formData.phoneNumber.trim() || !formData.password.trim()) {
+    if (!formData.PhoneNo.trim() || !formData.Password.trim()) {
       newErrors.fillAllFields = true;
     }
     else {
       const phoneRegex = /^(\+966|0)(5\d{8})$/;
-      if (!formData.phoneNumber.match(phoneRegex)) {
-        newErrors.phoneNumber = true;
+      if (!formData.PhoneNo.match(phoneRegex)) {
+        newErrors.PhoneNo = true;
       }
 
       // Validate Password Length
-      if (formData.password.length < 8) {
-        newErrors.password = true;
+      if (formData.Password.length < 8) {
+        newErrors.Password = true;
       }
     }
 
@@ -36,6 +41,7 @@ const useSignIn = () => {
   }
   const navigate = useNavigate();
   const handleSubmit = async (event) => {
+
     event.preventDefault();
     if (validateForm()) {
       // Perform signup or submission logic
@@ -44,13 +50,16 @@ const useSignIn = () => {
       console.log('Form contains errors, please correct them.');
     }
 
-    const response = await axios.post("http://202.182.110.16/medical/api/login", {
-      "params": {
-        PhoneNo: "03325501021",
-        Password: "abc123"
-      },
+    axios.post("http://202.182.110.16/medical/api/login", {
+      ...formData
+    }).then(response => {
+      Cookies.set('token', response.data.token, { expires: 30 })
+      // console.log(Cookies.get('token'));
+      navigate("/user/packages");
     })
-    console.log(response);
+
+    // console.log(response);
+
   };
 
   const handleChange = (event) => {

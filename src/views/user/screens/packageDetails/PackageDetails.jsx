@@ -9,7 +9,7 @@ const PackageDetails = ({ availablePackages }) => {
   const { t } = useTranslation();
   const location = useLocation().pathname.split("/")[3];
   const [currentAvailablePackage, setCurrentAvailablePackage] = useState(
-    availablePackages.find(({ packageId }) => packageId == location)
+    availablePackages && availablePackages.find(({ PackageId }) => PackageId == location)
   );
 
   return (

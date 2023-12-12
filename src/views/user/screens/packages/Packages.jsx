@@ -1,10 +1,8 @@
 import "./packages.css";
-import React, { useEffect } from "react";
 import { CardLayout } from "../../containers";
 import { CurrentPackageDetailsTable, H2, H3 } from "../../components";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import axios from "axios";
 
 const currentPackage = {
   pkgName: "Full Protection",
@@ -20,23 +18,6 @@ const currentPackage = {
 const Packages = ({ availablePackages }) => {
   const { t } = useTranslation();
 
-
-  // const fetchData = async () => {
-  //   const resposne = await axios.get("http://202.182.110.16/medical/api/getpackages", {
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       'Accept': 'application/json',
-  //       'Authorization': 'Bearer <token_here>'
-  //     }
-  //   });
-  //   console.log(resposne);
-  // }
-
-  // useEffect(() => {
-  //   fetchData();
-  // }, [])
-
-
   return (
     <>
       <div className="user_packages_outer">
@@ -49,17 +30,17 @@ const Packages = ({ availablePackages }) => {
         </CardLayout>
         <H2 text={t("UserPanel.Packages.AvailablePackages")} />
         <div className="user_packages__available_packages_outer">
-          {availablePackages.map(({ pkgName, amount, packageId }, index) => (
+          {availablePackages && availablePackages.map(({ PackageName, Fee, PackageId }, index) => (
             <Link
               key={index}
-              to={`/user/packages/${packageId}`}
+              to={`/user/packages/${PackageId}`}
               className={
                 "user_packages__available_packages_btn text-center align-items-center d-flex flex-column"
               }>
-              <H3 text={pkgName} className={"flex-grow-1 "} />
+              <H3 text={PackageName} className={"flex-grow-1 "} />
               <p>Contract value without VAT</p>
               <div className="d-flex align-items-baseline justify-content-center gap-2">
-                <H2 text={amount} />
+                <H2 text={Fee} />
                 <H3 text={"SAR"} className={"text-secondary fw-bold "} />
               </div>
             </Link>
