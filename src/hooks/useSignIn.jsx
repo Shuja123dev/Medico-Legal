@@ -50,7 +50,7 @@ const useSignIn = () => {
       console.log('Form contains errors, please correct them.');
     }
 
-    axios.post("http://202.182.110.16/medical/api/login", {
+    await axios.post("http://202.182.110.16/medical/api/login", {
       ...formData
     }).then(response => {
       console.log(response);

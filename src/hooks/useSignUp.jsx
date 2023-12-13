@@ -14,6 +14,8 @@ const useSignUp = () => {
     profession: '',
     doctorType: '',
     isExistingCase: '',
+    Email: '',
+    adress: 'adress 77'
   });
 
   const [errors, setErrors] = useState({});
@@ -76,26 +78,46 @@ const useSignUp = () => {
       console.log('Form contains errors, please correct them.');
     }
 
-    // OTP generator
-    axios.post("http://202.182.110.16/medical/api/generateOTP", {
-      PhoneNo: "03325501021",
-      Email: "shuja1339@gmail.com"
-    }, {
-      headers: {
-        'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzAyMzg1NDkyLCJleHAiOjE3MDI1NTgyOTJ9.pRH7vwqE2lRofrSc3LsrRfaXO3T7rxg2wonTEs0TXTA`
-      }
-    }).then(response => {
-      console.log(response);
-    }).catch(error => {
-      console.log(error);
-    })
 
-    // signup
-    // axios.post("http://202.182.110.16/medical/api/signup", {
-    //   PhoneNo: "03215000415",
-    //   Email: ""
+    // OTP generator
+    // await axios.post("http://202.182.110.16/medical/api/generateOTP", {
+    //   PhoneNo: "03325501021",
+    //   Email: "shuja1339@gmail.com"
+    // }, {
+    //   headers: {
+    //     'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzAyNDAzMjY0LCJleHAiOjE3MDI1NzYwNjR9.LE15vzh3NAlgIAQKxDi6woFSDr19gn3gPV_vXjr-2GQ`
+    //   }
+    // }).then(response => {
+    //   console.log(response);
+    // }).catch(error => {
+    //   console.log(error);
     // })
 
+    // signup
+    await axios.post("http://202.182.110.16/medical/api/login", {
+      PhoneNo: "03325501021",
+      Password: "abc123"
+    }).then(async response => {
+      const token = response.data.token;
+      await axios.post("http://202.182.110.16/medical/api/signup", {
+        PhoneNo: formData.phoneNumber,
+        Email: formData.Email,
+        ClientName: formData.fullName,
+        UserPassword: formData.password,
+        ExistingCase: (formData.isExistingCase === "No") ? 0 : 1,
+        Type: formData.profession,
+        PackageId: 1,
+        Address: "abc address"
+      }, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }).then(res => {
+        console.log(res);
+      }).catch(error => {
+        console.log(error);
+      })
+    })
 
   };
 
