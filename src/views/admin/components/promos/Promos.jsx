@@ -1,15 +1,16 @@
-import React, { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { H2, H3, InputBox, Modal } from '../../../user/components'
 import plusIcon from "../management/plusIcon.png"
 import bottomArrow from "../management/bottomCheveron.png"
-import { CardLayout } from '../../../user/containers'
 import AdminTable from '../Table/AdminTable'
+import axios from 'axios'
 
 const Promos = () => {
 
     const [showModal1, setShowModal1] = useState(false)
     const [showModal2, setShowModal2] = useState(false)
     const [type, setType] = useState("Amount");
+    const [promos, setPromos] = useState([]);
 
     const toggleModal1 = () => {
         setShowModal1(!showModal1);
@@ -17,6 +18,26 @@ const Promos = () => {
     const toggleModal2 = () => {
         setShowModal2(!showModal2);
     }
+
+    const getPromos = async () => {
+        await axios.post("http://202.182.110.16/medical/api/login", {
+            PhoneNo: "03325501021",
+            Password: "abc123"
+        }).then(async response => {
+            const token = response.data.token;
+            await axios.get("http://202.182.110.16/medical/api/getallmembers", {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }).then(res => {
+                setPromos(res.data.response.data);
+            })
+        })
+    }
+
+    useEffect(() => {
+        getPromos();
+    }, [])
 
     const clientsMemberships = [
         {
@@ -60,7 +81,9 @@ const Promos = () => {
                 "STATUS",
                 "ACTIONS"
             ]}
-                tableData={clientsMemberships} />
+                tableData={promos}
+                type="promos"
+            />
 
 
             {
