@@ -4,46 +4,45 @@ import { useNavigate } from 'react-router-dom';
 
 const useMeetSetupVerification = () => {
 
-    const navigate = useNavigate();
-    const [formData, setFormData] = useState({
-        fullName: '',
-        phoneNumber: '',
-        email: '',
-        date: ''
-      });
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    fullName: '',
+    phoneNumber: '',
+    email: '',
+    date: ''
+  });
 
   const [errors, setErrors] = useState({});
 
   const validateForm = () => {
     const newErrors = {};
 
-    if(!formData.fullName.trim() || !formData.phoneNumber.trim() || !formData.email.trim() || !formData.date.trim() ){
-        newErrors.fillAllFields = true;
+    if (!formData.fullName.trim() || !formData.phoneNumber.trim() || !formData.email.trim() || !formData.date.trim()) {
+      newErrors.fillAllFields = true;
     }
-    else
-    {
-        const phoneRegex = /^(\+966|0)(5\d{8})$/;
-        //const emailRegex = /^(\+966|0)(5\d{8})$/;
-        if (!formData.phoneNumber.trim().match(phoneRegex)) {
-            newErrors.phoneNumber = true;
-        }
+    else {
+      const phoneRegex = /^(\+966|0)(5\d{8})$/;
 
-        // validate email
-        // if (!formData.email.trim().match(emailRegex)) {
-        //     newErrors.email = true;
-        // }
+      //const emailRegex = /^(\+966|0)(5\d{8})$/;
 
-        //validate date
-        if(formData.date === '')
-        {
-            newErrors.date = true;
-        }
+      if (!formData.phoneNumber.trim().match(phoneRegex)) {
+        newErrors.phoneNumber = true;
+      }
 
-        //validate date
-        if(formData.fullName === '')
-        {
-            newErrors.fullName = true;
-        }
+      // validate email
+      // if (!formData.email.trim().match(emailRegex)) {
+      //     newErrors.email = true;
+      // }
+
+      //validate date
+      if (formData.date === '') {
+        newErrors.date = true;
+      }
+
+      //validate date
+      if (formData.fullName === '') {
+        newErrors.fullName = true;
+      }
 
     }
 
@@ -57,7 +56,7 @@ const useMeetSetupVerification = () => {
     event.preventDefault();
 
     if (validateForm()) {
-        navigate('/signup/verification');
+      navigate('/signup/verification');
     } else {
       console.log('Form contains errors, please correct them.');
     }
@@ -71,11 +70,11 @@ const useMeetSetupVerification = () => {
       [name]: value,
     }));
 
-    if(formData.profession === 'Non Doctor Medical Professional'){
-        setFormData((prevData) => ({
-            ...prevData,
-            doctorType: '',
-        }));
+    if (formData.profession === 'Non Doctor Medical Professional') {
+      setFormData((prevData) => ({
+        ...prevData,
+        doctorType: '',
+      }));
     }
 
   };
