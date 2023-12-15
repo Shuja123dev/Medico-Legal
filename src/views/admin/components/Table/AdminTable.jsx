@@ -24,9 +24,6 @@ const AdminTable = ({ tableData, labels, type = null }) => {
         setCasesToDisplay(tableData)
     }, [tableData])
 
-    console.log(tableData);
-    console.log(pageCasesToDisplay);
-
     return (
         <>
             <CardLayout>

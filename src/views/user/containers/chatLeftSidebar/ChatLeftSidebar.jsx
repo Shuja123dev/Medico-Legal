@@ -24,6 +24,13 @@ const ChatLeftSidebar = ({
   const { t } = useTranslation();
   const lang = useSelector((state) => state.language.value);
   const [searchVal, setSearchVal] = useState("");
+
+  const formatDate = (inputDateString) => {
+    const inputDate = new Date(inputDateString);
+    const options = { year: 'numeric', month: 'short', day: '2-digit' };
+    return inputDate.toLocaleDateString('en-GB', options);
+  }
+
   return (
     <>
       <div
@@ -147,19 +154,19 @@ const ChatLeftSidebar = ({
                   setCurrentValue={setCurrentEntry}>
                   <div className="w-100 d-flex flex-column align-items-start">
                     <H4
-                      text={`#${entry.name}`}
+                      text={`#${entry.TicketNo}`}
                       className="text-start text-capitalize "
                     />
                     <p className="my-2" style={{ color: "#5C6D85" }}>
-                      {"Subject"}
+                      {entry.Subject}
                     </p>
                     <div className="d-flex align-items-center justify-content-between m-0 user_chatLeftSidebar__item__text user_chatLeftSidebar__item__text--case">
                       <span className="d-flex align-items-center ">
-                        <div className="status_color" style={{ backgroundColor: `${entry.status === "Completed" && "#7ECD7C" || entry.status === "Progress" && "#4A8AE6" || entry.status === "Active" && "#FDF52E"}` }}></div>
-                        {entry.status}</span>
+                        <div className="status_color" style={{ backgroundColor: `${entry.Status === "1" && "#7ECD7C" || entry.Status === "2" && "#4A8AE6" || entry.Status === "0" && "#FDF52E"}` }}></div>
+                        {entry.Status === "1" ? "Completed" : "Progress"}</span>
                       <div className="d-flex align-items-center">
                         <span className="mx-2">Created: </span>
-                        <p className="m-0" style={{ color: "#2F4058" }}>{entry.created}</p>
+                        <p className="m-0" style={{ color: "#2F4058" }}>{formatDate(entry.CreationDate)}</p>
                       </div>
                     </div>
                   </div>
@@ -207,7 +214,7 @@ const ChatLeftSidebar = ({
                         />
                         <div className="d-flex align-items-center justify-content-between m-0 user_chatLeftSidebar__item__text">
                           <span>{t("UserPanel.Chat.LastMessage")}</span>
-                          <span>{entry.lastMessage}</span>
+                          <span>24 OCT 2022 </span>
                         </div>
                       </div>
                     </div>

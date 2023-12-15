@@ -1,11 +1,47 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+import { H3, InputBox, Modal } from '../../../user/components';
+import axios from 'axios';
 
-const PromosDisplayTable = ({ labels, pageCasesToDisplay, path = "/admin/promos" }) => {
+const PromosDisplayTable = ({ labels, pageCasesToDisplay, path = "/admin/promos/" }) => {
 
     const { t } = useTranslation();
-    console.log(pageCasesToDisplay);
+
+    const [showModal1, setShowModal1] = useState(false)
+    const [type, setType] = useState("Amount");
+    const [promo, setPromo] = useState();
+
+    const toggleModal1 = (data) => {
+        setShowModal1(!showModal1);
+        setType(data.Type)
+        setPromo(data)
+    }
+
+    const updatePromo = async () => {
+        await axios.post("http://202.182.110.16/medical/api/login", {
+            PhoneNo: "03325501021",
+            Password: "abc123"
+        }).then(async response => {
+            const token = response.data.token;
+            await axios.post("http://202.182.110.16/medical/api/updatepromo", {
+                Status: promo.Status,
+                PromoId: promo.PromoId
+            }, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }).then(res => {
+                console.log(res);
+                toggleModal1();
+            })
+        })
+    }
+
+    const handleUpdatePromo = () => {
+        updatePromo();
+    }
+
     return (
         <>
             {pageCasesToDisplay?.length !== 0 ? (
@@ -27,18 +63,30 @@ const PromosDisplayTable = ({ labels, pageCasesToDisplay, path = "/admin/promos"
                                         <td key={dataIndex}>
                                             <Link
                                                 className="w-100 d-block user_cases_display_table__cell_link"
-                                                to={path + caseItem.id}>
+                                                to={path + caseItem.PromoId}>
                                                 {caseItem[data]}
                                             </Link>
                                         </td>
                                     ) : (
-                                        <td
+                                        (dataIndex < 6) ? <td
                                             key={dataIndex}
                                             className="user_cases_display_table__cell">
                                             {caseItem[data]}
+                                        </td> : <td>
+                                            <InputBox
+                                                type={"select"}
+                                                value={caseItem[data] === 1 ? "Active" : "Deactive"}
+                                                options={[
+                                                    "Active",
+                                                    "Deactive"
+                                                ]}
+                                            />
                                         </td>
                                     )
                                 )}
+                                <td key={index} className="user_cases_display_table__cell memberActions">
+                                    <button style={{ color: "#3573C9" }} onClick={() => toggleModal1(caseItem)}>Edit</button>
+                                </td>
                             </tr>
                         ))}
                     </tbody>
@@ -46,6 +94,54 @@ const PromosDisplayTable = ({ labels, pageCasesToDisplay, path = "/admin/promos"
             ) : (
                 <div className="text-center">{t("UserPanel.Cases.NoCasesFound")}</div>
             )}
+
+
+            {
+                showModal1 && <>
+                    <Modal toggleModal={toggleModal1} modalHead={"Approval Confirmation"}>
+                        <div className="user_createTicketForm mb-3">
+                            <H3 text={"UPDATE PROMO"} />
+                            <InputBox type={"text"} placeholder={"Name"} value={promo.Code && promo.PromoName} />
+                            <InputBox type={"text"} placeholder={"Code"} value={promo.Code && promo.Code} />
+                            <div className="row">
+                                <div className="col-sm-6" style={{ paddingLeft: "0" }}>
+                                    <div className="user_input_box">
+                                        <div className="flex_box" style={{ justifyContent: "flex-start" }} onClick={() => setType("Amount")}>
+                                            <input type="radio" id='amount' name='type' value="Amount" checked={!!(type === "Amount")} />
+                                            <label htmlFor="amount">
+                                                <h5 className='mx-2'>Amount</h5>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="col-sm-6" style={{ paddingRight: "0" }}>
+                                    <div className="user_input_box">
+                                        <div className="flex_box" style={{ justifyContent: "flex-start" }} onClick={() => setType("Percentage")}>
+                                            <input type="radio" id='percent' name='type' value="Percentage" checked={!!(type === "Percentage")} />
+                                            <label htmlFor="percent">
+                                                <h5 className='mx-2'>Percentage</h5>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <InputBox type={"text"} placeholder={type} value={type === "Percentage" ? promo.Percentage : promo.Amount} />
+                        </div>
+
+                        <div className="d-flex align-items-center justify-content-end ">
+                            <button className="mx-3 user_button1 user_button1--gray " onClick={toggleModal1}>
+                                <span>Cancel</span>
+                            </button>
+                            <button className=" user_button1" onClick={handleUpdatePromo}>
+                                <span>Update</span>
+                            </button>
+                        </div>
+
+                    </Modal>
+                </>
+            }
+
+
         </>
     )
 }

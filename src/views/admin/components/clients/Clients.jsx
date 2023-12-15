@@ -8,6 +8,7 @@ import ClientsDisplayTable from './ClientsDisplayTable'
 
 const Clients = () => {
 
+
     const clients = [
         {
             id: "123",

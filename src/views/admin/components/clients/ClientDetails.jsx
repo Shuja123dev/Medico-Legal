@@ -1,18 +1,48 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { H2 } from '../../../user/components'
 import { CardLayout } from '../../../user/containers'
 import clientAvatar from "./clientAvatar.png"
 import MembrshipDetails from './MembrshipDetails'
 import ContactInfo from './ContactInfo'
 import ClientCases from './ClientCases'
+import { useLocation } from 'react-router-dom'
+import axios from 'axios'
 
 const ClientDetails = () => {
+
+    const location = useLocation();
+    const [clientInfo, setClientData] = useState();
 
     const buttonsTxt = [
         "Membership",
         "Contact Information",
         "Cases"
     ]
+
+    const clientId = location.pathname.split('/').pop();
+    const getClientbyId = async () => {
+        await axios.post("http://202.182.110.16/medical/api/login", {
+            PhoneNo: "03325501021",
+            Password: "abc123"
+        }).then(async response => {
+            const token = response.data.token;
+            await axios.post("http://202.182.110.16/medical/api/getclientbyid", {
+                ClientId: clientId
+            }, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }).then(res => {
+                setClientData(res.data.response.data)
+            }).catch(error => {
+                console.log(error);
+            })
+        })
+    }
+
+    useEffect(() => {
+        getClientbyId();
+    }, [])
 
     const casesData = [
         {
@@ -40,10 +70,12 @@ const ClientDetails = () => {
         if (index === 0)
             setContent(<MembrshipDetails />)
         else if (index === 1)
-            setContent(<ContactInfo phNo={"+966 14847 9797"} email="example@gmail.com" />)
+            setContent(<ContactInfo phNo={clientInfo && clientInfo[0].PhoneNo} email="example@gmail.com" />)
         else
             setContent(<ClientCases cases={casesData} />)
     }
+
+    console.log(clientInfo);
 
     return (
         <>
@@ -56,8 +88,8 @@ const ClientDetails = () => {
                     <div className="col-md-11">
                         <div className="flex_box px-3" style={{ justifyContent: "space-between" }}>
                             <div>
-                                <h5>Name</h5>
-                                <p className='blurTxt font-weight-bold'>Surgeon, Doctor</p>
+                                <h5>{clientInfo ? clientInfo[0].ClientName : "Name"}</h5>
+                                <p className='blurTxt font-weight-bold'>{clientInfo ? clientInfo[0].Type : "Type"}</p>
                             </div>
                             <select name="" id="">
                                 <option value="">Active</option>
@@ -69,12 +101,12 @@ const ClientDetails = () => {
                 <div className="row mt-5">
                     <div className="col-md-2">
                         <p className='blurTxt headingBlur'>SPECIALITY</p>
-                        <p>Gastroentrology</p>
+                        <p>{clientInfo && clientInfo[0].Speciality}</p>
                     </div>
                     <div id="mid-line" className='col-md-1 mx-5'></div>
                     <div className="col-md-3" style={{ marginLeft: "2rem" }}>
                         <p className='blurTxt headingBlur'>YEAR OF EXPERIENCE</p>
-                        <p>10</p>
+                        <p>{clientInfo && clientInfo[0].Experience}</p>
                     </div>
                 </div>
             </CardLayout>

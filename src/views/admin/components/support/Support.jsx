@@ -3,27 +3,7 @@ import { Button1, H2, H3, H4 } from '../../../user/components'
 import { CardLayout, ChatLeftSidebar, ChatRightSidebar } from '../../../user/containers'
 import { NavLink, useLocation } from 'react-router-dom'
 import deleteIcon from "./deleteIcon.svg"
-
-const tickets = [
-    {
-        id: '123',
-        name: '#123456',
-        status: "Active",
-        created: "24 OCT 2022"
-    },
-    {
-        id: '456',
-        name: '#123456',
-        status: "Completed",
-        created: "24 OCT 2022"
-    },
-    {
-        id: '456',
-        name: '#123456',
-        status: "Progress",
-        created: "24 OCT 2022"
-    },
-]
+import axios from 'axios'
 
 const chatmembers = [
     { name: "asad", type: "Expertise" },
@@ -40,19 +20,42 @@ const documents = [
 ];
 
 const Support = () => {
-    const [isLeftSidebarHidden, setisLeftSidebarHidden] = useState(true);
     const location = useLocation().pathname.split("/")[2];
+
+    const [isLeftSidebarHidden, setisLeftSidebarHidden] = useState(true);
     const [createTicketModal, setCreateTicketModal] = useState(false);
     const [chatType, setChatType] = useState("");
     const [isRightSidebarHidden, setisRightSidebarHidden] = useState(true);
+    const [entries, setEntries] = useState([]);
+    const [currentEntry, setCurrentEntry] = useState({});
+    const [messages, setMessages] = useState([]);
+    const [tickets, setTickets] = useState([]);
+
+    const getTcikets = async () => {
+        await axios.post("http://202.182.110.16/medical/api/login", {
+            PhoneNo: "03325501021",
+            Password: "abc123"
+        }).then(async response => {
+            const token = response.data.token;
+            await axios.get("http://202.182.110.16/medical/api/getallticket", {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }).then(res => {
+                setTickets(res.data.response.data)
+            })
+        })
+    }
+
+    useEffect(() => {
+        getTcikets();
+    }, [])
+
 
     useEffect(() => {
         setChatType(location);
     }, [location]);
 
-    const [entries, setEntries] = useState([]);
-    const [currentEntry, setCurrentEntry] = useState({});
-    const [messages, setMessages] = useState([]);
 
     useEffect(() => {
         if (chatType === "support") {
@@ -60,7 +63,8 @@ const Support = () => {
             setCurrentEntry(tickets[0]);
             setMessages([]);
         }
-    }, [chatType]);
+    }, [chatType, tickets]);
+
 
     const toggleLeftSidebar = () => {
         setisLeftSidebarHidden((prevState) => !prevState);
@@ -71,7 +75,7 @@ const Support = () => {
     const toggleTicketModal = () => {
         setCreateTicketModal((prevState) => !prevState);
     };
-    console.log(chatType);
+
     return (
         <>
             <H2 text={"SUPPORT"} className='mb-4' />
@@ -93,18 +97,18 @@ const Support = () => {
                         <div className="row my-4 mb-5">
                             <div className="col-md-12 d-flex my-2">
                                 <H4 text={"SUBJECT"} className='support_light_txt' />
-                                <H4 text={"SUBJECT"} />
+                                <H4 text={currentEntry.Subject} />
                             </div>
                             <div className="col-md-12 d-flex my-2">
                                 <H4 text={"DESCRIPTION"} className='support_light_txt' />
-                                <H4 text={"DESCRIPTION"} />
+                                <H4 text={currentEntry.Description} />
                             </div>
                             <div className="col-md-12 d-flex my-2">
                                 <H4 text={"STATUS"} className='support_light_txt' />
-                                <select>
-                                    <option value="">Active</option>
-                                    <option value="">Completed</option>
-                                    <option value="">Progress</option>
+                                <select value={currentEntry.Status}>
+                                    <option value="1">Active</option>
+                                    <option value="2">Completed</option>
+                                    <option value="3">Progress</option>
                                 </select>
                             </div>
                             <div className="col-md-12 d-flex my-2">
