@@ -24,20 +24,21 @@ const ClientsDisplayTable = ({ labels, pageCasesToDisplay, path = "/user/clients
                                     <td key={dataIndex}>
                                         <Link
                                             className="w-100 d-block user_cases_display_table__cell_link"
-                                            to={path + caseItem.id}>
+                                            to={path + caseItem.ClientId}>
                                             {caseItem[data]}
                                         </Link>
                                     </td>
                                 ) : (
-                                    (dataIndex + 1 === labels.length) ? <td>
-                                        <InputBox
-                                            value={caseItem.status}
-                                            type={"select"}
-                                            options={[
-                                                "Active", "Deactive"
-                                            ]}
-                                        />
-                                    </td> : <td
+                                    // (dataIndex + 1 === labels.length) ? <td>
+                                    //     <InputBox
+                                    //         value={caseItem.status}
+                                    //         type={"select"}
+                                    //         options={[
+                                    //             "Active", "Deactive"
+                                    //         ]}
+                                    //     />
+                                    // </td> :
+                                    <td
                                         key={dataIndex}
                                         className="user_cases_display_table__cell">
                                         {caseItem[data]}

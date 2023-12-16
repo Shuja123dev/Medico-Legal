@@ -32,16 +32,16 @@ const AdminDisplayTable = ({ labels, pageCasesToDisplay, path = "/admin/admins/"
                                         <td key={dataIndex}>
                                             <Link
                                                 className="w-100 d-block user_cases_display_table__cell_link"
-                                                to={path + caseItem.id}>
+                                                to={path + caseItem.AdminId}>
                                                 {caseItem[data]}
                                             </Link>
                                         </td>
                                     ) : (
-                                        (dataIndex > 3) ? <td className='px-3'>
+                                        (dataIndex > 4) ? <td className='px-3'>
                                             <InputBox
                                                 value={caseItem[data]}
                                                 type={"select"}
-                                                options={dataIndex === 4 ? [
+                                                options={dataIndex === 5 ? [
                                                     "Admin", "Super Admin"
                                                 ] : [
                                                     "Active", "Deactive"

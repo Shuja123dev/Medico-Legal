@@ -50,7 +50,7 @@ const AddExpert = ({ type = "experts" }) => {
 
     return (
         <>
-            <H2 text={"ADD EXPERT"} className='mb-4'></H2>
+            <H2 text={`Add ${type}`} className='mb-4'></H2>
             <CardLayout className='expertsCrd'>
                 <div className="expert_profile__info_div_outer">
                     <H3 text={"Personal Information"} />

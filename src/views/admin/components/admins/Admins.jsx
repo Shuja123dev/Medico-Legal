@@ -5,35 +5,59 @@ import { Button1, H2, LinkButton1, Pagination, SearchBar } from '../../../user/c
 import plusIcon from "../management/plusIcon.png"
 import filterIcon from "../management/filter.svg"
 import AdminDisplayTable from './AdminDisplayTable'
+import axios from 'axios'
 
 const Admins = () => {
 
-    const admins = [
-        {
-            id: "123",
-            name: "Ali Ahmed",
-            phNo: "12345678",
-            password: "asdfg",
-            role: "Admin",
-            status: "Active"
-        },
-        {
-            id: "456",
-            name: "Raza Ahmed",
-            phNo: "12345678",
-            password: "asdfg",
-            role: "Admin",
-            status: "Deactive"
-        },
-    ]
+    // const admins = [
+    //     {
+    //         id: "123",
+    //         name: "Ali Ahmed",
+    //         phNo: "12345678",
+    //         password: "asdfg",
+    //         role: "Admin",
+    //         status: "Active"
+    //     },
+    //     {
+    //         id: "456",
+    //         name: "Raza Ahmed",
+    //         phNo: "12345678",
+    //         password: "asdfg",
+    //         role: "Admin",
+    //         status: "Deactive"
+    //     },
+    // ]
 
     const statusSelectRef = useRef(null);
+    const [admins, setAdmins] = useState([]);
     const [searchVal, setSearchVal] = useState("");
     const [casesToDisplay, setCasesToDisplay] = useState(admins);
     const [pageCasesToDisplay, setPageCasesToDisplay] = useState(admins);
     const [recordsPerPage, setRecordsPerPage] = useState(10);
     const [currentPage, setCurrentPage] = useState(1);
     const [status, setStatus] = useState("All");
+
+    const getAdmins = async () => {
+        await axios.post("http://202.182.110.16/medical/api/login", {
+            PhoneNo: "03325501021",
+            Password: "abc123"
+        }).then(async response => {
+            const token = response.data.token;
+            await axios.get("http://202.182.110.16/medical/api/getalladmin", {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }).then(res => {
+                setAdmins(res.data.response.data)
+            }).catch(error => {
+                console.log(error);
+            })
+        })
+    }
+
+    useEffect(() => {
+        getAdmins();
+    }, [])
 
     const filterHandler = () => {
         setStatus(statusSelectRef.current.value);
@@ -49,7 +73,7 @@ const Admins = () => {
                         item.status.toLowerCase() === status.toLowerCase())
             )
         );
-    }, [searchVal, status]);
+    }, [searchVal, status, admins]);
 
     useEffect(() => {
         const startIndex = (currentPage - 1) * recordsPerPage;
@@ -113,12 +137,12 @@ const Admins = () => {
                     <div className="user_cases_table_outer">
                         <AdminDisplayTable
                             labels={[
-                                "ID",
+                                "Admin ID",
                                 "NAME",
+                                "user Id",
+                                "Valid",
                                 "PHONE NO",
-                                "PASSWORD",
                                 "ROLE",
-                                "STATUS",
                                 "ACTION"
                             ]}
                             pageCasesToDisplay={pageCasesToDisplay}

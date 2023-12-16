@@ -27,7 +27,7 @@ const CasesDisplayTable = ({ labels, pageCasesToDisplay, path = "/user/cases/" }
                     <td key={dataIndex}>
                       <Link
                         className="w-100 d-block user_cases_display_table__cell_link"
-                        to={path + caseItem.id}>
+                        to={path + caseItem.CaseId}>
                         {caseItem[data]}
                       </Link>
                     </td>

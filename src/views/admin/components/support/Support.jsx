@@ -27,7 +27,7 @@ const Support = () => {
     const [chatType, setChatType] = useState("");
     const [isRightSidebarHidden, setisRightSidebarHidden] = useState(true);
     const [entries, setEntries] = useState([]);
-    const [currentEntry, setCurrentEntry] = useState({});
+    const [currentEntry, setCurrentEntry] = useState();
     const [messages, setMessages] = useState([]);
     const [tickets, setTickets] = useState([]);
 
@@ -97,15 +97,15 @@ const Support = () => {
                         <div className="row my-4 mb-5">
                             <div className="col-md-12 d-flex my-2">
                                 <H4 text={"SUBJECT"} className='support_light_txt' />
-                                <H4 text={currentEntry.Subject} />
+                                <H4 text={currentEntry && currentEntry.Subject} />
                             </div>
                             <div className="col-md-12 d-flex my-2">
                                 <H4 text={"DESCRIPTION"} className='support_light_txt' />
-                                <H4 text={currentEntry.Description} />
+                                <H4 text={currentEntry && currentEntry.Description} />
                             </div>
                             <div className="col-md-12 d-flex my-2">
                                 <H4 text={"STATUS"} className='support_light_txt' />
-                                <select value={currentEntry.Status}>
+                                <select value={currentEntry && currentEntry.Status}>
                                     <option value="1">Active</option>
                                     <option value="2">Completed</option>
                                     <option value="3">Progress</option>

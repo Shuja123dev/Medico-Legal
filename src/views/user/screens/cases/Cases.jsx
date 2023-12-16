@@ -27,6 +27,10 @@ const Cases = ({ cases, role = "user" }) => {
   };
 
   useEffect(() => {
+    setCasesToDisplay(cases)
+  }, [cases])
+
+  useEffect(() => {
     setCasesToDisplay(
       cases.filter(
         (item) =>

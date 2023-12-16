@@ -16,10 +16,12 @@ import { useTranslation } from "react-i18next";
 import { CardLayout } from "../../../containers";
 import { plusIcon } from "../../../assets";
 import { useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const AddNewCase = () => {
   const location = useLocation();
+  const navigate = useNavigate()
 
   const lang = useSelector((state) => state.language.value);
   const { t } = useTranslation();
@@ -36,6 +38,33 @@ const AddNewCase = () => {
     nationalAddressCheck: false,
     nationalAddress: "",
   });
+
+  const addNewCase = async () => {
+    await axios.post("http://202.182.110.16/medical/api/login", {
+      PhoneNo: "03325501021",
+      Password: "abc123"
+    }).then(async response => {
+      const token = response.data.token;
+      await axios.post("http://202.182.110.16/medical/api/addcase", {
+        CaseName: newCase.caseName,
+        CaseType: newCase.type,
+        Status: newCase.status,
+        ExistingCase: 0,
+        Description: newCase.description,
+        ClientId: 1
+      }, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }).then(res => {
+        toggleModal();
+        console.log(res);
+        navigate("/admin/cases")
+      }).catch(error => {
+        console.log(error);
+      })
+    })
+  }
 
   const newCaseInputHandler = (e) => {
     setNewCase((prevState) => ({
@@ -273,7 +302,7 @@ const AddNewCase = () => {
                 color="gray"
               />
               <Button1
-                onClick={toggleModal}
+                onClick={addNewCase}
                 text={t("UserPanel.Cases.AddNewCasePage.Submit")}
               />
             </div>

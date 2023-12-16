@@ -12,6 +12,7 @@ const ClientDetails = () => {
 
     const location = useLocation();
     const [clientInfo, setClientData] = useState();
+    const [clientCases, setClientCases] = useState();
 
     const buttonsTxt = [
         "Membership",
@@ -32,8 +33,30 @@ const ClientDetails = () => {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
-            }).then(res => {
+            }
+            ).then(res => {
                 setClientData(res.data.response.data)
+            }).catch(error => {
+                console.log(error);
+            })
+        })
+    }
+
+    const getCasesOfCLient = async () => {
+        await axios.post("http://202.182.110.16/medical/api/login", {
+            PhoneNo: "03325501021",
+            Password: "abc123"
+        }).then(async response => {
+            const token = response.data.token;
+            await axios.post("http://202.182.110.16/medical/api/getcasebyclient", {
+                ClientId: clientId
+            }, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+            ).then(res => {
+                setClientCases(res.data.response.data)
             }).catch(error => {
                 console.log(error);
             })
@@ -42,25 +65,9 @@ const ClientDetails = () => {
 
     useEffect(() => {
         getClientbyId();
+        getCasesOfCLient();
     }, [])
 
-    const casesData = [
-        {
-            name: "Name",
-            description: "Public and Insurance Court",
-            status: "Status"
-        },
-        {
-            name: "Name",
-            description: "Public and Insurance Court",
-            status: "Status"
-        },
-        {
-            name: "Name",
-            description: "Public and Insurance Court",
-            status: "Status"
-        },
-    ]
 
     const [content, setContent] = useState(<MembrshipDetails />)
     const [activeInx, setActiveIndx] = useState(0);
@@ -72,10 +79,8 @@ const ClientDetails = () => {
         else if (index === 1)
             setContent(<ContactInfo phNo={clientInfo && clientInfo[0].PhoneNo} email="example@gmail.com" />)
         else
-            setContent(<ClientCases cases={casesData} />)
+            setContent(<ClientCases cases={clientCases} />)
     }
-
-    console.log(clientInfo);
 
     return (
         <>

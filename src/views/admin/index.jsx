@@ -94,17 +94,17 @@ const Admin = () => {
                         <Route path='/blogs/:blogId' element={<BlogDetails />} />
                         <Route path='/profile-requests' element={<ProfileRequests />} />
                         <Route path='/clients/:clientId' element={<ClientDetails />} />
-                        <Route path='/clients/:clientId/details' element={<CaseDetails />} />
+                        <Route path='/clients/:clientId/details' element={<CaseDetails role="admin" type='clients' />} />
                         <Route path='/experts' element={<Experts />} />
                         <Route path='/experts/:expertId' element={<ExpertDetails />} />
                         <Route path='/experts/add-expert' element={<AddExpert />} />
                         <Route path='/cases' element={<AdminCases />} />
                         <Route path='/cases/add-new-case' element={<AddNewCase />} />
-                        <Route path='/cases/:caseId' element={<CaseDetails />} />
+                        <Route path='/cases/:caseId' element={<CaseDetails role="admin" type='cases' />} />
                         <Route path='/admins' element={<Admins />} />
                         <Route path='/admins/:adminId' element={<AdminDetails />} />
                         <Route path='/admins/add-admin' element={<AddAdmin />} />
-                        <Route path='/admins/edit-admin' element={<EditAdmin />} />
+                        <Route path='/admins/edit-admin/:adminId' element={<EditAdmin />} />
                     </Routes>
                 </main>
             </div>

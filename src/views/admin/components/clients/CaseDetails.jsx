@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { CardLayout } from '../../../user/containers'
 import { Button1, CaseDetailsTable, CasesDisplayTable, ExpertDisplay, H3, H4, InputBox, Pdf } from '../../../user/components'
-import { NavLink } from 'react-router-dom';
 import deleteIcon from "../support/deleteIcon.svg"
+import axios from 'axios';
+import { useLocation } from 'react-router-dom';
 
 const experts = [
     {
@@ -26,7 +27,80 @@ const experts = [
     },
 ];
 
-const CaseDetails = ({ role = null }) => {
+const CaseDetails = ({ role = null, type = "cases" }) => {
+
+    const location = useLocation();
+
+    const userId = type === "cases" ? location.pathname.split("/").pop() : location.pathname.split("/")[3];
+
+    const [caseDetails, setCaseDetails] = useState();
+    const [editStatus, setEditStatus] = useState(false);
+
+    const getCaseById = async () => {
+        await axios.post("http://202.182.110.16/medical/api/login", {
+            PhoneNo: "03325501021",
+            Password: "abc123"
+        }).then(async response => {
+            const token = response.data.token;
+            await axios.post("http://202.182.110.16/medical/api/getcasebyid", {
+                CaseId: userId
+            }, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }).then(res => {
+                setCaseDetails(res.data.response.data[0])
+            }).catch(error => {
+                console.log(error);
+            })
+        })
+    }
+
+    const addExpertToCase = async () => {
+        await axios.post("http://202.182.110.16/medical/api/login", {
+            PhoneNo: "03325501021",
+            Password: "abc123"
+        }).then(async response => {
+            const token = response.data.token;
+            await axios.post("http://202.182.110.16/medical/api/addexperttocase", {
+                CaseId: userId,
+                ExpertId: 1
+            }, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }).then(res => {
+                // console.log(res);
+            }).catch(error => {
+                console.log(error);
+            })
+        })
+    }
+
+    const removeExpertFromCase = async () => {
+        await axios.post("http://202.182.110.16/medical/api/login", {
+            PhoneNo: "03325501021",
+            Password: "abc123"
+        }).then(async response => {
+            const token = response.data.token;
+            await axios.post("http://202.182.110.16/medical/api/removexpertfromcase", {
+                CaseId: userId,
+                ExpertId: 1
+            }, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }).then(res => {
+                // console.log(res);
+            }).catch(error => {
+                console.log(error);
+            })
+        })
+    }
+
+    useEffect(() => {
+        getCaseById();
+    }, [])
 
     const modalData = {
         expertRemoval: {
@@ -55,7 +129,7 @@ const CaseDetails = ({ role = null }) => {
         toggleModal();
     };
 
-    const [editStatus, setEditStatus] = useState(false);
+
 
 
     return (
@@ -65,7 +139,7 @@ const CaseDetails = ({ role = null }) => {
                     <div className="user_caseDetails__cases_div">
                         <div className="user_caseDetails__cases_div__header">
                             <H4 text={"Case"} />
-                            {!editStatus && (
+                            {(!editStatus && !role === "admin") && (
                                 <Button1
                                     onClick={() => setEditStatus(true)}
                                     text={"EditRequest"}
@@ -75,18 +149,20 @@ const CaseDetails = ({ role = null }) => {
                         <div className="row my-4 mb-5">
                             <div className="col-md-12 d-flex my-2">
                                 <H4 text={"NAME"} className='support_light_txt' />
-                                <p>Name of the case</p>
+                                <p>{caseDetails && caseDetails.CaseName}</p>
                             </div>
                             <div className="col-md-12 d-flex my-2">
                                 <H4 text={"TYPE"} className='support_light_txt' />
-                                <p>Public Court</p>
+                                <p>{caseDetails && caseDetails.CaseType}</p>
                             </div>
                             <div className="col-md-12 d-flex my-2">
                                 <H4 text={"STATUS"} className='support_light_txt' />
-                                <select>
-                                    <option value="">Active</option>
-                                    <option value="">Completed</option>
-                                    <option value="">Progress</option>
+                                <select value={caseDetails && caseDetails.Status}>
+                                    <option value="Active">Active</option>
+                                    <option value="Completed">Completed</option>
+                                    <option value="Progress">Progress</option>
+                                    <option value="Opennn">Open</option>
+                                    <option value="New">New</option>
                                 </select>
                             </div>
                         </div>
@@ -103,7 +179,16 @@ const CaseDetails = ({ role = null }) => {
                         <H4 text={"Client"} />
                         <div className="row my-4 mb-5">
                             {
-                                role === "admin" ? "admin"
+                                role === "admin" ? <>
+                                    <div className="row my-4">
+                                        <div className="col-md-12 d-flex">
+                                            <select name="" id="" className='px-2' style={{ width: "70%", marginRight: "1rem" }}>
+                                                <option value="">Client Name</option>
+                                            </select>
+                                            <Button1 text={"Add"} />
+                                        </div>
+                                    </div>
+                                </>
                                     :
                                     <>
                                         <div className="col-md-12 d-flex my-2">
@@ -144,7 +229,7 @@ const CaseDetails = ({ role = null }) => {
                                 <select name="" id="" className='px-2' style={{ width: "70%", marginRight: "1rem" }}>
                                     <option value="">Expert Name</option>
                                 </select>
-                                <Button1 text={"Add"} />
+                                <Button1 text={"Add"} onClick={addExpertToCase} />
                             </div>
                         </div>
                         <div className="row expert_cards_box">
@@ -156,7 +241,7 @@ const CaseDetails = ({ role = null }) => {
                                             <p>Area of experties</p>
                                         </div>
                                         <div className="col-md-2 d-flex text-center align-items-center">
-                                            <img src={deleteIcon} alt="" />
+                                            <img src={deleteIcon} alt="" onClick={removeExpertFromCase} />
                                         </div>
                                     </div>
                                 </CardLayout>

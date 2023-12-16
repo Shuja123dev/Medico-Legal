@@ -5,31 +5,11 @@ import plusIcon from "../management/plusIcon.png"
 import filterIcon from "../management/filter.svg"
 import { CardLayout } from '../../../user/containers'
 import ClientsDisplayTable from './ClientsDisplayTable'
+import axios from 'axios'
 
 const Clients = () => {
 
-
-    const clients = [
-        {
-            id: "123",
-            name: "Ali Ahmad",
-            type: "Doctor, Surgeon",
-            contractId: "1234",
-            contractName: "Complete Protection",
-            cases: 2,
-            status: "Active"
-        },
-        {
-            id: "123",
-            name: "Zaid Ahmad",
-            type: "Doctor, Surgeon",
-            contractId: "1234",
-            contractName: "Complete Protection",
-            cases: 2,
-            status: "Deactive"
-        },
-    ]
-
+    const [clients, setClients] = useState([]);
     const statusSelectRef = useRef(null);
     const [searchVal, setSearchVal] = useState("");
     const [casesToDisplay, setCasesToDisplay] = useState(clients);
@@ -41,6 +21,32 @@ const Clients = () => {
     const filterHandler = () => {
         setStatus(statusSelectRef.current.value);
     };
+
+    const getAllClients = async () => {
+        await axios.post("http://202.182.110.16/medical/api/login", {
+            PhoneNo: "03325501021",
+            Password: "abc123"
+        }).then(async response => {
+            const token = response.data.token;
+            await axios.get("http://202.182.110.16/medical/api/getallclient", {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }).then(res => {
+                setClients(res.data.response.data)
+            }).catch(error => {
+                console.log(error);
+            })
+        })
+    }
+
+    useEffect(() => {
+        getAllClients();
+    }, [])
+
+    useEffect(() => {
+        setCasesToDisplay(clients)
+    }, [clients])
 
     useEffect(() => {
         setCasesToDisplay(
@@ -124,11 +130,14 @@ const Clients = () => {
                             labels={[
                                 "ID",
                                 "NAME",
-                                "TYPE",
-                                "CONTRACT ID",
-                                "CONTRACT NAME",
-                                "CASES",
-                                "STATUS"
+                                "ExistingCase",
+                                "User ID",
+                                "Valid",
+                                "Phone No.",
+                                "PackageId",
+                                "Type",
+                                "Speciality",
+                                "Experience"
                             ]}
                             pageCasesToDisplay={pageCasesToDisplay}
                         />

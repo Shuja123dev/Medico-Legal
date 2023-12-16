@@ -4,24 +4,13 @@ import { CardLayout } from '../../../user/containers';
 import { plusIcon, filterIcon } from '../../../user/assets';
 import BlogDisplayTable from './BlogDisplayTable';
 import blogImg1 from "./blogImg1.png"
+import axios from 'axios';
 
-const blogs = [
-    {
-        id: "123",
-        image: blogImg1,
-        title: "My Blog",
-        status: "Published",
-    },
-    {
-        id: "456",
-        image: blogImg1,
-        title: "His Blog",
-        status: "Draft",
-    },
-]
 const Blogs = () => {
 
     const statusSelectRef = useRef(null);
+
+    const [blogs, setBlogs] = useState([]);
     const [searchVal, setSearchVal] = useState("");
     const [casesToDisplay, setCasesToDisplay] = useState(blogs);
     const [pageCasesToDisplay, setPageCasesToDisplay] = useState(blogs);
@@ -32,6 +21,28 @@ const Blogs = () => {
     const filterHandler = () => {
         setStatus(statusSelectRef.current.value);
     };
+
+    const getAllBlogs = async () => {
+        await axios.post("http://202.182.110.16/medical/api/login", {
+            PhoneNo: "03325501021",
+            Password: "abc123"
+        }).then(async response => {
+            const token = response.data.token;
+            await axios.get("http://202.182.110.16/medical/api/getallblog", {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }).then(res => {
+                setBlogs(res.data.response.data)
+            }).catch(error => {
+                console.log(error);
+            })
+        })
+    }
+
+    useEffect(() => {
+        getAllBlogs();
+    }, [])
 
     useEffect(() => {
         setCasesToDisplay(
@@ -44,6 +55,10 @@ const Blogs = () => {
             )
         );
     }, [searchVal, status]);
+
+    useEffect(() => {
+        setCasesToDisplay(blogs)
+    }, [blogs])
 
     useEffect(() => {
         const startIndex = (currentPage - 1) * recordsPerPage;
@@ -87,9 +102,12 @@ const Blogs = () => {
                         path='/admin/blogs/'
                         labels={[
                             "ID",
-                            "IMAGE",
                             "TITLE",
-                            "STATUS",
+                            "image",
+                            "Blog Time",
+                            "Writer",
+                            "BlogText",
+                            "status",
                             "ACTIONS"
                         ]}
                         pageCasesToDisplay={pageCasesToDisplay}
