@@ -70,7 +70,7 @@ const MembershipTable = ({ tableData }) => {
                                 }
                             </tbody>
                         </table>) : (
-                            <div className="text-center">{"UserPanel.Cases.NoCasesFound"}</div>
+                            <div className="text-center">{"No Record Found"}</div>
                         )
                     }
                 </div>

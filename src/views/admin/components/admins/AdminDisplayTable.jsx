@@ -63,7 +63,7 @@ const AdminDisplayTable = ({ labels, pageCasesToDisplay, path = "/admin/admins/"
                     </tbody>
                 </table>
             ) : (
-                <div className="text-center">{t("UserPanel.Cases.NoCasesFound")}</div>
+                <div className="text-center">{"No Cases Found"}</div>
             )}
 
             {

@@ -53,7 +53,7 @@ const BlogDisplayTable = ({ labels, pageCasesToDisplay, path }) => {
                     </tbody>
                 </table>
             ) : (
-                <div className="text-center">{t("UserPanel.Cases.NoCasesFound")}</div>
+                <div className="text-center">{"No Blogs Found"}</div>
             )}
         </>
     )

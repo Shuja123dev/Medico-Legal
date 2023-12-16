@@ -32,6 +32,7 @@ const CasesDisplayTable = ({ labels, pageCasesToDisplay, path = "/user/cases/" }
                       </Link>
                     </td>
                   ) : (
+                    dataIndex < 5 &&
                     <td
                       key={dataIndex}
                       className="user_cases_display_table__cell">
@@ -44,7 +45,7 @@ const CasesDisplayTable = ({ labels, pageCasesToDisplay, path = "/user/cases/" }
           </tbody>
         </table>
       ) : (
-        <div className="text-center">{t("UserPanel.Cases.NoCasesFound")}</div>
+        <div className="text-center">{"No Record Found"}</div>
       )}
     </>
   );

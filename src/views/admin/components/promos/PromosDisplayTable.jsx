@@ -92,7 +92,7 @@ const PromosDisplayTable = ({ labels, pageCasesToDisplay, path = "/admin/promos/
                     </tbody>
                 </table>
             ) : (
-                <div className="text-center">{t("UserPanel.Cases.NoCasesFound")}</div>
+                <div className="text-center">{t("No Record Found")}</div>
             )}
 
 

@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { H3 } from '../../../user/components'
 import Card from '../Card/Card'
 import { CardLayout } from '../../../user/containers'
 import { Cases } from '../../../user/screens'
+import axios from 'axios'
 
 const dummyCases = [
     {
@@ -149,6 +150,30 @@ const dummyCases = [
 
 const AdminCases = () => {
 
+    const [cases, setCases] = useState([]);
+
+    const getCases = async () => {
+        await axios.post("http://202.182.110.16/medical/api/login", {
+            PhoneNo: "03325501021",
+            Password: "abc123"
+        }).then(async response => {
+            const token = response.data.token;
+            await axios.get("http://202.182.110.16/medical/api/getallcase", {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }).then(res => {
+                setCases(res.data.response.data)
+            }).catch(error => {
+                console.log(error);
+            })
+        })
+    }
+
+    useEffect(() => {
+        getCases();
+    }, [])
+
     return (
         <>
             <div className='row mb-5'>
@@ -205,7 +230,7 @@ const AdminCases = () => {
                     </CardLayout>
                 </div>
             </div>
-            <Cases cases={dummyCases} role='admin' />
+            <Cases cases={cases} role='admin' />
         </>
     )
 }

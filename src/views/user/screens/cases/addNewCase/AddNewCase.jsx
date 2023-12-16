@@ -16,8 +16,11 @@ import { useTranslation } from "react-i18next";
 import { CardLayout } from "../../../containers";
 import { plusIcon } from "../../../assets";
 import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 
 const AddNewCase = () => {
+  const location = useLocation();
+
   const lang = useSelector((state) => state.language.value);
   const { t } = useTranslation();
   const [newCase, setNewCase] = useState({
@@ -60,9 +63,8 @@ const AddNewCase = () => {
         <CardLayout className="mt-4">
           <form className="user_addNewCase_form">
             <div
-              className={`user_addNewCase_form__details_div ${
-                lang === "ar" ? "user_addNewCase_form__details_div_ar" : ""
-              }`}>
+              className={`user_addNewCase_form__details_div ${lang === "ar" ? "user_addNewCase_form__details_div_ar" : ""
+                }`}>
               <H3
                 text={t("UserPanel.Cases.AddNewCasePage.CaseDetails")}
                 className="user_addNewCase_form__left_heading"
@@ -204,9 +206,8 @@ const AddNewCase = () => {
               </div>
             </div>
             <div
-              className={`user_addNewCase_form__documnets_div ${
-                lang === "ar" ? "user_addNewCase_form__documnets_div_ar" : ""
-              }`}>
+              className={`user_addNewCase_form__documnets_div ${lang === "ar" ? "user_addNewCase_form__documnets_div_ar" : ""
+                }`}>
               <H3
                 text={t("UserPanel.Cases.AddNewCasePage.Documents")}
                 className="text-xl-center "
@@ -240,13 +241,13 @@ const AddNewCase = () => {
           <Modal toggleModal={toggleModal}>
             {(modalType === "documentUpload" ||
               modalType === "addressUpload") && (
-              <UploadModal
-                modalType={modalType}
-                onNationalAdressChange={newCaseInputHandler}
-                nationalAddress={newCase.nationalAddress}
-                toggleModal={toggleModal}
-              />
-            )}
+                <UploadModal
+                  modalType={modalType}
+                  onNationalAdressChange={newCaseInputHandler}
+                  nationalAddress={newCase.nationalAddress}
+                  toggleModal={toggleModal}
+                />
+              )}
             {modalType === "submit" && (
               <div className="user_submit_modal">
                 <H3
