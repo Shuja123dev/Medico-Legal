@@ -73,7 +73,7 @@ const Blogs = () => {
     return (
         <>
             <div className="d-flex align-items-center justify-content-between mb-4">
-                <H2 text={"CLIENTS"} />
+                <H2 text={"BLOGS"} />
                 <LinkButton1
                     text={"Add new Blog"}
                     icon={plusIcon}

@@ -22,13 +22,14 @@ const BlogDetails = () => {
         }).then(async response => {
             const token = response.data.token;
             await axios.post("http://202.182.110.16/medical/api/getblogbyid", {
-                BlogId
+                BlogId: BlogId
             }, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
             }).then(res => {
-                setBlogDetails(res.data.response.data[0])
+                console.log(res);
+                // setBlogDetails(res.data.response.data)
             }).catch(error => {
                 console.log(error);
             })

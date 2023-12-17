@@ -39,6 +39,20 @@ const AddBlog = () => {
         reader.readAsDataURL(imgFile);
     }
 
+    const formatDate = (currentDate) => {
+        const formattedDate = new Intl.DateTimeFormat('en-US', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            // timeZoneName: 'short',
+        }).format(currentDate);
+
+        return formattedDate
+    }
+
     const handleChange = (e) => {
         const { value, name } = e.target;
         setBlogInfo({
@@ -49,6 +63,7 @@ const AddBlog = () => {
 
     const addBlog = async () => {
         const currentDate = new Date();
+        // console.log(formatDate(currentDate).toString());
         await axios.post("http://202.182.110.16/medical/api/login", {
             PhoneNo: "03325501021",
             Password: "abc123"
@@ -60,13 +75,13 @@ const AddBlog = () => {
                 BlogText: blogInfo.BlogText,
                 BlogImage: imageFile.name,
                 Status: 1,
-                BlogTime: currentDate.toDateString()
+                BlogTime: "2023-12-02 12:12:12"
             }, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
             }).then(res => {
-                console.log(res);
+                navigate("/admin/blogs")
             }).catch(error => {
                 console.log(error);
             })
