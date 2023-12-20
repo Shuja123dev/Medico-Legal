@@ -22,6 +22,8 @@ const Blogs = () => {
         setStatus(statusSelectRef.current.value);
     };
 
+    const statuses = ["All", "Published", "Draft",];
+
     const getAllBlogs = async () => {
         await axios.post("http://202.182.110.16/medical/api/login", {
             PhoneNo: "03325501021",
@@ -49,9 +51,9 @@ const Blogs = () => {
             blogs.filter(
                 (item) =>
                     (searchVal === "" ||
-                        item.title.toLowerCase().includes(searchVal.toLowerCase())) &&
+                        item.Title.toLowerCase().includes(searchVal.toLowerCase())) &&
                     (status.toLowerCase() === "all" ||
-                        item.status.toLowerCase() === status.toLowerCase())
+                        statuses[item.Status].toLowerCase() === status.toLowerCase())
             )
         );
     }, [searchVal, status]);

@@ -37,6 +37,9 @@ const Admins = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [status, setStatus] = useState("All");
 
+
+    const statuses = ["Deactive", "Active"];
+
     const getAdmins = async () => {
         await axios.post("http://202.182.110.16/medical/api/login", {
             PhoneNo: "03325501021",
@@ -68,9 +71,9 @@ const Admins = () => {
             admins.filter(
                 (item) =>
                     (searchVal === "" ||
-                        item.name.toLowerCase().includes(searchVal.toLowerCase())) &&
+                        item.AdminName.toLowerCase().includes(searchVal.toLowerCase())) &&
                     (status.toLowerCase() === "all" ||
-                        item.status.toLowerCase() === status.toLowerCase())
+                        statuses[item.Status].toLowerCase() === status.toLowerCase())
             )
         );
     }, [searchVal, status, admins]);
@@ -140,9 +143,10 @@ const Admins = () => {
                                 "Admin ID",
                                 "NAME",
                                 "user Id",
-                                "Valid",
+                                "status",
                                 "PHONE NO",
                                 "ROLE",
+                                "email",
                                 "ACTION"
                             ]}
                             pageCasesToDisplay={pageCasesToDisplay}

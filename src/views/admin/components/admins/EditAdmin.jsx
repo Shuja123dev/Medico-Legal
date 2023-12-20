@@ -15,7 +15,7 @@ const EditAdmin = () => {
 
     const [adminDetails, setAdminDetails] = useState({
         PhoneNo: "",
-        Email: "",
+        email: "",
         UserPassword: "",
         AdminName: "",
         Valid: 1,
@@ -112,7 +112,7 @@ const EditAdmin = () => {
                             </div>
                             <div className="col-md-5 col-sm-12 mb-3">
                                 <label className='experts-label support_light_txt mb-2' htmlFor="">EMAIL</label>
-                                <InputBox type={"text"} nameIdHtmlFor={"Email"} value={adminDetails && adminDetails.Email} onChange={handleChange} placeholder={"Email"} />
+                                <InputBox type={"text"} nameIdHtmlFor={"email"} value={adminDetails && adminDetails.email} onChange={handleChange} placeholder={"Email"} />
                             </div>
                         </div>
                         <div className="row mb-3" style={{ gap: '2rem' }}>

@@ -11,6 +11,8 @@ const AdminDisplayTable = ({ labels, pageCasesToDisplay, path = "/admin/admins/"
         setShowModal1(!showModal1);
     }
 
+    const status = ["Deactive", "Active"];
+
     return (
         <>
             {pageCasesToDisplay?.length !== 0 ? (
@@ -37,22 +39,29 @@ const AdminDisplayTable = ({ labels, pageCasesToDisplay, path = "/admin/admins/"
                                             </Link>
                                         </td>
                                     ) : (
-                                        (dataIndex > 4) ? <td className='px-3'>
+                                        (dataIndex === 5) ? <td className='px-3'>
                                             <InputBox
                                                 value={caseItem[data]}
                                                 type={"select"}
-                                                options={dataIndex === 5 ? [
+                                                options={[
                                                     "Admin", "Super Admin"
-                                                ] : [
-                                                    "Active", "Deactive"
                                                 ]}
                                             />
                                         </td> :
-                                            <td
-                                                key={dataIndex}
-                                                className="user_cases_display_table__cell">
-                                                {caseItem[data]}
-                                            </td>
+                                            (dataIndex === 3) ? <td className='px-3'>
+                                                <InputBox
+                                                    value={status[caseItem[data]]}
+                                                    type={"select"}
+                                                    options={[
+                                                        "Active", "Deactive"
+                                                    ]}
+                                                />
+                                            </td> :
+                                                <td
+                                                    key={dataIndex}
+                                                    className="user_cases_display_table__cell">
+                                                    {caseItem[data]}
+                                                </td>
                                     )
                                 )}
                                 <td className='memberActions '>

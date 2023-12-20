@@ -75,6 +75,12 @@ const AdminDetails = () => {
                     </div>
                     <div className="col-lg-6 col-md-12 my-2">
                         <div className="row">
+                            <H4 text={"EMAIL"} className='support_light_txt col-md-6' />
+                            <p className='col-md-6'>{admin && admin.email}</p>
+                        </div>
+                    </div>
+                    <div className="col-lg-6 col-md-12 my-2">
+                        <div className="row">
                             <H4 text={"PASSWORD"} className='support_light_txt col-md-6' />
                             {/* <p className='col-md-6'>{admin && admin.Password}</p> */}
                             <p className='col-md-6'>-----</p>

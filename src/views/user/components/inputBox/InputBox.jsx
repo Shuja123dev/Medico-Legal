@@ -23,16 +23,16 @@ const InputBox = ({
           type === "number" ||
           type === "email" ||
           type === "password") && (
-          <input
-            type={type}
-            id={nameIdHtmlFor}
-            name={nameIdHtmlFor}
-            placeholder={placeholder}
-            disabled={disabled}
-            value={value}
-            onChange={onChange}
-          />
-        )}
+            <input
+              type={type}
+              id={nameIdHtmlFor}
+              name={nameIdHtmlFor}
+              placeholder={placeholder}
+              disabled={disabled}
+              value={value}
+              onChange={onChange}
+            />
+          )}
         {type === "date" && (
           <input
             type={type}

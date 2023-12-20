@@ -41,6 +41,7 @@ const useSignIn = () => {
   }
   const navigate = useNavigate();
   const handleSubmit = async (event) => {
+    let userRole;
 
     event.preventDefault();
     if (validateForm()) {
@@ -53,10 +54,20 @@ const useSignIn = () => {
     await axios.post("http://202.182.110.16/medical/api/login", {
       ...formData
     }).then(response => {
-      console.log(response);
-      Cookies.set('token', response.data.token, { expires: 30 })
-      // console.log(Cookies.get('token'));
-      navigate("/user/packages");
+      const role = response.data.user.role;
+      if (role === 'E') {
+        userRole = 'expert/cases';
+      }
+      else if (role === 'A') {
+        userRole = 'admin/progress';
+      }
+      else {
+        userRole = 'user/packages';
+      }
+
+      navigate(`/${userRole}`);
+    }).catch(error => {
+      console.log(error);
     })
 
     // console.log(response);

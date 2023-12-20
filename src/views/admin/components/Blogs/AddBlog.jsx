@@ -12,6 +12,7 @@ const AddBlog = () => {
     const fileInputRef = useRef(null);
 
     const [imageSrc, setImgSrc] = useState();
+    const [keywords, setKeywords] = useState();
     const [imageFile, setImgFile] = useState({
         name: "default.jpg"
     });
@@ -20,8 +21,25 @@ const AddBlog = () => {
         BlogTime: "",
         Writer: "",
         BlogText: "",
-        BlogImage: ""
+        BlogImage: "",
+        Keywords: "",
+        MetaTags: "",
+        MetaDescription: ""
     })
+
+    const tagConverter = (value) => {
+        let result = "";
+        value.split(', ').map(tag => {
+            result += " #" + tag + ",";
+        });
+        return result;
+    }
+
+    const handleChangeKeywords = (event) => {
+        setKeywords(event.target.value);
+    }
+
+    console.log(blogInfo.Keywords);
 
     const uploadFile = () => {
         fileInputRef.current.click();
@@ -53,6 +71,8 @@ const AddBlog = () => {
         return formattedDate
     }
 
+
+
     const handleChange = (e) => {
         const { value, name } = e.target;
         setBlogInfo({
@@ -75,7 +95,10 @@ const AddBlog = () => {
                 BlogText: blogInfo.BlogText,
                 BlogImage: imageFile.name,
                 Status: 1,
-                BlogTime: "2023-12-02 12:12:12"
+                BlogTime: "2023-12-02 12:12:12",
+                Keywords: tagConverter(keywords),
+                MetaTags: blogInfo.MetaTags,
+                MetaDescription: blogInfo.MetaDescription
             }, {
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -124,12 +147,15 @@ const AddBlog = () => {
                         onChange={handleChange}
                     />
 
-                    {/* <Data heading="Keywords" />
+                    <Data heading="Keywords" />
                     <InputBox
                         className='blog-input'
                         type={"text"}
                         placeholder=""
-                    /> */}
+                        nameIdHtmlFor="Keywords"
+                        value={keywords}
+                        onChange={handleChangeKeywords}
+                    />
                     <Data heading="Writer" />
                     <InputBox
                         className='blog-input'
@@ -139,17 +165,23 @@ const AddBlog = () => {
                         value={blogInfo.Writer}
                         onChange={handleChange}
                     />
-                    {/* <Data heading="Meta Tags" />
+                    <Data heading="Meta Tags" />
                     <InputBox
                         className='blog-input'
                         type={"text"}
                         placeholder=""
-                    /> */}
+                        nameIdHtmlFor="MetaTags"
+                        value={blogInfo.MetaTags}
+                        onChange={handleChange}
+                    />
                     <Data heading="Meta Description" />
                     <InputBox
                         className='blog-input'
                         type={"text"}
                         placeholder=""
+                        nameIdHtmlFor="MetaDescription"
+                        value={blogInfo.MetaDescription}
+                        onChange={handleChange}
                     />
                     <div className="d-flex align-items-center justify-content-end my-3 mt-5">
                         <Button1 type="submit" text={"Publish"}></Button1>

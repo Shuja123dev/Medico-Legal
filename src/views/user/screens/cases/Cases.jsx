@@ -26,6 +26,15 @@ const Cases = ({ cases, role = "user" }) => {
     setStatus(statusSelectRef.current.value);
   };
 
+  const statuses = [
+    "All",
+    "New",
+    "Opened",
+    "Under Review",
+    "Closed",
+    "Won",
+  ]
+
   useEffect(() => {
     setCasesToDisplay(cases)
   }, [cases])
@@ -35,9 +44,9 @@ const Cases = ({ cases, role = "user" }) => {
       cases.filter(
         (item) =>
           (searchVal === "" ||
-            item.caseName.toLowerCase().includes(searchVal.toLowerCase())) &&
+            item.CaseName.toLowerCase().includes(searchVal.toLowerCase())) &&
           (status.toLowerCase() === "all" ||
-            item.status.toLowerCase() === status.toLowerCase())
+            item.Status.toLowerCase() === status.toLowerCase())
       )
     );
   }, [searchVal, status]);
