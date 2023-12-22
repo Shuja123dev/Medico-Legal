@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { H2 } from '../../../user/components'
+import { Button1, H2, Modal, UploadModal } from '../../../user/components'
 import { CardLayout, ChatLeftSidebar, ChatMain, ChatRightSidebar } from '../../../user/containers'
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
@@ -61,6 +61,12 @@ const RespondTicket = () => {
     const [currentEntry, setCurrentEntry] = useState({});
     const [messages, setMessages] = useState([]);
     const [messagesToDisplay, setMessagesToDisplay] = useState(messages);
+    const [documentUploadModal, setDocumentUploadModal] = useState(false);
+
+
+    const toggleDocumentUploadModal = () => {
+        setDocumentUploadModal((prevState) => !prevState);
+    };
 
 
     const fetchTickets = async () => {
@@ -187,10 +193,31 @@ const RespondTicket = () => {
                         toggleRightSidebar={toggleRightSidebar}
                         chatmembers={chatmembers}
                         documents={documents}
+                        toggleDocumentUploadModal={toggleDocumentUploadModal}
                         type="support"
                     />
                 </CardLayout>
             </div>
+
+            {documentUploadModal && (
+                <Modal toggleModal={toggleDocumentUploadModal}>
+                    <UploadModal
+                        modalType={"documentUpload"}
+                        toggleModal={toggleDocumentUploadModal}
+                    />
+                    <div className="d-flex align-items-center justify-content-between mt-4 ">
+                        <Button1
+                            onClick={toggleDocumentUploadModal}
+                            text={"Cancel"}
+                            color="gray"
+                        />
+                        <Button1
+                            onClick={toggleDocumentUploadModal}
+                            text={"Submit"}
+                        />
+                    </div>
+                </Modal>
+            )}
         </>
     )
 }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button1, H2, H3, H4 } from '../../../user/components'
+import { Button1, H2, H3, H4, Modal, UploadModal } from '../../../user/components'
 import { CardLayout, ChatLeftSidebar, ChatRightSidebar } from '../../../user/containers'
 import { NavLink, useLocation } from 'react-router-dom'
 import deleteIcon from "./deleteIcon.svg"
@@ -30,6 +30,10 @@ const Support = () => {
     const [currentEntry, setCurrentEntry] = useState();
     const [messages, setMessages] = useState([]);
     const [tickets, setTickets] = useState([]);
+    const [documentUploadModal, setDocumentUploadModal] = useState(false);
+    const toggleDocumentUploadModal = () => {
+        setDocumentUploadModal((prevState) => !prevState);
+    };
 
     const getTcikets = async () => {
         await axios.post("http://202.182.110.16/medical/api/login", {
@@ -173,10 +177,31 @@ const Support = () => {
                         toggleRightSidebar={toggleRightSidebar}
                         chatmembers={chatmembers}
                         documents={documents}
+                        toggleDocumentUploadModal={toggleDocumentUploadModal}
                         type="support"
                     />
                 </CardLayout>
             </div>
+
+            {documentUploadModal && (
+                <Modal toggleModal={toggleDocumentUploadModal}>
+                    <UploadModal
+                        modalType={"documentUpload"}
+                        toggleModal={toggleDocumentUploadModal}
+                    />
+                    <div className="d-flex align-items-center justify-content-between mt-4 ">
+                        <Button1
+                            onClick={toggleDocumentUploadModal}
+                            text={"Cancel"}
+                            color="gray"
+                        />
+                        <Button1
+                            onClick={toggleDocumentUploadModal}
+                            text={"Submit"}
+                        />
+                    </div>
+                </Modal>
+            )}
         </>
     )
 }

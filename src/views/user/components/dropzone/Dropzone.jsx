@@ -1,12 +1,21 @@
 import React from "react";
 import "./dropzone.css";
 
-const Dropzone = ({ content, className = "" }) => {
+const Dropzone = ({ content, className = "", setFiles, files }) => {
+
+  const uploadFile = (event) => {
+    setFiles([
+      ...files,
+      event.target.files[0]
+    ])
+    // console.log(event.target.files[0]);
+  }
+
   return (
     <>
       <label htmlFor="dropzone-file" className={`dropzone_label ${className}`}>
         {content}
-        <input id="dropzone-file" type="file" />
+        <input id="dropzone-file" type="file" onChange={uploadFile} />
       </label>
     </>
   );

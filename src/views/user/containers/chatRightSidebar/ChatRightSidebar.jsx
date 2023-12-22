@@ -10,6 +10,7 @@ const ChatRightSidebar = ({
   toggleRightSidebar,
   chatmembers,
   documents,
+  toggleDocumentUploadModal,
   type = null
 }) => {
   const { t } = useTranslation();

@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import "./chatMessageItem.css";
 import { useSelector } from "react-redux";
 
 const ChatMessageItem = ({ messageInfo }) => {
-  const { Message, MessageTime, isMine, sender } = messageInfo;
+  const { Message, MessageTime, MemberId, sender } = messageInfo;
   const senderNameInitial = sender ? sender[0] : "A";
 
-  const textWithLineBreaks = Message.split("\n").join("<br>");
+  const textWithLineBreaks = Message && Message.split("\n").join("<br>");
   const lang = useSelector((state) => state.language.value);
+
+  const [isMine, setIsMine] = useState(false)
 
 
   const formatTime = (time) => {
@@ -41,7 +43,7 @@ const ChatMessageItem = ({ messageInfo }) => {
           <p
             className="user_chatMessageItem__text"
             dangerouslySetInnerHTML={{ __html: textWithLineBreaks }}></p>
-          <span className="user_chatMessageItem__time">{formatTime(MessageTime)}</span>
+          <span className="user_chatMessageItem__time">{MessageTime && formatTime(MessageTime)}</span>
         </div>
       </div>
     </>

@@ -44,7 +44,7 @@ const ChatMain = ({
         TicketNo: currentEntry.TicketNo,
         MemberId: 1,
         MemberType: "Client",
-        Message: newMessage.text,
+        Message: newMessage,
         MessageTime: "2024-12-03 13:13:13",
         // MessageTime: newMessage.time,
         DocumentId: 0
@@ -95,6 +95,9 @@ const ChatMain = ({
       textareaRef.current.rows = 1;
     }
   };
+
+
+  console.log(newMessage);
 
   const textareaKeyUpHandler = (e) => {
     if (e.key === "Enter" && e.shiftKey) {
