@@ -35,7 +35,6 @@ const Promos = () => {
         })
     }, [type])
 
-
     const toggleModal1 = () => {
         setShowModal1(!showModal1);
     }
