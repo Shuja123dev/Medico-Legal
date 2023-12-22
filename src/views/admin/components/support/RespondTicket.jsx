@@ -2,27 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { H2 } from '../../../user/components'
 import { CardLayout, ChatLeftSidebar, ChatMain, ChatRightSidebar } from '../../../user/containers'
 import { useLocation } from 'react-router-dom';
+import axios from 'axios';
 
-const tickets = [
-    {
-        id: '123',
-        name: '123456',
-        status: "Active",
-        created: "24 OCT 2022"
-    },
-    {
-        id: '456',
-        name: '7891',
-        status: "Completed",
-        created: "24 OCT 2022"
-    },
-    {
-        id: '456',
-        name: '34567',
-        status: "Progress",
-        created: "24 OCT 2022"
-    },
-]
 
 const chatmembers = [
     { name: "asad", type: "Expertise" },
@@ -71,29 +52,69 @@ const ticketDummyMessages = [
 const RespondTicket = () => {
 
     const [isLeftSidebarHidden, setisLeftSidebarHidden] = useState(true);
+    const [tickets, setTickets] = useState();
     const location = useLocation().pathname.split("/")[2];
     const [createTicketModal, setCreateTicketModal] = useState(false);
     const [chatType, setChatType] = useState("");
     const [isRightSidebarHidden, setisRightSidebarHidden] = useState(true);
+    const [entries, setEntries] = useState([]);
+    const [currentEntry, setCurrentEntry] = useState({});
+    const [messages, setMessages] = useState([]);
+    const [messagesToDisplay, setMessagesToDisplay] = useState(messages);
+
+
+    const fetchTickets = async () => {
+        await axios.post("http://202.182.110.16/medical/api/login", {
+            PhoneNo: "03325501021",
+            Password: "abc123"
+        }).then(async response => {
+            const token = response.data.token;
+            await axios.get("http://202.182.110.16/medical/api/getallticket", {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }).then(res => {
+                setTickets(res.data.response.data)
+            }).catch(error => {
+                console.log(error);
+            })
+        })
+    }
+
+    const fetchMessages = async () => {
+        await axios.post("http://202.182.110.16/medical/api/login", {
+            PhoneNo: "03325501021",
+            Password: "abc123"
+        }).then(async response => {
+            const token = response.data.token;
+            await axios.post("http://202.182.110.16/medical/api/getmessagebyticketno", {
+                TicketNo: currentEntry.TicketNo
+            }, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }).then(res => {
+                setMessages(res.data.response.data);
+            }).catch(error => {
+                console.log(error);
+            })
+        })
+    }
 
     useEffect(() => {
         setChatType(location);
     }, [location]);
 
-    const [entries, setEntries] = useState([]);
-    const [currentEntry, setCurrentEntry] = useState({});
-    const [messages, setMessages] = useState(ticketDummyMessages);
-    const [messagesToDisplay, setMessagesToDisplay] = useState(messages);
 
     useEffect(() => {
         setMessagesToDisplay(
-            messages.filter(
-                (message) =>
-                    message.sender === currentEntry.name ||
-                    message.sentTo === currentEntry.name
-            )
+            ticketDummyMessages
         );
     }, [currentEntry, messages]);
+
+    useEffect(() => {
+        fetchMessages();
+    }, [currentEntry])
 
     const [newTicket, setNewTicket] = useState({
         subject: "",
@@ -107,13 +128,20 @@ const RespondTicket = () => {
         }));
     };
 
+
+
     useEffect(() => {
         if (chatType === "support") {
             setEntries(tickets);
-            setCurrentEntry(tickets[0]);
+            tickets && setCurrentEntry(tickets[0]);
             setMessages([]);
         }
-    }, [chatType]);
+    }, [chatType, tickets]);
+
+    useEffect(() => {
+        fetchTickets();
+    }, []);
+
 
     const toggleLeftSidebar = () => {
         setisLeftSidebarHidden((prevState) => !prevState);

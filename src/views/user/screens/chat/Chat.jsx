@@ -289,6 +289,8 @@ const Chat = () => {
     setDocumentUploadModal((prevState) => !prevState);
   };
 
+  console.log(location);
+
   useEffect(() => {
     setChatType(location);
   }, [location]);

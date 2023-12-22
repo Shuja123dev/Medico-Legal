@@ -11,6 +11,7 @@ import {
 import { barsLeftIcon, barsRightIcon, sendIcon, userImg } from "../../assets";
 import ChatMessagesBox from "../chatMessagesBox/ChatMessagesBox";
 import { useTranslation } from "react-i18next";
+import axios from "axios";
 
 const ChatMain = ({
   toggleLeftSidebar,
@@ -31,6 +32,34 @@ const ChatMain = ({
   const textareaRef = useRef();
   const [newMessage, setNewMessage] = useState("");
 
+  console.log(messagesToDisplay);
+
+  const sendMessage = async () => {
+    await axios.post("http://202.182.110.16/medical/api/login", {
+      PhoneNo: "03325501021",
+      Password: "abc123"
+    }).then(async response => {
+      const token = response.data.token;
+      await axios.post("http://202.182.110.16/medical/api/addmessagetoticket", {
+        TicketNo: currentEntry.TicketNo,
+        MemberId: 1,
+        MemberType: "Client",
+        Message: newMessage.text,
+        MessageTime: "2024-12-03 13:13:13",
+        // MessageTime: newMessage.time,
+        DocumentId: 0
+      }, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }).then(res => {
+        console.log(res);
+      }).catch(error => {
+        console.log(error);
+      })
+    })
+  };
+
   const sendMessageHandler = () => {
     if (newMessage.trim() == "") return;
     setNewMessage("");
@@ -45,6 +74,7 @@ const ChatMain = ({
       },
     ]);
     textareaRef.current.rows = 1;
+    sendMessage();
   };
 
   useEffect(() => {
@@ -97,8 +127,8 @@ const ChatMain = ({
                 chatType === "admin-chat"
                   ? t("UserPanel.Chat.Admin")
                   : chatType === "support"
-                    ? `#${currentEntry.name}`
-                    : currentEntry?.name
+                    ? `#${currentEntry.TicketNo}`
+                    : currentEntry?.TicketNo
               }
               className="m-0 text-capitalize "
             />

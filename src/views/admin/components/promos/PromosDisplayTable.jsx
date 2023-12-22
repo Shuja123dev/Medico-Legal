@@ -61,11 +61,11 @@ const PromosDisplayTable = ({ labels, pageCasesToDisplay, path = "/admin/promos/
                                 {Object.keys(caseItem).map((data, dataIndex) =>
                                     dataIndex === 1 ? (
                                         <td key={dataIndex}>
-                                            <Link
+                                            {/* <Link
                                                 className="w-100 d-block user_cases_display_table__cell_link"
-                                                to={path + caseItem.PromoId}>
-                                                {caseItem[data]}
-                                            </Link>
+                                                to={path + caseItem.PromoId}> */}
+                                            {caseItem[data]}
+                                            {/* </Link> */}
                                         </td>
                                     ) : (
                                         (dataIndex < 6) ? <td

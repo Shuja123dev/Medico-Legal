@@ -145,7 +145,7 @@ const ChatLeftSidebar = ({
           <>
             <H3 text={t("UserPanel.Chat.Tickets")} className="mb-3 fw-700" />
             <div className="user_chatLeftSidebar__items">
-              {entries.map((entry, index) => (
+              {entries && entries.map((entry, index) => (
                 <ChatLeftbarItemLayout
                   toggleSidebar={toggleLeftSidebar}
                   value={entry}
