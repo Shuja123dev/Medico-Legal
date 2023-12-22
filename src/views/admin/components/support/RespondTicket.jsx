@@ -108,7 +108,7 @@ const RespondTicket = () => {
 
     useEffect(() => {
         setMessagesToDisplay(
-            ticketDummyMessages
+            messages
         );
     }, [currentEntry, messages]);
 

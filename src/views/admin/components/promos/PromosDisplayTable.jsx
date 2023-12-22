@@ -10,13 +10,23 @@ const PromosDisplayTable = ({ labels, pageCasesToDisplay, path = "/admin/promos/
 
     const [showModal1, setShowModal1] = useState(false)
     const [type, setType] = useState("Amount");
-    const [promo, setPromo] = useState();
+    const [promo, setPromo] = useState({
+        PromoId: "1",
+        PromoName: "",
+        Code: "",
+        Type: "",
+        Percentage: "",
+        Amount: "",
+        Status: 1
+    });
 
     const toggleModal1 = (data) => {
         setShowModal1(!showModal1);
-        setType(data.Type)
-        setPromo(data)
+        data && setType(data.Type)
+        data && setPromo(data)
     }
+
+    console.log(promo);
 
     const updatePromo = async () => {
         await axios.post("http://202.182.110.16/medical/api/login", {
@@ -25,8 +35,7 @@ const PromosDisplayTable = ({ labels, pageCasesToDisplay, path = "/admin/promos/
         }).then(async response => {
             const token = response.data.token;
             await axios.post("http://202.182.110.16/medical/api/updatepromo", {
-                Status: promo.Status,
-                PromoId: promo.PromoId
+                ...promo,
             }, {
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -35,6 +44,14 @@ const PromosDisplayTable = ({ labels, pageCasesToDisplay, path = "/admin/promos/
                 console.log(res);
                 toggleModal1();
             })
+        })
+    }
+
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        setPromo({
+            ...promo,
+            [name]: value,
         })
     }
 
@@ -101,13 +118,13 @@ const PromosDisplayTable = ({ labels, pageCasesToDisplay, path = "/admin/promos/
                     <Modal toggleModal={toggleModal1} modalHead={"Approval Confirmation"}>
                         <div className="user_createTicketForm mb-3">
                             <H3 text={"UPDATE PROMO"} />
-                            <InputBox type={"text"} placeholder={"Name"} value={promo.Code && promo.PromoName} />
-                            <InputBox type={"text"} placeholder={"Code"} value={promo.Code && promo.Code} />
+                            <InputBox type={"text"} placeholder={"Name"} value={promo.PromoName && promo.PromoName} nameIdHtmlFor={"PromoName"} onChange={handleChange} />
+                            <InputBox type={"text"} placeholder={"Code"} value={promo.Code && promo.Code} nameIdHtmlFor={"Code"} onChange={handleChange} />
                             <div className="row">
                                 <div className="col-sm-6" style={{ paddingLeft: "0" }}>
                                     <div className="user_input_box">
                                         <div className="flex_box" style={{ justifyContent: "flex-start" }} onClick={() => setType("Amount")}>
-                                            <input type="radio" id='amount' name='type' value="Amount" checked={!!(type === "Amount")} />
+                                            <input type="radio" id='amount' name='Amount' value="Type" checked={!!(type === "Amount")} onChange={handleChange} />
                                             <label htmlFor="amount">
                                                 <h5 className='mx-2'>Amount</h5>
                                             </label>
@@ -125,7 +142,7 @@ const PromosDisplayTable = ({ labels, pageCasesToDisplay, path = "/admin/promos/
                                     </div>
                                 </div>
                             </div>
-                            <InputBox type={"text"} placeholder={type} value={type === "Percentage" ? promo.Percentage : promo.Amount} />
+                            <InputBox type={"text"} nameIdHtmlFor={type} placeholder={type} value={type === "Percentage" ? promo.Percentage : promo.Amount} onChange={handleChange} />
                         </div>
 
                         <div className="d-flex align-items-center justify-content-end ">

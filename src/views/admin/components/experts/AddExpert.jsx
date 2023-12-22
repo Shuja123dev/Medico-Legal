@@ -3,7 +3,6 @@ import { Button1, H2, H3, InputBox } from '../../../user/components'
 import { CardLayout } from '../../../user/containers'
 import ClientAvatar from "./clientAvatar.png"
 import "./Expert.css";
-import { NavLink } from 'react-router-dom';
 import axios from 'axios';
 import Dropzone from '../dropzone/Dropzone';
 
@@ -20,7 +19,7 @@ const AddExpert = ({ type = "experts" }) => {
         status: "active",
     });
 
-    const changeExpert = () => {
+    const changeExpert = (e) => {
         setExpertInfo({
             ...expertInfo,
             [e.target.name]: e.target.value
@@ -34,10 +33,52 @@ const AddExpert = ({ type = "experts" }) => {
         }).then(async response => {
             const token = response.data.token;
             await axios.post("http://202.182.110.16/medical/api/addexpert", {
-                PhoneNo: "03325501021",
-                Password: "abc123",
-                UserPassword: "ExpertName",
-                ExpertName: "ishtiaq"
+                // PhoneNo: expertInfo.phoneNo,
+                // UserPassword: expertInfo.password,
+                // Email: expertInfo.email,
+                // Experience: expertInfo.yearsOfExperience,
+                // ExpertName: expertInfo.name,
+                // Adress: expertInfo.nationalAddress,
+                // Expertise: expertInfo.expertise
+                // PhoneNo: "03005000415",
+                // UserPassword: "abc123",
+                // Email: "aries@gmail.com",
+                // Experience: 2,
+                // ExpertName: "ishtiaq",
+                // Adress: "new address",
+                // Expertise: "Medical Wakeel",
+            }, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }).then(res => {
+                console.log(res);
+            })
+        })
+    }
+
+    const addClient = async () => {
+        await axios.post("http://202.182.110.16/medical/api/login", {
+            PhoneNo: "03325501021",
+            Password: "abc123"
+        }).then(async response => {
+            const token = response.data.token;
+            await axios.post("http://202.182.110.16/medical/api/addexpert", {
+                // PhoneNo: expertInfo.phoneNo,
+                // UserPassword: expertInfo.password,
+                // Email: expertInfo.email,
+                // Experience: expertInfo.yearsOfExperience,
+                // ExpertName: expertInfo.name,
+                // Adress: expertInfo.nationalAddress,
+                // Expertise: expertInfo.expertise
+
+                // PhoneNo: "03005000415",
+                // UserPassword: "abc123",
+                // Email: "aries@gmail.com",
+                // Experience: 2,
+                // ExpertName: "ishtiaq",
+                // Adress: "new address",
+                // Expertise: "Medical Wakeel",
             }, {
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -110,9 +151,9 @@ const AddExpert = ({ type = "experts" }) => {
                     />
                     <InputBox
                         value={expertInfo.password}
-                        nameIdHtmlFor={"nationalAddress"}
+                        nameIdHtmlFor={"password"}
                         label={"Password"}
-                        type={"text"}
+                        type={"password"}
                         onChange={changeExpert}
                     />
                 </div>
@@ -120,7 +161,7 @@ const AddExpert = ({ type = "experts" }) => {
                     {/* <NavLink to={`/admin/${type}`}> */}
                     <Button1
                         text={"Add"}
-                        onClick={addExpert}
+                        onClick={type === "experts" ? addExpert : addClient}
                     />
                     {/* </NavLink> */}
                 </div>
