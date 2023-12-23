@@ -26,6 +26,8 @@ const AddExpert = ({ type = "experts" }) => {
         });
     }
 
+    console.log(expertInfo);
+
     const addExpert = async () => {
         await axios.post("http://202.182.110.16/medical/api/login", {
             PhoneNo: "03325501021",
@@ -33,20 +35,21 @@ const AddExpert = ({ type = "experts" }) => {
         }).then(async response => {
             const token = response.data.token;
             await axios.post("http://202.182.110.16/medical/api/addexpert", {
-                // PhoneNo: expertInfo.phoneNo,
-                // UserPassword: expertInfo.password,
-                // Email: expertInfo.email,
-                // Experience: expertInfo.yearsOfExperience,
-                // ExpertName: expertInfo.name,
-                // Adress: expertInfo.nationalAddress,
-                // Expertise: expertInfo.expertise
+                PhoneNo: expertInfo.phoneNo,
+                UserPassword: expertInfo.password,
+                Email: expertInfo.email,
+                Experience: expertInfo.yearsOfExperience,
+                ExpertName: expertInfo.name,
+                Address: expertInfo.nationalAddress,
+                Expertise: expertInfo.expertise
+
                 // PhoneNo: "03005000415",
-                // UserPassword: "abc123",
                 // Email: "aries@gmail.com",
-                // Experience: 2,
+                // UserPassword: "abc123",
                 // ExpertName: "ishtiaq",
-                // Adress: "new address",
+                // Experience: 2,
                 // Expertise: "Medical Wakeel",
+                // Address: "new address",
             }, {
                 headers: {
                     'Authorization': `Bearer ${token}`

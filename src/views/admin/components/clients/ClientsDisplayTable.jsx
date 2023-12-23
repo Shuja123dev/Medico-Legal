@@ -3,6 +3,11 @@ import { Link } from "react-router-dom";
 import { InputBox } from '../../../user/components';
 
 const ClientsDisplayTable = ({ labels, pageCasesToDisplay, path = "/user/clients/" }) => {
+
+    const role = path.split('/')[2];
+
+    console.log(role);
+
     return (
         <>
             {pageCasesToDisplay?.length !== 0 ? (
@@ -24,7 +29,8 @@ const ClientsDisplayTable = ({ labels, pageCasesToDisplay, path = "/user/clients
                                     <td key={dataIndex}>
                                         <Link
                                             className="w-100 d-block user_cases_display_table__cell_link"
-                                            to={path + caseItem.ClientId}>
+                                            to={(role === "clients") ? path + caseItem.ClientId : path + caseItem.ExpertId}>
+                                            {/* to={path + caseItem.ClientId}> */}
                                             {caseItem[data]}
                                         </Link>
                                     </td>

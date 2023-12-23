@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { H2 } from '../../../user/components'
 import Card from '../Card/Card'
 import lineChart from "./Line chart.png"
@@ -6,8 +6,33 @@ import barChart from "./BarChart.png"
 import circleGraph from "./CircleGraph.png"
 import { CardLayout } from '../../../user/containers'
 import NameCard from '../Card/NameCard'
+import axios from 'axios'
 
 const Contracts = () => {
+
+    const [experts, setExperts] = useState([]);
+
+    const getExperts = async () => {
+        await axios.post("http://202.182.110.16/medical/api/login", {
+            PhoneNo: "03325501021",
+            Password: "abc123"
+        }).then(async response => {
+            const token = response.data.token;
+            await axios.get("http://202.182.110.16/medical/api/getallexperts", {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }).then(res => {
+                console.log(res);
+                setExperts(res.data.response.data)
+            })
+        })
+    }
+
+    useEffect(() => {
+        getExperts()
+    }, [])
+
     return (
         <>
             <H2 text={"CONTRACTS"} />
@@ -50,16 +75,23 @@ const Contracts = () => {
                     <CardLayout>
                         <p className='blurTxt'>Experts Progress</p>
                         <div className='row'>
-                            <NameCard className='col-md-6 col-sm-12' />
-                            <NameCard className='col-md-6 col-sm-12' />
-                            <NameCard className='col-md-6 col-sm-12' />
-                            <NameCard className='col-md-6 col-sm-12' value={70} />
-                            <NameCard className='col-md-6 col-sm-12' value={30} />
-                            <NameCard className='col-md-6 col-sm-12' />
-                            <NameCard className='col-md-6 col-sm-12' />
-                            <NameCard className='col-md-6 col-sm-12' />
-                            <NameCard className='col-md-6 col-sm-12' value={70} />
-                            <NameCard className='col-md-6 col-sm-12' value={30} />
+                            {experts.length < 0 ?
+                                <>
+                                    <NameCard className='col-md-6 col-sm-12' />
+                                    <NameCard className='col-md-6 col-sm-12' />
+                                    <NameCard className='col-md-6 col-sm-12' />
+                                    <NameCard className='col-md-6 col-sm-12' value={70} />
+                                    <NameCard className='col-md-6 col-sm-12' value={30} />
+                                    <NameCard className='col-md-6 col-sm-12' />
+                                    <NameCard className='col-md-6 col-sm-12' />
+                                    <NameCard className='col-md-6 col-sm-12' />
+                                    <NameCard className='col-md-6 col-sm-12' value={70} />
+                                    <NameCard className='col-md-6 col-sm-12' value={30} />
+                                </> :
+                                experts.map((exp) => {
+                                    return <NameCard className='col-md-6 col-sm-12' name={exp.ExpertName} />
+                                })
+                            }
                         </div>
                     </CardLayout>
                 </div>

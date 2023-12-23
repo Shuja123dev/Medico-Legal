@@ -53,7 +53,7 @@ const Clients = () => {
             clients.filter(
                 (item) =>
                     (searchVal === "" ||
-                        item.name.toLowerCase().includes(searchVal.toLowerCase())) &&
+                        item.ClientName.toLowerCase().includes(searchVal.toLowerCase())) &&
                     (status.toLowerCase() === "all" ||
                         item.status.toLowerCase() === status.toLowerCase())
             )

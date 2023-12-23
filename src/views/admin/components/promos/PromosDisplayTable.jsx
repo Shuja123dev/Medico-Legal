@@ -4,14 +4,14 @@ import { Link } from "react-router-dom";
 import { H3, InputBox, Modal } from '../../../user/components';
 import axios from 'axios';
 
-const PromosDisplayTable = ({ labels, pageCasesToDisplay, path = "/admin/promos/" }) => {
+const PromosDisplayTable = ({ labels, pageCasesToDisplay, path = "/admin/promos/", getPromos }) => {
 
     const { t } = useTranslation();
 
     const [showModal1, setShowModal1] = useState(false)
     const [type, setType] = useState("Amount");
     const [promo, setPromo] = useState({
-        PromoId: "1",
+        PromoId: "",
         PromoName: "",
         Code: "",
         Type: "",
@@ -25,8 +25,6 @@ const PromosDisplayTable = ({ labels, pageCasesToDisplay, path = "/admin/promos/
         data && setType(data.Type)
         data && setPromo(data)
     }
-
-    console.log(promo);
 
     const updatePromo = async () => {
         await axios.post("http://202.182.110.16/medical/api/login", {
@@ -43,6 +41,7 @@ const PromosDisplayTable = ({ labels, pageCasesToDisplay, path = "/admin/promos/
             }).then(res => {
                 console.log(res);
                 toggleModal1();
+                getPromos();
             })
         })
     }
@@ -53,10 +52,6 @@ const PromosDisplayTable = ({ labels, pageCasesToDisplay, path = "/admin/promos/
             ...promo,
             [name]: value,
         })
-    }
-
-    const handleUpdatePromo = () => {
-        updatePromo();
     }
 
     return (
@@ -149,7 +144,7 @@ const PromosDisplayTable = ({ labels, pageCasesToDisplay, path = "/admin/promos/
                             <button className="mx-3 user_button1 user_button1--gray " onClick={toggleModal1}>
                                 <span>Cancel</span>
                             </button>
-                            <button className=" user_button1" onClick={handleUpdatePromo}>
+                            <button className=" user_button1" onClick={updatePromo}>
                                 <span>Update</span>
                             </button>
                         </div>

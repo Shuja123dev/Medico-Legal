@@ -29,7 +29,7 @@ const Cases = ({ cases, role = "user" }) => {
   const statuses = [
     "All",
     "New",
-    "Opened",
+    "Opennn",
     "Under Review",
     "Closed",
     "Won",
@@ -39,8 +39,6 @@ const Cases = ({ cases, role = "user" }) => {
     setCasesToDisplay(cases)
   }, [cases])
 
-
-  // app
 
   useEffect(() => {
     setCasesToDisplay(
@@ -83,7 +81,7 @@ const Cases = ({ cases, role = "user" }) => {
             <select ref={statusSelectRef}>
               <option>{t("UserPanel.Cases.All")}</option>
               <option>{t("UserPanel.Cases.New")}</option>
-              <option>{t("UserPanel.Cases.Opened")}</option>
+              <option>{t("UserPanel.Cases.Open")}</option>
               <option>{t("UserPanel.Cases.UnderReview")}</option>
               <option>{t("UserPanel.Cases.InProgress")}</option>
               <option>{t("UserPanel.Cases.Closed")}</option>

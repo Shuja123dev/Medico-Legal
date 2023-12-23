@@ -1,10 +1,12 @@
 import React from "react";
 import "./casesDisplayTable.css";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const CasesDisplayTable = ({ labels, pageCasesToDisplay, path = "/user/cases/" }) => {
   const { t } = useTranslation();
+
+  const location = useLocation().pathname.split("/").pop();
 
   return (
     <>
@@ -25,11 +27,15 @@ const CasesDisplayTable = ({ labels, pageCasesToDisplay, path = "/user/cases/" }
                 {Object.keys(caseItem).map((data, dataIndex) =>
                   dataIndex === 1 ? (
                     <td key={dataIndex}>
-                      <Link
-                        className="w-100 d-block user_cases_display_table__cell_link"
-                        to={path + caseItem.CaseId}>
-                        {caseItem[data]}
-                      </Link>
+                      {
+                        location === 'management' ?
+                          caseItem[data] :
+                          <Link
+                            className="w-100 d-block user_cases_display_table__cell_link"
+                            to={path + caseItem.CaseId}>
+                            {caseItem[data]}
+                          </Link>
+                      }
                     </td>
                   ) : (
                     dataIndex < 5 &&

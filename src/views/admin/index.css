@@ -297,3 +297,7 @@ select {
 .bar_chart img {
   width: 100%;
 }
+
+.cards_row {
+  gap: 1.5rem 0;
+}

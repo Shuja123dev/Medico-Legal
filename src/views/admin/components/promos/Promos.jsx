@@ -117,6 +117,7 @@ const Promos = () => {
                 "ACTIONS"
             ]}
                 tableData={promos}
+                getPromos={getPromos}
                 type="promos"
             />
 

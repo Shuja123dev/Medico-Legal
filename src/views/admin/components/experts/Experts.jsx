@@ -5,32 +5,11 @@ import { CardLayout } from '../../../user/containers'
 import ClientsDisplayTable from '../clients/ClientsDisplayTable'
 import plusIcon from "../management/plusIcon.png"
 import filterIcon from "../management/filter.svg"
+import axios from 'axios'
 
 const Experts = () => {
 
-    const experts = [
-        {
-            id: "123",
-            name: "Ali Ahmad",
-            expertise: "Public and Insurance",
-            experience: 10,
-            totalCases: 10,
-            won: 3,
-            lost: 3,
-            status: "Active"
-        },
-        {
-            id: "123",
-            name: "Raza Ahmad",
-            expertise: "Public and Insurance",
-            experience: 20,
-            totalCases: 17,
-            won: 3,
-            lost: 3,
-            status: "dEACTIVE"
-        },
-    ]
-
+    const [experts, setExperts] = useState([])
     const statusSelectRef = useRef(null);
     const [searchVal, setSearchVal] = useState("");
     const [casesToDisplay, setCasesToDisplay] = useState(experts);
@@ -43,12 +22,40 @@ const Experts = () => {
         setStatus(statusSelectRef.current.value);
     };
 
+    const getAllExperts = async () => {
+        await axios.post("http://202.182.110.16/medical/api/login", {
+            PhoneNo: "03325501021",
+            Password: "abc123"
+        }).then(async response => {
+            const token = response.data.token;
+            await axios.get("http://202.182.110.16/medical/api/getallexperts", {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }).then(res => {
+                console.log(res);
+                setExperts(res.data.response.data)
+            })
+        })
+    }
+
+    useEffect(() => {
+        getAllExperts();
+    }, [])
+
+
+    useEffect(() => {
+        setCasesToDisplay(experts)
+    }, [experts])
+
+    console.log(casesToDisplay);
+
     useEffect(() => {
         setCasesToDisplay(
             experts.filter(
                 (item) =>
                     (searchVal === "" ||
-                        item.name.toLowerCase().includes(searchVal.toLowerCase())) &&
+                        item.ExpertName.toLowerCase().includes(searchVal.toLowerCase())) &&
                     (status.toLowerCase() === "all" ||
                         item.status.toLowerCase() === status.toLowerCase())
             )
@@ -61,6 +68,7 @@ const Experts = () => {
 
         setPageCasesToDisplay(casesToDisplay.slice(startIndex, endIndex));
     }, [casesToDisplay, currentPage, recordsPerPage]);
+
     useEffect(() => {
         setCurrentPage(1);
     }, [recordsPerPage]);
@@ -70,25 +78,25 @@ const Experts = () => {
             <div className="row p-2">
                 <div className="p-2 col-md-3">
                     <Card >
-                        <p>Total Clients</p>
+                        <p>Total Experts</p>
                         <h1>203</h1>
                     </Card>
                 </div>
                 <div className="p-2 col-md-3">
                     <Card >
-                        <p>Surgeon Doctors</p>
+                        <p>Active experts</p>
                         <h1>45</h1>
                     </Card>
                 </div>
                 <div className="p-2 col-md-3">
                     <Card >
-                        <p>Non - Surgeon Doctors</p>
+                        <p>Inactive experts</p>
                         <h1>120</h1>
                     </Card>
                 </div>
                 <div className="p-2 col-md-3">
                     <Card >
-                        <p>Medical Professional</p>
+                        <p>Experts in active cases</p>
                         <h1>38</h1>
                     </Card>
                 </div>
@@ -125,12 +133,17 @@ const Experts = () => {
                             labels={[
                                 "ID",
                                 "NAME",
-                                "EXPERTIES",
+                                "USER ID",
+                                "VALID",
+                                "Phone Number",
                                 "EXPERIENCE",
-                                "TOTAL CASES",
-                                "WON",
-                                "LOST",
-                                "STATUS"
+                                "EXPERTIES",
+                                "EMAIL",
+                                "Adress",
+                                // "TOTAL CASES",
+                                // "WON",
+                                // "LOST",
+                                // "STATUS"
                             ]}
                             pageCasesToDisplay={pageCasesToDisplay}
                         />

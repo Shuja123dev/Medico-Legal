@@ -10,7 +10,7 @@ const ClientCases = ({ cases }) => {
             <H2 text={"Cases"} className='mb-3' />
             <div className="row cards_row">
                 {
-                    cases && cases.map((record) => {
+                    cases.length > 0 ? cases.map((record) => {
                         return (
                             <div className="col-md-4">
                                 <NavLink to={`/admin/clients/${record.CaseId}/details`}>
@@ -24,7 +24,7 @@ const ClientCases = ({ cases }) => {
                                 </NavLink>
                             </div>
                         )
-                    })
+                    }) : <p>No Cases Found</p>
                 }
             </div>
         </>

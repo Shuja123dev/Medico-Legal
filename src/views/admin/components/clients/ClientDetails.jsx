@@ -68,6 +68,8 @@ const ClientDetails = () => {
         getCasesOfCLient();
     }, [])
 
+    console.log(clientCases);
+
 
     const [content, setContent] = useState(<MembrshipDetails />)
     const [activeInx, setActiveIndx] = useState(0);

@@ -12,8 +12,9 @@ const BlogDetails = () => {
     const navigate = useNavigate();
 
     const location = useLocation();
-    const BlogId = location.pathname;
+    const BlogId = location.pathname.split('/').pop();
     const [blogDetails, setBlogDetails] = useState();
+
 
     const getBlogById = async () => {
         await axios.post("http://202.182.110.16/medical/api/login", {
@@ -29,7 +30,7 @@ const BlogDetails = () => {
                 }
             }).then(res => {
                 console.log(res);
-                // setBlogDetails(res.data.response.data)
+                setBlogDetails(res.data.response.data[0])
             }).catch(error => {
                 console.log(error);
             })
@@ -52,7 +53,7 @@ const BlogDetails = () => {
             <CardLayout className='position_relative'>
                 <span className="icons-blog">
                     <img className='icon' src={MdiDeleteOutline} alt="" />
-                    <img className='icon' onClick={() => navigate("/admin/blogs/123/edit")} src={BxEdit} alt="" />
+                    <img className='icon' onClick={() => navigate(`/admin/blogs/${BlogId}/edit`)} src={BxEdit} alt="" />
                 </span>
                 <img className='blogs-img' src={blogDetails && blogDetails.BlogImage} alt="" />
                 <Data heading="Title" paragraph={blogDetails && blogDetails.Title} />

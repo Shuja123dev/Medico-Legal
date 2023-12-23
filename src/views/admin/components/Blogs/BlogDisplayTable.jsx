@@ -69,7 +69,7 @@ const BlogDisplayTable = ({ labels, pageCasesToDisplay, path }) => {
                                 <td className="user_cases_display_table__cell memberActions">{caseItem.BlogText}</td>
                                 <td className="user_cases_display_table__cell memberActions">{caseItem.Status === 1 ? "Published" : "Draft"}</td>
                                 <td className="user_cases_display_table__cell memberActions">
-                                    <button style={{ color: "rgb(53, 115, 201)" }} onClick={() => navigate(path + caseItem.id + "/edit")}>Edit</button> /
+                                    <button style={{ color: "rgb(53, 115, 201)" }} onClick={() => navigate(path + caseItem.BlogId + "/edit")}>Edit</button> /
                                     <button style={{ color: "rgb(238, 51, 51)" }}>Delete</button>
                                 </td>
                             </tr>

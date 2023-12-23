@@ -1,54 +1,143 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button1, H2 } from '../../../user/components'
 import { CardLayout } from '../../../user/containers'
 import BlogImage from './blogImg1.png'
 import Data from './Data';
 import './Blogs.css';
 import { InputBox } from '../../../user/components';
+import { useLocation, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 const EditBlog = () => {
+
+    const navigate = useNavigate();
+
+    const location = useLocation();
+    const BlogId = location.pathname.split('/')[3];
+    const [blogDetails, setBlogDetails] = useState();
+
+    console.log(BlogId);
+
+    const getBlogById = async () => {
+        await axios.post("http://202.182.110.16/medical/api/login", {
+            PhoneNo: "03325501021",
+            Password: "abc123"
+        }).then(async response => {
+            const token = response.data.token;
+            await axios.post("http://202.182.110.16/medical/api/getblogbyid", {
+                BlogId: BlogId
+            }, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }).then(res => {
+                console.log(res);
+                setBlogDetails(res.data.response.data[0])
+            }).catch(error => {
+                console.log(error);
+            })
+        })
+    }
+
+    const handleChange = (e) => {
+        const { value, name } = e.target;
+        setBlogDetails({
+            ...blogDetails,
+            [name]: value
+        })
+    }
+
+    const updateBlog = async (event) => {
+        event.preventDefault();
+        await axios.post("http://202.182.110.16/medical/api/login", {
+            PhoneNo: "03325501021",
+            Password: "abc123"
+        }).then(async response => {
+            const token = response.data.token;
+            await axios.post("http://202.182.110.16/medical/api/updateblog", {
+                BlogId: BlogId,
+                Title: blogDetails.Title,
+                BlogTime: "2023-12-02 12:12:12",
+                Writer: blogDetails.Writer,
+                BlogText: blogDetails.BlogText,
+                Status: blogDetails.Status,
+                MetaDescription: blogDetails.MetaDescription,
+                Kewords: blogDetails.Kewords,
+                MetaTags: blogDetails.MetaTags,
+            }, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }).then(res => {
+                navigate("/admin/blogs")
+            }).catch(error => {
+                console.log(error);
+            })
+        })
+    }
+
+    useEffect(() => {
+        getBlogById();
+    }, [])
+
+
+
     return (
         <>
             <H2 text={"BLOG"} className='mb-4' />
             <CardLayout className='position_relative'>
                 <div className='img-container flex-box'>
                     <h5 className='blog-img-upload-heading'>+ UPLOAD IMAGE</h5>
+                    {/* <img className='blogs-img' src={blogDetails && blogDetails.BlogImage} alt="" /> */}
                     <img className='blogs-img' src={BlogImage} alt="" />
                 </div>
-                <form action="">
+                <form action="" onSubmit={updateBlog}>
                     <Data heading="Title" />
                     <InputBox
                         className='blog-input'
                         type={"text"}
-                        value="Lorem ipsum dolor sit amet"
+                        nameIdHtmlFor={"Title"}
+                        onChange={handleChange}
+                        value={blogDetails && blogDetails.Title}
                     />
                     <Data heading="Description" />
                     <InputBox
                         className='blog-input-description'
                         type={"textarea"}
                         rows={7}
-                        value="Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"
+                        nameIdHtmlFor={"BlogText"}
+                        onChange={handleChange}
+                        value={blogDetails && blogDetails.BlogText}
                     />
 
                     <Data heading="Keywords" />
                     <InputBox
                         className='blog-input'
                         type={"text"}
+                        nameIdHtmlFor={"Keywords"}
+                        onChange={handleChange}
                         placeholder="Keywords  (comma separated) "
+                        value={blogDetails && blogDetails.Keywords}
                     />
                     <Data heading="Meta Tags" />
                     <InputBox
                         className='blog-input'
                         type={"text"}
+                        nameIdHtmlFor={"MetaTags"}
+                        onChange={handleChange}
                         placeholder="Tags  (comma separated)"
+                        value={blogDetails && blogDetails.MetaTags}
                     />
                     <Data heading="Meta Description" />
                     <InputBox
                         className='blog-input'
                         type={"text"}
                         placeholder="Description"
+                        nameIdHtmlFor={"MetaDescription"}
+                        onChange={handleChange}
+                        value={blogDetails && blogDetails.MetaDescription}
                     />
                     <div className="d-flex align-items-center justify-content-end my-3 mt-5">
-                        <Button1 type="submit" onClick={() => navigate("/admin/blogs")} text={"Publish"}></Button1>
+                        <Button1 type="submit" text={"Publish"}></Button1>
                     </div>
                 </form>
             </CardLayout >

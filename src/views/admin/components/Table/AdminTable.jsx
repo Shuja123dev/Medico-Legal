@@ -3,7 +3,7 @@ import { CardLayout } from '../../../user/containers'
 import { CasesDisplayTable, Pagination } from '../../../user/components'
 import PromosDisplayTable from '../promos/PromosDisplayTable';
 
-const AdminTable = ({ tableData, labels, type = null }) => {
+const AdminTable = ({ tableData, labels, type = null, getPromos }) => {
     const [casesToDisplay, setCasesToDisplay] = useState(tableData);
     const [pageCasesToDisplay, setPageCasesToDisplay] = useState(tableData);
     const [recordsPerPage, setRecordsPerPage] = useState(10);
@@ -30,6 +30,7 @@ const AdminTable = ({ tableData, labels, type = null }) => {
                 <div className="user_cases_table_outer">
                     {
                         type === "promos" ? <PromosDisplayTable
+                            getPromos={getPromos}
                             labels={labels}
                             pageCasesToDisplay={pageCasesToDisplay}
                         /> : <CasesDisplayTable

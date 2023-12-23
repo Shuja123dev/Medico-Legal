@@ -43,6 +43,8 @@ const EditAdmin = () => {
         })
     }
 
+    console.log(adminDetails);
+
     const updateAdmin = async () => {
         await axios.post("http://202.182.110.16/medical/api/login", {
             PhoneNo: "03325501021",
@@ -50,7 +52,21 @@ const EditAdmin = () => {
         }).then(async response => {
             const token = response.data.token;
             await axios.post("http://202.182.110.16/medical/api/updateadmin", {
+                PhoneNo: adminDetails.PhoneNo,
+                Email: adminDetails.email,
+                UserPassword: adminDetails.UserPassword,
+                AdminName: adminDetails.AdminName,
+                Valid: 1,
+                Role: adminDetails.Role,
                 AdminId
+
+                // PhoneNo: "03215000415",
+                // Email: "aries@gmail.com",
+                // UserPassword: "abc123",
+                // AdminName: "ishtiaq the admin",
+                // Valid: 1,
+                // Role: "Super Admin",
+                // AdminId
             }, {
                 headers: {
                     'Authorization': `Bearer ${token}`

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { H2 } from '../../../user/components'
 import './Blogs.css';
 import Data from './Data';
@@ -13,9 +13,7 @@ const AddBlog = () => {
 
     const [imageSrc, setImgSrc] = useState();
     const [keywords, setKeywords] = useState();
-    const [imageFile, setImgFile] = useState({
-        name: "default.jpg"
-    });
+    const [imageFile, setImgFile] = useState();
     const [blogInfo, setBlogInfo] = useState({
         Title: "",
         BlogTime: "",
@@ -44,6 +42,8 @@ const AddBlog = () => {
     const uploadFile = () => {
         fileInputRef.current.click();
     }
+
+    console.log(imageFile);
 
     const handleChageFile = () => {
         setImgFile(fileInputRef.current.files[0]);
@@ -81,35 +81,60 @@ const AddBlog = () => {
         })
     }
 
-    const addBlog = async () => {
-        const currentDate = new Date();
-        // console.log(formatDate(currentDate).toString());
+    const uploadImage = async () => {
+        const formData = new File();
+        formData.append('image', imageFile)
         await axios.post("http://202.182.110.16/medical/api/login", {
             PhoneNo: "03325501021",
             Password: "abc123"
         }).then(async response => {
             const token = response.data.token;
-            await axios.post("http://202.182.110.16/medical/api/addblog", {
-                Title: blogInfo.Title,
-                Writer: blogInfo.Writer,
-                BlogText: blogInfo.BlogText,
-                BlogImage: imageFile.name,
-                Status: 1,
-                BlogTime: "2023-12-02 12:12:12",
-                Keywords: tagConverter(keywords),
-                MetaTags: blogInfo.MetaTags,
-                MetaDescription: blogInfo.MetaDescription
+            await axios.post("http://202.182.110.16/medical/api/uploadblogimage", {
+                BlogId: 2,
+                blogimage: imageFile
             }, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
             }).then(res => {
-                navigate("/admin/blogs")
+                console.log(res);
             }).catch(error => {
                 console.log(error);
             })
         })
     }
+
+    const addBlog = async () => {
+        const currentDate = new Date();
+        uploadImage()
+        // console.log(formatDate(currentDate).toString());
+        // await axios.post("http://202.182.110.16/medical/api/login", {
+        //     PhoneNo: "03325501021",
+        //     Password: "abc123"
+        // }).then(async response => {
+        //     const token = response.data.token;
+        //     await axios.post("http://202.182.110.16/medical/api/addblog", {
+        //         Title: blogInfo.Title,
+        //         Writer: blogInfo.Writer,
+        //         BlogText: blogInfo.BlogText,
+        //         BlogImage: imageFile.name,
+        //         Status: 1,
+        //         BlogTime: "2023-12-02 12:12:12",
+        //         Keywords: tagConverter(keywords),
+        //         MetaTags: blogInfo.MetaTags,
+        //         MetaDescription: blogInfo.MetaDescription
+        //     }, {
+        //         headers: {
+        //             'Authorization': `Bearer ${token}`
+        //         }
+        //     }).then(res => {
+        //         navigate("/admin/blogs")
+        //     }).catch(error => {
+        //         console.log(error);
+        //     })
+        // })
+    }
+
 
     const handleSubmit = (e) => {
         console.log("submit");

@@ -90,7 +90,7 @@ const AddNewCase = () => {
       <div>
         <H2 text={t("UserPanel.Cases.AddNewCase")} />
         <CardLayout className="mt-4">
-          <form className="user_addNewCase_form">
+          <div className="user_addNewCase_form">
             <div
               className={`user_addNewCase_form__details_div ${lang === "ar" ? "user_addNewCase_form__details_div_ar" : ""
                 }`}>
@@ -244,7 +244,7 @@ const AddNewCase = () => {
               <div className="user_addNewCase_form__documnets_div__top">
                 <h5>{t("UserPanel.Cases.AddNewCasePage.User")}</h5>
                 <button>
-                  <img src={plusIcon} alt="plus icon" width={12} />
+                  <img src={plusIcon} alt="plus icon" width={12} onClick={() => uploadSubmitClickHandler("documentUpload")} />
                 </button>
               </div>
               <div>
@@ -255,7 +255,7 @@ const AddNewCase = () => {
             <div className="user_addNewCase_form__submit_btn_div">
               <button
                 type="button"
-                onClick={() => uploadSubmitClickHandler("submit")}>
+                onClick={() => { uploadSubmitClickHandler("submit"), addNewCase() }}>
                 {t("UserPanel.Cases.AddNewCasePage.Submit")}
               </button>
               {newCase.caseExistance === "existingCase" && (
@@ -264,7 +264,7 @@ const AddNewCase = () => {
                 </p>
               )}
             </div>
-          </form>
+          </div>
         </CardLayout>
         {isModalVisible && (
           <Modal toggleModal={toggleModal}>
@@ -302,7 +302,6 @@ const AddNewCase = () => {
                 color="gray"
               />
               <Button1
-                onClick={addNewCase}
                 text={t("UserPanel.Cases.AddNewCasePage.Submit")}
               />
             </div>
