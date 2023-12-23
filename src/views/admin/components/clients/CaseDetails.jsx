@@ -5,28 +5,6 @@ import deleteIcon from "../support/deleteIcon.svg"
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
 
-const experts = [
-    {
-        expertName: "Dr. John Doe",
-        areaOfExpertise: "Forensic Pathology",
-    },
-
-    {
-        expertName: "Dr. Jane Smith",
-        areaOfExpertise: "Criminal Psychology",
-    },
-
-    {
-        expertName: "Dr. Mark Johnson",
-        areaOfExpertise: "Digital Forensics",
-    },
-
-    {
-        expertName: "Dr. Emily Davis",
-        areaOfExpertise: "Forensic Anthropology",
-    },
-];
-
 const CaseDetails = ({ role = null, type = "cases" }) => {
 
     const location = useLocation();
@@ -35,6 +13,19 @@ const CaseDetails = ({ role = null, type = "cases" }) => {
 
     const [caseDetails, setCaseDetails] = useState();
     const [editStatus, setEditStatus] = useState(false);
+    const [experts, setExperts] = useState([]);
+    const [expName, setExpName] = useState("1");
+    const [expertsAdded, setExpertsAdded] = useState([]);
+
+    const addExpert = () => {
+        expName !== "1" && setExpertsAdded([
+            ...expertsAdded,
+            {
+                ExpertName: expName,
+                Expertise: "Medical Wakeel"
+            }
+        ])
+    };
 
     const getCaseById = async () => {
         await axios.post("http://202.182.110.16/medical/api/login", {
@@ -57,6 +48,7 @@ const CaseDetails = ({ role = null, type = "cases" }) => {
     }
 
     const addExpertToCase = async () => {
+        addExpert()
         await axios.post("http://202.182.110.16/medical/api/login", {
             PhoneNo: "03325501021",
             Password: "abc123"
@@ -98,8 +90,26 @@ const CaseDetails = ({ role = null, type = "cases" }) => {
         })
     }
 
+    const getAllExperts = async () => {
+        await axios.post("http://202.182.110.16/medical/api/login", {
+            PhoneNo: "03325501021",
+            Password: "abc123"
+        }).then(async response => {
+            const token = response.data.token;
+            await axios.get("http://202.182.110.16/medical/api/getallexperts", {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }).then(res => {
+                console.log(res);
+                setExperts(res.data.response.data)
+            })
+        })
+    }
+
     useEffect(() => {
         getCaseById();
+        getAllExperts()
     }, [])
 
     const modalData = {
@@ -128,6 +138,10 @@ const CaseDetails = ({ role = null, type = "cases" }) => {
         setCurrModalDataState(state);
         toggleModal();
     };
+
+    const handleChangeExpert = (event) => {
+        setExpName(event.target.value);
+    }
 
 
 
@@ -226,52 +240,35 @@ const CaseDetails = ({ role = null, type = "cases" }) => {
                         <H4 text={"Experts"} />
                         <div className="row my-4">
                             <div className="col-md-12 d-flex">
-                                <select name="" id="" className='px-2' style={{ width: "70%", marginRight: "1rem" }}>
-                                    <option value="">Expert Name</option>
+                                <select value={expName} name="" id="" className='px-2' style={{ width: "70%", marginRight: "1rem" }} onChange={handleChangeExpert}>
+                                    <option value="1">Expert Names</option>
+                                    {experts.length > 0 &&
+                                        experts.map((exp) => {
+                                            return <option value={exp.ExpertName}>{exp.ExpertName}</option>
+                                        })
+                                    }
                                 </select>
                                 <Button1 text={"Add"} onClick={addExpertToCase} />
                             </div>
                         </div>
                         <div className="row expert_cards_box">
-                            <div className="col-lg-6 col-md-12 my-3">
-                                <CardLayout className='p-4'>
-                                    <div className="row">
-                                        <div className="col-md-10">
-                                            <H4 text={"Name of the Expert"} />
-                                            <p>Area of experties</p>
-                                        </div>
-                                        <div className="col-md-2 d-flex text-center align-items-center">
-                                            <img src={deleteIcon} alt="" onClick={removeExpertFromCase} />
-                                        </div>
+                            {
+                                expertsAdded.length > 0 && expertsAdded.map((exp) => {
+                                    return <div className="col-lg-6 col-md-12 my-3">
+                                        <CardLayout className='p-4'>
+                                            <div className="row">
+                                                <div className="col-md-10">
+                                                    <H4 text={exp.ExpertName} />
+                                                    <p>{exp.Expertise}</p>
+                                                </div>
+                                                <div className="col-md-2 d-flex text-center align-items-center">
+                                                    <img src={deleteIcon} alt="" onClick={removeExpertFromCase} />
+                                                </div>
+                                            </div>
+                                        </CardLayout>
                                     </div>
-                                </CardLayout>
-                            </div>
-                            <div className="col-lg-6 col-md-12 my-3">
-                                <CardLayout className='p-4'>
-                                    <div className="row">
-                                        <div className="col-md-10">
-                                            <H4 text={"Name of the Expert"} />
-                                            <p>Area of experties</p>
-                                        </div>
-                                        <div className="col-md-2 d-flex text-center align-items-center">
-                                            <img src={deleteIcon} alt="" />
-                                        </div>
-                                    </div>
-                                </CardLayout>
-                            </div>
-                            <div className="col-lg-6 col-md-12 my-3">
-                                <CardLayout className='p-4'>
-                                    <div className="row">
-                                        <div className="col-md-10">
-                                            <H4 text={"Name of the Expert"} />
-                                            <p>Area of experties</p>
-                                        </div>
-                                        <div className="col-md-2 d-flex text-center align-items-center">
-                                            <img src={deleteIcon} alt="" />
-                                        </div>
-                                    </div>
-                                </CardLayout>
-                            </div>
+                                })
+                            }
                         </div>
                     </div>
                 </div>
