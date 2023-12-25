@@ -1,14 +1,20 @@
-import React from 'react'
+import React,{useState} from 'react'
 import {useTranslation} from 'react-i18next'
-import {useSelector} from 'react-redux'
+import {useSelector, useDispatch} from 'react-redux'
 import './signUpServices.css'
 import Card from '../../../components/mainPageCard/MainPagesCard'
 import {useNavigate} from 'react-router-dom'
+import {service} from '../../../features/service/serviceSlice'
 
 const SignUpServices = () => {
-    const lang = useSelector(state => state.language.value)      
+    const lang = useSelector(state => state.language.value)
+    const profession = useSelector(state => state.profession.value)
+
+    const [selectedService, setSelectedService] = useState('');
+
     const {t}  = useTranslation();
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const text = "Membership value without VAT"
 
     const services = [
@@ -24,6 +30,11 @@ const SignUpServices = () => {
         }
     ];
 
+    const handleService = (index) => {
+        setSelectedService(index);
+        dispatch(service(services[index]));
+    };
+
     const handleNext = () => {
         navigate('/signup/credit');
     };
@@ -38,13 +49,14 @@ const SignUpServices = () => {
                 {t('SignUpServices.Subheading')}
             </p>
             <p className='services-type text-center mt-3'>
-            {t('SignUpServices.Type')}
+                {profession}
             </p>
             <div className='services-cards d-flex gap-5'>
                 {
                     services.map((service, index) => {
                         return (
-                            <Card key={index}> 
+                            <div key={index} className={`service-card-outer ${selectedService === index ? 'selected-service':''} `} onClick={()=>handleService(index)}>
+                                <Card > 
                                 <div className='service-card pointer d-flex  flex-column justify-content-center align-items-start h-100 w-100'>
                                     <h1 className='service-type mt-3'>
                                         {service.type}
@@ -60,6 +72,7 @@ const SignUpServices = () => {
                                     </p>
                                 </div>
                             </Card>
+                            </div>
                         )
                     })
                     

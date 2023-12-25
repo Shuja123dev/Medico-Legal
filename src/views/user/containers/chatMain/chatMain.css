@@ -24,7 +24,8 @@
 
 .user_chatMain__bars_btn {
   background-color: unset;
-  border: 1px solid var(--theme-blue);
+  border: none;
+  border: none;
   border-radius: .5rem;
   padding: .25rem;
 }

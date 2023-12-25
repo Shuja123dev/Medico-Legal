@@ -1,7 +1,3 @@
-.user_current_package_details_table {
-  min-width: 32rem;
-}
-
 .user_current_package_details_table__key {
   color: var(--theme-gray);
   text-transform: uppercase;

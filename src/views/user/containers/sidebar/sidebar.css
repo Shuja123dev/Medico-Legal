@@ -37,36 +37,6 @@
   overflow-y: auto;
 }
 
-.user_language_change {
-  position: relative;
-  margin: 1rem 0 2rem 0;
-  user-select: none;
-}
-
-a {
-  text-decoration: none;
-  display: contents;
-}
-
-.user_language_change ul {
-  display: none;
-}
-
-.user_language_change:hover ul {
-  display: block;
-  position: absolute;
-}
-
-.pointer {
-  cursor: pointer;
-}
-
-.user_language_change:hover .bi-chevron-down {
-  color: #2F4058;
-  animation: rotate 250ms ease-in-out forwards;
-  font-weight: 600;
-}
-
 
 @media only screen and (min-width: 576px) {
   .user_sidebar {

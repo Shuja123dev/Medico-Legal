@@ -17,7 +17,7 @@ export { default as pdfIcon } from "./icons/pdf.svg";
 export { default as xIcon } from "./icons/x.svg";
 
 // Sidebar
-export { default as logoImg } from "./sidebar/logo.png";
+export { default as logoImg } from "./RASAN5.png";
 export { default as casesIcon } from "./sidebar/cases.svg";
 export { default as chatIcon } from "./sidebar/chat.svg";
 export { default as profileIcon } from "./sidebar/profile.svg";

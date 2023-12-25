@@ -1,65 +1,67 @@
-body{
+body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    --theme-blue: #2F4058;
+    --theme-grey-light: #989898;
 }
 
 
 
 
 @keyframes fadeOutUp {
-    0%{
+    0% {
         transform: translateY(-10%);
         opacity: 0;
     }
-  
-    100%{
+
+    100% {
         transform: translateY(0%);
         opacity: 1;
     }
-    
-  }
-  
-  
-  
-  @keyframes fadeOutDown {
-    0%{
+
+}
+
+
+
+@keyframes fadeOutDown {
+    0% {
         transform: translateY(10%);
         opacity: 0;
     }
-  
-    100%{
+
+    100% {
         transform: translateY(0%);
         opacity: 1;
     }
-    
-  }
+
+}
 
 
 @keyframes fadeOutLeft {
-    0%{
+    0% {
         transform: translateX(-10%);
         opacity: 0;
     }
 
-    100%{
+    100% {
         transform: translateX(0%);
         opacity: 1;
     }
-    
+
 }
 
 
 
 @keyframes fadeOutRight {
-    0%{
+    0% {
         transform: translateX(10%);
         opacity: 0;
     }
 
-    100%{
+    100% {
         transform: translateX(0%);
         opacity: 1;
     }
-    
+
 }

@@ -16,15 +16,61 @@ const BillingChannel = () => {
 
   const [creditCardDetails, setCreditCardDetails] = useState({
     accountNumber: "",
-    expireDate: "",
+    expireDateMonth: "",
+    expireDateYear: "",
     cvv: "",
   });
+
+  const creditCardExpiryHandler = (month, year) => {
+    const currentDate = new Date();
+    const expiryDate = new Date(Number(year, 10), Number(month, 10) - 1, 1);
+    return expiryDate < currentDate;
+  };
+
   const creditCardDetailsHandler = (e) => {
+    let { name, value } = e.target;
+
     setCreditCardDetails((prev) => ({
       ...prev,
-      [e.target.name]: e.target.value,
+      [name]: value,
     }));
   };
+
+  const expireDateInputBlurHandler = (e) => {
+    let { name, value } = e.target;
+    // When expire date input is blurred then the overflowed and underflowed values are set to min and max values respectively
+    if (name === "expireDateMonth") {
+      if (value > 12) {
+        value = 12;
+      } else if (value < 1) {
+        value = 1;
+      }
+    }
+    if (name === "expireDateYear") {
+      if (value < e.target.min) {
+        value = e.target.min;
+      } else if (value > e.target.max) {
+        value = e.target.max;
+      }
+    }
+    
+    // If month is less than 10 then adding 0 before it
+    if (name === "expireDateMonth" && value < 10) {
+      value = "0" + value;
+    }
+
+    setCreditCardDetails((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  useEffect(() => {
+    const isExpired = creditCardExpiryHandler(
+      creditCardDetails.expireDateMonth,
+      creditCardDetails.expireDateYear
+    );
+  }, [creditCardDetails]);
 
   const [bankTransferDetails, setBankTransferDetails] = useState({
     accountNumber: "",
@@ -89,8 +135,9 @@ const BillingChannel = () => {
           </div>
         </div>
         <div
-          className={`user_billingChannel__body_outer ${isChannelExpanded ? "user_billingChannel__body_outer-expanded" : ""
-            }`}>
+          className={`user_billingChannel__body_outer ${
+            isChannelExpanded ? "user_billingChannel__body_outer-expanded" : ""
+          }`}>
           <div className="user_billingChannel__body">
             {membershipStatus !== "expired" && (
               <div className="user_billingChannel__radio_divs">
@@ -125,19 +172,41 @@ const BillingChannel = () => {
             {channelType === "credit_card" && (
               <div className="user_billingChannel___input_div">
                 <InputBox
-                  type={"number"}
+                  type={"credit_card"}
+                  type={"credit_card"}
                   placeholder={t("UserPanel.Billing.AccountNumber")}
                   value={creditCardDetails.accountNumber}
                   nameIdHtmlFor={"accountNumber"}
                   onChange={creditCardDetailsHandler}
                 />
-                <InputBox
-                  type={"date"}
-                  placeholder={"Expire Date"}
-                  value={creditCardDetails.expireDate}
-                  nameIdHtmlFor={"expireDate"}
-                  onChange={creditCardDetailsHandler}
-                />
+                <div>
+                  <h5 className="user_billingChannel__label">Expire Info</h5>
+                  <div className="d-flex gap-3 align-items-center">
+                    <InputBox
+                      type={"number"}
+                      placeholder={"MM"}
+                      value={creditCardDetails.expireDateMonth}
+                      nameIdHtmlFor={"expireDateMonth"}
+                      onChange={creditCardDetailsHandler}
+                      min={1}
+                      max={12}
+                      onBlur={expireDateInputBlurHandler}
+                      className="w-100"
+                    />
+                    <span className="text-secondary">/</span>
+                    <InputBox
+                      type={"number"}
+                      placeholder={"YYYY"}
+                      value={creditCardDetails.expireDateYear}
+                      nameIdHtmlFor={"expireDateYear"}
+                      onChange={creditCardDetailsHandler}
+                      min={2000}
+                      max={new Date().getFullYear() + 10}
+                      onBlur={expireDateInputBlurHandler}
+                      className="w-100"
+                    />
+                  </div>
+                </div>
                 <InputBox
                   type={"number"}
                   placeholder={t("UserPanel.Billing.CVV")}

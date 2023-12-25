@@ -22,7 +22,7 @@ const AvailablePackageDetailsTable = ({ data }) => {
           />
           <AvailablePackageDetailsTableRow
             dataKey={t("UserPanel.Packages.Amount")}
-            dataValue={data && `${data["Fee"]} SR`}
+            dataValue={`${data && data["Fee"]} SR`}
           />
         </tbody>
       </table>
@@ -34,11 +34,11 @@ const AvailablePackageDetailsTableRow = ({ dataKey, dataValue }) => {
   return (
     <>
       <tr>
-        <td className="user_available_package_details_table__key py-3 px-3">
-          {dataKey && dataKey}
+        <td className="user_available_package_details_table__key py-3 px-2 px-sm-3">
+          {dataKey}
         </td>
-        <td className="user_available_package_details_table__value py-3 px-3">
-          {dataValue && dataValue}
+        <td className="user_available_package_details_table__value py-3 px-2 px-sm-3">
+          {dataValue}
         </td>
       </tr>
     </>

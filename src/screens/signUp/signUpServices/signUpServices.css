@@ -33,6 +33,15 @@
     color: var(--theme-blue);
 }
 
+.service-card-outer{
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.selected-service{
+    box-shadow: 4px 4px 20px 2px var(--theme-blue);
+}
+
 
 .service-amount{
     font-size: 24px;

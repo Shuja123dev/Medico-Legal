@@ -31,6 +31,13 @@
   grid-template-rows: 1fr;
 }
 
+.user_billingChannel__label {
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 0.875rem;
+  color: var(--theme-gray);
+}
+
 .user_billingChannel__message {
   font-size: .875rem;
   max-width: 90ch;

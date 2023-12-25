@@ -18,10 +18,12 @@
   max-width: 30rem;
   max-height: calc(100vh - 3rem);
   overflow-y: hidden;
+  padding-right: 1rem !important;
 }
 
 .user_modal_inner {
   width: 100%;
   max-height: calc(100vh - 7rem);
+  padding-right: 1rem;
   overflow-y: auto;
 }

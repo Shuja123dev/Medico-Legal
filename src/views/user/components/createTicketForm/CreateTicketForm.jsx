@@ -2,10 +2,14 @@ import React from "react";
 import "./createTicketForm.css";
 import InputBox from "../inputBox/InputBox";
 import Button1 from "../button1/Button1";
+import Dropzone from "../dropzone/Dropzone";
 import H3 from "../h3/H3";
 import { useTranslation } from "react-i18next";
 
-const CreateTicketForm = ({ newTicket, ticketInputHandler }) => {
+const CreateTicketForm = ({
+  newTicket = {},
+  ticketInputHandler,
+}) => {
   const { t } = useTranslation();
   return (
     <>
@@ -37,6 +41,7 @@ const CreateTicketForm = ({ newTicket, ticketInputHandler }) => {
           <h5 className="user_createTicketForm__h5">
             {t("UserPanel.Chat.Document")}
           </h5>
+          <Dropzone content={t("UserPanel.Packages.ClickToUploadDocument")} className="my-2" />
           <Button1 text={t("UserPanel.Chat.Upload")} />
         </div>
       </div>

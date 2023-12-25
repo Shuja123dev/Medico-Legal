@@ -16,24 +16,12 @@ import {
   supportIcon,
   supportIconWhite,
 } from "../../assets";
-import { BsChevronDown } from "react-icons/bs";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
-import { language } from "../../../../features/language/lanSlice";
 
 const Sidebar = ({ isSidebarHidden, toggleSidebar }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const lang = useSelector((state) => state.language.value);
-  const dispatch = useDispatch();
-
-  const changeLanguage = (lng) => {
-    if (lng === "ar") {
-      dispatch(language("ar"));
-    } else {
-      dispatch(language("en"));
-    }
-    i18n.changeLanguage(lng);
-  };
 
   const sidebarRef = useRef(null);
   useEffect(() => {
@@ -48,8 +36,9 @@ const Sidebar = ({ isSidebarHidden, toggleSidebar }) => {
     <>
       <aside
         ref={sidebarRef}
-        className={`user_sidebar user_sidebar_hidden ${lang === "ar" ? "user_sidebar_ar" : ""
-          }`}>
+        className={`user_sidebar user_sidebar_hidden ${
+          lang === "ar" ? "user_sidebar_ar" : ""
+        }`}>
         <div>
           <img src={logoImg} alt="logo" />
         </div>
@@ -107,20 +96,6 @@ const Sidebar = ({ isSidebarHidden, toggleSidebar }) => {
             toggleSidebar={toggleSidebar}
           />
         </ul>
-        <div className="user_language_change">
-          {lang == "en" ? "en" : "العربية"}{" "}
-          <BsChevronDown className="bi-chevron-down" />
-          <ul className="list-unstyled lan-dropdown border rounded p-2">
-            <li
-              className="pointer px-3 py-1 border-bottom"
-              onClick={() => changeLanguage("en")}>
-              en
-            </li>
-            <li className="pointer px-3" onClick={() => changeLanguage("ar")}>
-              العربية
-            </li>
-          </ul>
-        </div>
       </aside>
     </>
   );

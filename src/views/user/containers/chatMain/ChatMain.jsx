@@ -5,10 +5,14 @@ import {
   CreateTicketForm,
   H3,
   Modal,
-  Dropzone,
   UploadModal,
 } from "../../components";
-import { barsLeftIcon, barsRightIcon, sendIcon, userImg } from "../../assets";
+import {
+  messagesIcon,
+  sendIcon,
+  userGroupIcon,
+  userImg,
+} from "../../assets";
 import ChatMessagesBox from "../chatMessagesBox/ChatMessagesBox";
 import { useTranslation } from "react-i18next";
 import axios from "axios";
@@ -106,7 +110,6 @@ const ChatMain = ({
     }
   };
 
-
   return (
     <>
       <div className="user_chatMain">
@@ -115,14 +118,12 @@ const ChatMain = ({
             <button
               onClick={toggleLeftSidebar}
               className="user_chatMain__bars_btn">
-              <img src={barsLeftIcon} alt="bars left" />
+              <img src={messagesIcon} alt="bars left" />
+              <img src={messagesIcon} alt="bars left" />
             </button>
           )}
           <div className="user_chatMain__header__left">
             {chatType === "experts-chat" && (
-              <img src={userImg} alt="Abdullah" />
-            )}
-            {chatType === "clients-chat" && (
               <img src={userImg} alt="Abdullah" />
             )}
             <H3
@@ -139,7 +140,8 @@ const ChatMain = ({
           <button
             onClick={toggleRightSidebar}
             className="user_chatMain__bars_btn">
-            <img src={barsRightIcon} alt="bars right" />
+            <img src={userGroupIcon} alt="bars right" />
+            <img src={userGroupIcon} alt="bars right" />
           </button>
         </div>
         <ChatMessagesBox messages={messagesToDisplay} />

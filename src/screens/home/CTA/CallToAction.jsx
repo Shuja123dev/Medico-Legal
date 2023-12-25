@@ -13,7 +13,7 @@ const CallToAction = () => {
                 <h1>{t('Home.CallToAction.Heading')}</h1>
             </div>
             <div className='cta-btn'>
-                <Link to='/signup' className='cta-btn-signup-link'>
+                <Link to='/signup' className='btn cta-btn-signup-link'>
                     {t('Home.CallToAction.ButtonText')}
                 </Link>
             </div>

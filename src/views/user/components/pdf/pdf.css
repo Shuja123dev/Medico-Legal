@@ -6,10 +6,12 @@
   padding: .4rem .8rem;
 }
 
-.pdf_div h6 {
+.pdf_div .pdf_name {
   font-size: 0.75rem;
   color: var(--theme-blue);
   margin: 0;
+  text-decoration: none;
+  font-weight: 700;
 }
 
 .pdf_div span {

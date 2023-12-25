@@ -1,12 +1,16 @@
-import React,{useState, useEffect, useRef} from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Card from '../../../components/mainPageCard/MainPagesCard'
 import '../signUpVerification/signUpVerification.css'
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import Cookies from 'js-cookie'
 
 const SignUpVerification = () => {
   const inputsRef = useRef(null);
   const [otp, setOtp] = useState("");
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+
+  const phoneNumber = Cookies.get('PhoneNumber');
 
   useEffect(() => {
     const inputs = inputsRef.current;
@@ -54,9 +58,32 @@ const SignUpVerification = () => {
     };
   }, []);
 
-  const handleVerification = () => {
-    if(otp.length === 5){
-      navigate('/signup/services-form')
+  console.log(otp);
+  const handleVerification = async () => {
+    await axios.post("http://202.182.110.16/medical/api/login", {
+      PhoneNo: "03325501021",
+      Password: "abc123"
+    }).then(async response => {
+      const token = response.data.token;
+      await axios.post("http://202.182.110.16/medical/api/verifyOTP", {
+        PhoneNo: phoneNumber,
+        OTP: otp
+      }, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }).then(res => {
+        console.log(res);
+        if (res.data.response.status) {
+          Cookies.remove("PhoneNumber")
+          navigate('/signup/services-form')
+        }
+        else
+          alert("Wrong OTP")
+      })
+    })
+
+    if (otp.length === 5) {
     }
   };
 
@@ -64,45 +91,45 @@ const SignUpVerification = () => {
     <div className='container-fluid d-flex justify-content-center mt-5 pt-5'>
       <div className='signup-ver-container d-flex flex-column justify-content-center align-items-center'>
         <Card>
-        <h4 className='signup-ver-title text-center'>OTP Verification</h4>
-        <p className='signup-ver-text text-center'>Please enter the OTP sent to your mobile number</p>
-        <div className='d-flex justify-content-center'>
-          <div ref={inputsRef} className="otpInput__inner">
-          <input
-            className="otpInput__input"
-            type="text"
-            inputMode="numeric"
-            maxLength="1"
-          />
-          <input
-            className="otpInput__input"
-            type="text"
-            inputMode="numeric"
-            maxLength="1"
-          />
-          <input
-            className="otpInput__input"
-            type="text"
-            inputMode="numeric"
-            maxLength="1"
-          />
-          <input
-            className="otpInput__input"
-            type="text"
-            inputMode="numeric"
-            maxLength="1"
-          />
-          <input
-            className="otpInput__input"
-            type="text"
-            inputMode="numeric"
-            maxLength="1"
-          />
-        </div>
-        </div>
-        <div className='d-flex justify-content-center'>
-        <button className='btn signup-ver-btn' onClick={handleVerification}>Verify</button>
-        </div>
+          <h4 className='signup-ver-title text-center'>OTP Verification</h4>
+          <p className='signup-ver-text text-center'>Please enter the OTP sent to your mobile number</p>
+          <div className='d-flex justify-content-center'>
+            <div ref={inputsRef} className="otpInput__inner">
+              <input
+                className="otpInput__input"
+                type="text"
+                inputMode="numeric"
+                maxLength="1"
+              />
+              <input
+                className="otpInput__input"
+                type="text"
+                inputMode="numeric"
+                maxLength="1"
+              />
+              <input
+                className="otpInput__input"
+                type="text"
+                inputMode="numeric"
+                maxLength="1"
+              />
+              <input
+                className="otpInput__input"
+                type="text"
+                inputMode="numeric"
+                maxLength="1"
+              />
+              <input
+                className="otpInput__input"
+                type="text"
+                inputMode="numeric"
+                maxLength="1"
+              />
+            </div>
+          </div>
+          <div className='d-flex justify-content-center'>
+            <button className='btn signup-ver-btn' onClick={handleVerification}>Verify</button>
+          </div>
         </Card>
       </div>
     </div>

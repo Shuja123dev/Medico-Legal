@@ -1,21 +1,24 @@
 import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import { useDispatch } from 'react-redux';
+import { profession } from '../features/profession/professionSlice';
+import Cookies from 'js-cookie';
 
 const useSignUp = () => {
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     fullName: '',
+    email: '',
     phoneNumber: '',
     password: '',
     confirmPassword: '',
     profession: '',
     doctorType: '',
+    isAestheticGroup: '',
     isExistingCase: '',
-    Email: '',
-    adress: 'adress 77'
   });
 
   const [errors, setErrors] = useState({});
@@ -23,7 +26,7 @@ const useSignUp = () => {
   const validateForm = () => {
     const newErrors = {};
 
-    if (!formData.fullName.trim() || !formData.phoneNumber.trim() || !formData.password.trim() || !formData.confirmPassword.trim()) {
+    if (!formData.fullName.trim() || !formData.email.trim() || !formData.phoneNumber.trim() || !formData.password.trim() || !formData.confirmPassword.trim()) {
       newErrors.fillAllFields = true;
     }
     else {
@@ -50,7 +53,10 @@ const useSignUp = () => {
       newErrors.profession = true;
     } else if (formData.profession === 'Doctor' && formData.doctorType === '') {
       newErrors.doctorType = true;
+    } else if (formData.doctorType === 'Surgeon' && formData.isAestheticGroup === '') {
+      newErrors.isAestheticGroup = true;
     }
+
 
     // Additional validation based on experience
     if (!formData.isExistingCase) {
@@ -63,19 +69,86 @@ const useSignUp = () => {
     return Object.keys(newErrors).length === 0;
   }
 
+  const generateOTP = async (token) => {
+    await axios.post("http://202.182.110.16/medical/api/generateOTP", {
+      PhoneNo: formData.phoneNumber,
+      Email: formData.email
+    }, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }).then(res => {
+      console.log(res);
+      navigate('verification');
+    })
+  }
+
+  const createUser = async () => {
+    await axios.post("http://202.182.110.16/medical/api/login", {
+      PhoneNo: "03325501021",
+      Password: "abc123"
+    }).then(async response => {
+      const token = response.data.token;
+      await axios.post("http://202.182.110.16/medical/api/signup", {
+        PhoneNo: formData.phoneNumber,
+        Email: formData.email,
+        ClientName: formData.fullName,
+        UserPassword: formData.password,
+        ExistingCase: (formData.isExistingCase === "No") ? 0 : 1,
+        Type: formData.profession,
+        PackageId: 1,
+        Address: "abc address"
+      }, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }).then(res => {
+        console.log(res);
+        if (res.status === 200) {
+          if (formData.isExistingCase === 'Yes') {
+            navigate('meet-setup');
+          }
+          else {
+            console.log("otp");
+            generateOTP(token);
+          }
+        }
+      }).catch(error => {
+        console.log(error);
+      })
+    })
+  }
+
   const handleSubmit = async (event) => {
     event.preventDefault();
+    Cookies.set('PhoneNumber', formData.phoneNumber, { expires: 1 });
+    createUser();
 
     if (validateForm()) {
-      // Perform signup or submission logic
-      if (formData.existingCase === 'Yes') {
+
+      if (formData.profession === 'Doctor') {
+        if (formData.doctorType === 'Surgeon' && formData.isAestheticGroup === 'Yes') {
+          dispatch(profession('Aesthetic Surgeon'));
+        }
+        else if (formData.doctorType === 'Surgeon' && formData.isAestheticGroup === 'No') {
+          dispatch(profession('Surgeon'));
+        }
+        else {
+          dispatch(profession(formData.doctorType));
+        }
+      } else {
+        dispatch(profession(formData.profession));
+      }
+
+      if (formData.isExistingCase === 'Yes') {
         navigate('meet-setup');
       }
       else {
         navigate('verification');
       }
     } else {
-      console.log('Form contains errors, please correct them.');
+
+      console.log('Form contains errors, please correct them.', errors);
     }
 
 

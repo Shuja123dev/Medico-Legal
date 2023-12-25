@@ -35,6 +35,9 @@ const Admin = () => {
     const lang = useSelector((state) => state.language.value);
     const userBaseMainRef = useRef(null)
     const [isSidebarHidden, setIsSidebarHidden] = useState(true);
+    const [isPicCardExpanded, setIsPicCardExpanded] = useState(false);
+    const [isLanguageToggleExpanded, setIsLanguageToggleExpanded] =
+        useState(false);
 
     const toggleSidebar = () => {
         setIsSidebarHidden((prevState) => !prevState);
@@ -49,6 +52,7 @@ const Admin = () => {
         }
     }, [isSidebarHidden]);
 
+
     return (
         <div className={`user_base ${lang === "ar" ? "user_base_ar" : " "}`}>
             <div className="user_base_inner">
@@ -56,7 +60,12 @@ const Admin = () => {
                     isSidebarHidden={isSidebarHidden}
                     toggleSidebar={toggleSidebar}
                 />
-                <UserPicCard />
+                <UserPicCard
+                    isPicCardExpanded={isPicCardExpanded}
+                    setIsPicCardExpanded={setIsPicCardExpanded}
+                    isLanguageToggleExpanded={isLanguageToggleExpanded}
+                    setIsLanguageToggleExpanded={setIsLanguageToggleExpanded}
+                />
                 <button
                     className={`user_bars_btn ${lang === "ar" ? "user_bars_btn_ar" : ""
                         }`}

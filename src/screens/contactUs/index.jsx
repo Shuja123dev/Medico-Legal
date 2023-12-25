@@ -53,7 +53,7 @@ const ContactUs = () => {
               </div>
           </div>
           <div className='contact-us-form-container d-flex flex-column gap-4 mt-5'>
-            <div className={`con-input-group ${lang==='en' ?'':'flex-row-reverse'} w-100 gap-5`}>
+            <div className={`con-input-group w-100 gap-5`}>
               <input type="text" placeholder={t('ContactUs.Placeholders.FirstName')} onChange={(e)=>setFirstName(e.target.value)} className='contact-us-input p-3' dir={lang==='en' ?'ltr':'rtl'}/>
               <input type="text" placeholder={t('ContactUs.Placeholders.LastName')} onChange={(e)=>setLastName(e.target.value)} className='contact-us-input p-3' dir={lang==='en' ?'ltr':'rtl'}/>
             </div>

@@ -48,6 +48,7 @@
 
 .phone-number-input{
     border: none;
+    width: 100%;
 }
 
 .con-send-btn:hover{
@@ -84,6 +85,8 @@
     .contact-us-input.phone-number{
         width: 100%;
     }
+
+
   
   }
   

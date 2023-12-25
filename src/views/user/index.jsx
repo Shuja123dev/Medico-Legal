@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import "./index.css";
 import { useTranslation } from "react-i18next";
 import { Route, Routes } from "react-router-dom";
-import { Sidebar } from "./containers/";
+import { Header, Sidebar } from "./containers/";
 import {
   AddNewCase,
   Billing,
@@ -15,8 +15,6 @@ import {
   Packages,
   Profile,
 } from "./screens";
-import { UserPicCard } from "./components";
-import { barsIcon } from "./assets";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -180,14 +178,18 @@ const User = () => {
 
 
   const fetchPackages = async () => {
-    await axios.get("http://202.182.110.16/medical/api/getpackages", {
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': `Bearer ${token}`
-      }
-    }).then(response => {
-      setAvailablePackages(response.data.response.data);
+    await axios.post("http://202.182.110.16/medical/api/login", {
+      PhoneNo: "03325501021",
+      Password: "abc123"
+    }).then(async response => {
+      const token = response.data.token;
+      await axios.get("http://202.182.110.16/medical/api/getpackages", {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }).then(res => {
+        setAvailablePackages(res.data.response.data);
+      })
     })
   }
 
@@ -211,16 +213,13 @@ const User = () => {
             isSidebarHidden={isSidebarHidden}
             toggleSidebar={toggleSidebar}
           />
-          <UserPicCard />
-          <button
-            className={`user_bars_btn ${lang === "ar" ? "user_bars_btn_ar" : ""
-              }`}
-            onClick={toggleSidebar}>
-            <img src={barsIcon} alt="bars" />
-          </button>
+          <Header
+            toggleSidebar={toggleSidebar}
+            isSidebarHidden={isSidebarHidden}
+          />
           <main
             ref={userBaseMainRef}
-            className={`user_base_main user_main_full ${lang === "ar" ? "user_base_main_ar" : ""
+            className={`user_base_main ${lang === "ar" ? "user_base_main_ar" : ""
               }`}>
             <Routes>
               <Route path="/" element={<Home />} />

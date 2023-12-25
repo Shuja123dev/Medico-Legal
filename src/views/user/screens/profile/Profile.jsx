@@ -8,6 +8,8 @@ import {
   Dropzone,
   Button1,
   ProfileUploadBox,
+  UploadModal,
+  Modal,
 } from "../../components";
 import { dummyImg, user2Img } from "../../assets";
 import { useTranslation } from "react-i18next";
@@ -25,6 +27,10 @@ const Profile = () => {
 
   const infoChangeHandler = (e) => {
     setPersonalInfo({ ...personalInfo, [e.target.name]: e.target.value });
+  };
+  const [isUploadModalVisible, setIsUploadModalVisible] = useState(false);
+  const toggleUploadModal = () => {
+    setIsUploadModalVisible((prevState) => !prevState);
   };
 
   return (
@@ -100,24 +106,35 @@ const Profile = () => {
           <ProfileUploadBox
             text={t("UserPanel.Profile.SCFHSCopy")}
             buttonText={t("UserPanel.Profile.Upload")}
+            onClick={toggleUploadModal}
             image={dummyImg}
           />
           <ProfileUploadBox
             text={t("UserPanel.Profile.MedicalCopy")}
             buttonText={t("UserPanel.Profile.Upload")}
+            onClick={toggleUploadModal}
             image={dummyImg}
           />
           <ProfileUploadBox
             text={t("UserPanel.Profile.GovernmentId")}
             buttonText={t("UserPanel.Profile.Upload")}
+            onClick={toggleUploadModal}
             image={dummyImg}
           />
-          <ProfileUploadBox text={t("UserPanel.Profile.Passport")} buttonText={t("UserPanel.Profile.Upload")} />
+          <ProfileUploadBox
+            text={t("UserPanel.Profile.Passport")}
+            buttonText={t("UserPanel.Profile.Upload")}
+            onClick={toggleUploadModal}
+          />
           <ProfileUploadBox
             text={t("UserPanel.Profile.NationalAddressProof")}
             buttonText={t("UserPanel.Profile.Upload")}
+            onClick={toggleUploadModal}
           />
-          <ProfileUploadBox text={t("UserPanel.Profile.Agreement")} buttonText={t("UserPanel.Profile.Download")} />
+          <ProfileUploadBox
+            text={t("UserPanel.Profile.Agreement")}
+            buttonText={t("UserPanel.Profile.Download")}
+          />
           <ProfileUploadBox
             text={t("UserPanel.Profile.Password")}
             buttonText={t("UserPanel.Profile.ChangePassword")}
@@ -125,6 +142,22 @@ const Profile = () => {
             to="/user/change-password"
           />
         </CardLayout>
+        {isUploadModalVisible && (
+          <Modal toggleModal={toggleUploadModal}>
+            <UploadModal modalType={"documentUpload"} />
+            <div className="d-flex align-items-center justify-content-between mt-4 ">
+              <Button1
+                onClick={toggleUploadModal}
+                text={t("UserPanel.Cases.AddNewCasePage.Cancel")}
+                color="gray"
+              />
+              <Button1
+                onClick={toggleUploadModal}
+                text={t("UserPanel.Cases.AddNewCasePage.Submit")}
+              />
+            </div>
+          </Modal>
+        )}
       </div>
     </>
   );

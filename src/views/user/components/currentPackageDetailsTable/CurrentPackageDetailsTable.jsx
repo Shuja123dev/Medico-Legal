@@ -5,33 +5,37 @@ import { useTranslation } from "react-i18next";
 const CurrentPackageDetailsTable = ({ data }) => {
   const { t } = useTranslation();
 
+  console.log(data);
+
+
+
   return (
     <>
       <table className="user_current_package_details_table">
         <tbody>
           <CurrentPackageDetailsTableRow
             dataKey={t("UserPanel.Packages.Name")}
-            dataValue={data["pkgName"]}
+            dataValue={data && data[0]["PackageName"]}
           />
           <CurrentPackageDetailsTableRow
             dataKey={t("UserPanel.Packages.Description")}
-            dataValue={data["description"]}
+            dataValue={data && data[0]["Description"]}
           />
           <CurrentPackageDetailsTableRow
             dataKey={t("UserPanel.Packages.Year")}
-            dataValue={data["year"]}
+            dataValue={data && data[0]["Valid"]}
           />
           <CurrentPackageDetailsTableRow
             dataKey={t("UserPanel.Packages.Amount")}
-            dataValue={`${data["amount"]} SR`}
+            dataValue={`${data && data[0]["Fee"]} SR`}
           />
           <CurrentPackageDetailsTableRow
             dataKey={t("UserPanel.Packages.DateOfContract")}
-            dataValue={data["dateOfContract"]}
+            dataValue={data && data[0]["dateOfContract"]}
           />
           <CurrentPackageDetailsTableRow
             dataKey={t("UserPanel.Packages.TimeRemaining")}
-            dataValue={`${data["timeRemaining"]} days`}
+            dataValue={`${data && data[0]["timeRemaining"]} days`}
           />
         </tbody>
       </table>
@@ -43,10 +47,10 @@ const CurrentPackageDetailsTableRow = ({ dataKey, dataValue }) => {
   return (
     <>
       <tr>
-        <td className="user_current_package_details_table__key py-3 px-3">
+        <td className="user_current_package_details_table__key py-3 px-2 px-sm-3">
           {dataKey}
         </td>
-        <td className="current_package_details_table__value py-3 px-3">
+        <td className="current_package_details_table__value py-3 px-2 px-sm-3">
           {dataValue}
         </td>
       </tr>

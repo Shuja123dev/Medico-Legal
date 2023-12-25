@@ -5,6 +5,7 @@ export { default as H3 } from "./h3/H3";
 export { default as H4 } from "./h4/H4";
 export { default as CurrentPackageDetailsTable } from "./currentPackageDetailsTable/CurrentPackageDetailsTable";
 export { default as AvailablePackageDetailsTable } from "./availablePackageDetailsTable/AvailablePackageDetailsTable";
+export { default as LanguageToggle } from "./languageToggle/LanguageToggle";
 export { default as Button1 } from "./button1/Button1";
 export { default as LinkButton1 } from "./linkButton1/LinkButton1";
 export { default as SearchBar } from "./serachBar/SearchBar";

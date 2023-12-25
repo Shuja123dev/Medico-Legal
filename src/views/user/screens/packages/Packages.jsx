@@ -1,4 +1,5 @@
 import "./packages.css";
+import React from "react";
 import { CardLayout } from "../../containers";
 import { CurrentPackageDetailsTable, H2, H3 } from "../../components";
 import { useTranslation } from "react-i18next";
@@ -14,7 +15,6 @@ const currentPackage = {
   timeRemaining: 45,
 };
 
-
 const Packages = ({ availablePackages }) => {
   const { t } = useTranslation();
 
@@ -25,22 +25,22 @@ const Packages = ({ availablePackages }) => {
         <CardLayout>
           <H3 text={t("UserPanel.Packages.PackageDetails")} />
           <div className="user_packages_table_outer">
-            <CurrentPackageDetailsTable data={currentPackage} />
+            <CurrentPackageDetailsTable data={availablePackages} />
           </div>
         </CardLayout>
         <H2 text={t("UserPanel.Packages.AvailablePackages")} />
         <div className="user_packages__available_packages_outer">
-          {availablePackages && availablePackages.map(({ PackageName, Fee, PackageId }, index) => (
+          {availablePackages && availablePackages.map(({ pkgName, amount, PackageId }, index) => (
             <Link
               key={index}
               to={`/user/packages/${PackageId}`}
               className={
                 "user_packages__available_packages_btn text-center align-items-center d-flex flex-column"
               }>
-              <H3 text={PackageName} className={"flex-grow-1 "} />
+              <H3 text={pkgName} className={"flex-grow-1 "} />
               <p>Contract value without VAT</p>
               <div className="d-flex align-items-baseline justify-content-center gap-2">
-                <H2 text={Fee} />
+                <H2 text={amount} />
                 <H3 text={"SAR"} className={"text-secondary fw-bold "} />
               </div>
             </Link>

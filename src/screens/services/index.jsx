@@ -8,7 +8,7 @@ const Services = () => {
       <div>
         <Hero/>
       </div>
-      </ScreensLayout>
+    </ScreensLayout>
   )
 }
 
