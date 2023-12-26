@@ -10,7 +10,9 @@ import {
   Modal,
 } from "../../components";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
+import axios from "axios";
 
 const PackageDetails = ({ availablePackages }) => {
   const { t } = useTranslation();
@@ -19,18 +21,47 @@ const PackageDetails = ({ availablePackages }) => {
     availablePackages && availablePackages.find(({ packageId }) => packageId == location)
   );
 
+  const baseURL = import.meta.env.VITE_BASE_URL;
+  const userId = Cookies.get("userId")
+
   // Ticket
   const [newTicket, setNewTicket] = useState({
     subject: currentAvailablePackage && currentAvailablePackage.PackageName,
     description: currentAvailablePackage && currentAvailablePackage.Description,
     status: "New",
   });
+
   const ticketInputHandler = (e) => {
     setNewTicket((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
     }));
   };
+
+  const createTicketHandler = async () => {
+    await axios.post(baseURL + "/api/login", {
+      PhoneNo: "03325501021",
+      Password: "abc123"
+    }).then(async response => {
+      const token = response.data.token;
+      await axios.post(baseURL + "/api/addticket", {
+        Subject: newTicket.subject,
+        Description: newTicket.description,
+        ClientId: userId,
+        Status: newTicket.status,
+        CreationDate: "2023-12-01 13:13:13"
+      }, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }).then((res) => {
+        if (res.data.response.data.status) {
+          toggleTicketModal()
+        }
+      })
+    })
+  };
+
   const [createTicketModal, setCreateTicketModal] = useState(false);
   const toggleTicketModal = () => {
     setCreateTicketModal((prevState) => !prevState);
@@ -66,7 +97,7 @@ const PackageDetails = ({ availablePackages }) => {
               className="mx-3"
             />
             <Button1
-              onClick={toggleTicketModal}
+              onClick={createTicketHandler}
               text={t("UserPanel.Cases.AddNewCasePage.Submit")}
             />
           </div>

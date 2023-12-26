@@ -119,9 +119,11 @@ const useSignUp = () => {
     })
   }
 
+  console.log(formData.profession);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-    Cookies.set('PhoneNumber', formData.phoneNumber, { expires: 1 });
+    Cookies.remove('PhoneNumber');
     createUser();
 
     if (validateForm()) {
@@ -151,21 +153,6 @@ const useSignUp = () => {
       console.log('Form contains errors, please correct them.', errors);
     }
 
-
-    // OTP generator
-    // await axios.post("http://202.182.110.16/medical/api/generateOTP", {
-    //   PhoneNo: "03325501021",
-    //   Email: "shuja1339@gmail.com"
-    // }, {
-    //   headers: {
-    //     'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzAyNDAzMjY0LCJleHAiOjE3MDI1NzYwNjR9.LE15vzh3NAlgIAQKxDi6woFSDr19gn3gPV_vXjr-2GQ`
-    //   }
-    // }).then(response => {
-    //   console.log(response);
-    // }).catch(error => {
-    //   console.log(error);
-    // })
-
     // signup
     await axios.post("http://202.182.110.16/medical/api/login", {
       PhoneNo: "03325501021",
@@ -174,7 +161,7 @@ const useSignUp = () => {
       const token = response.data.token;
       await axios.post("http://202.182.110.16/medical/api/signup", {
         PhoneNo: formData.phoneNumber,
-        Email: formData.Email,
+        Email: formData.emailmail,
         ClientName: formData.fullName,
         UserPassword: formData.password,
         ExistingCase: (formData.isExistingCase === "No") ? 0 : 1,
@@ -187,6 +174,7 @@ const useSignUp = () => {
         }
       }).then(res => {
         console.log(res);
+        Cookies.set('PhoneNumber', formData.phoneNumber, { expires: 1 });
       }).catch(error => {
         console.log(error);
       })

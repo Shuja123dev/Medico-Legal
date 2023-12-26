@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -40,6 +41,7 @@ const useSignIn = () => {
   const navigate = useNavigate();
   const handleSubmit = async (event) => {
     let userRole;
+    Cookies.remove('userId');
 
     event.preventDefault();
     if (validateForm()) {
@@ -53,6 +55,8 @@ const useSignIn = () => {
       ...formData
     }).then(response => {
       const role = response.data.user.role;
+      const userId = response.data.user.uid;
+      Cookies.set('userId', userId, { expires: 7 });
       if (role === 'E') {
         userRole = 'expert/cases';
       }

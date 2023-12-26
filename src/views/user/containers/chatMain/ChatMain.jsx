@@ -31,12 +31,14 @@ const ChatMain = ({
   toggleTicketModal,
   documentUploadModal,
   toggleDocumentUploadModal,
+  getMessages
 }) => {
   const { t } = useTranslation();
   const textareaRef = useRef();
   const [newMessage, setNewMessage] = useState("");
 
   console.log(messagesToDisplay);
+
 
   const sendMessage = async () => {
     await axios.post("http://202.182.110.16/medical/api/login", {
@@ -58,6 +60,7 @@ const ChatMain = ({
         }
       }).then(res => {
         console.log(res);
+        getMessages()
       }).catch(error => {
         console.log(error);
       })
@@ -101,7 +104,6 @@ const ChatMain = ({
   };
 
 
-  console.log(newMessage);
 
   const textareaKeyUpHandler = (e) => {
     if (e.key === "Enter" && e.shiftKey) {
@@ -131,8 +133,8 @@ const ChatMain = ({
                 chatType === "admin-chat"
                   ? t("UserPanel.Chat.Admin")
                   : chatType === "support"
-                    ? `#${currentEntry.TicketNo}`
-                    : currentEntry?.TicketNo
+                    ? `#${currentEntry && currentEntry.TicketNo}`
+                    : currentEntry && currentEntry?.TicketNo
               }
               className="m-0 text-capitalize "
             />

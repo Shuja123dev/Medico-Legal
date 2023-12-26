@@ -8,6 +8,7 @@ import {
 import { useTranslation } from "react-i18next";
 import "./chat.css";
 import { useLocation } from "react-router-dom";
+import axios from "axios";
 
 const expertsDummyMessages = [
   {
@@ -207,12 +208,6 @@ const adminDummyMessages = [
   },
 ];
 
-const tickets = [
-  { name: "123456", lastMessage: "12:00" },
-  { name: "432456", lastMessage: "12:00" },
-  { name: "131109", lastMessage: "12:00" },
-  { name: "313131", lastMessage: "12:00" },
-];
 
 const ticketsDummyMessages = [
   {
@@ -285,19 +280,64 @@ const Chat = () => {
   const location = useLocation().pathname.split("/")[2];
   const [chatType, setChatType] = useState("");
   const [documentUploadModal, setDocumentUploadModal] = useState(false);
+  const [tickets, setTickets] = useState([]);
+  const [chat, setChat] = useState([]);
+  const [entries, setEntries] = useState([]);
+  const [currentEntry, setCurrentEntry] = useState({});
+  const [messages, setMessages] = useState([]);
   const toggleDocumentUploadModal = () => {
     setDocumentUploadModal((prevState) => !prevState);
   };
 
-  console.log(location);
+  const getTcikets = async () => {
+    await axios.post("http://202.182.110.16/medical/api/login", {
+      PhoneNo: "03325501021",
+      Password: "abc123"
+    }).then(async response => {
+      const token = response.data.token;
+      await axios.get("http://202.182.110.16/medical/api/getallticket", {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }).then(res => {
+        setTickets(res.data.response.data)
+      })
+    })
+  }
+
+  const getMessages = async () => {
+    console.log(currentEntry.TicketNo);
+    await axios.post("http://202.182.110.16/medical/api/login", {
+      PhoneNo: "03325501021",
+      Password: "abc123"
+    }).then(async response => {
+      const token = response.data.token;
+      await axios.post("http://202.182.110.16/medical/api/getmessagebyticketno", {
+        TicketNo: currentEntry.TicketNo
+      }, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }).then(res => {
+        console.log(res.data);
+        setChat(res.data.response.data)
+      })
+    })
+  }
+
+  useEffect(() => {
+    getTcikets();
+  }, [])
+
+  useEffect(() => {
+    getMessages();
+  }, [])
+
 
   useEffect(() => {
     setChatType(location);
   }, [location]);
 
-  const [entries, setEntries] = useState([]);
-  const [currentEntry, setCurrentEntry] = useState({});
-  const [messages, setMessages] = useState([]);
 
   useEffect(() => {
     if (chatType === "experts-chat") {
@@ -311,29 +351,37 @@ const Chat = () => {
     } else if (chatType === "admin-chat") {
       setEntries([]);
       setCurrentEntry({ name: "admin" });
-      setMessages(adminDummyMessages);
+      setMessages(messages && messages);
     } else if (chatType === "support") {
       setEntries(tickets);
-      setCurrentEntry(tickets[0]);
-      setMessages(ticketsDummyMessages);
+      setMessages(chat);
     } else if (chatType === "clients-chat") {
       setEntries(clients);
       setCurrentEntry(clients[0]);
       setMessages(clientsDummyMessages);
     }
-  }, [chatType]);
+  }, [chatType, tickets, chat]);
+
+  useEffect(() => {
+    if (chatType === "support")
+      setCurrentEntry(tickets && tickets[0]);
+  }, [])
+
+  console.log(messages);
+  console.log(currentEntry);
 
   const [messagesToDisplay, setMessagesToDisplay] = useState(messages);
 
   useEffect(() => {
+
+    getMessages();
+  }, [currentEntry]);
+
+
+  useEffect(() => {
     setMessagesToDisplay(
-      messages.filter(
-        (message) =>
-          message.sender === currentEntry.name ||
-          message.sentTo === currentEntry.name
-      )
-    );
-  }, [currentEntry, messages]);
+      messages);
+  }, [messages])
 
   const [isLeftSidebarHidden, setisLeftSidebarHidden] = useState(true);
   const toggleLeftSidebar = () => {
@@ -361,6 +409,7 @@ const Chat = () => {
     setCreateTicketModal((prevState) => !prevState);
   };
 
+
   return (
     <>
       <div className="user_chat">
@@ -373,6 +422,7 @@ const Chat = () => {
               entries={entries}
               currentEntry={currentEntry}
               setCurrentEntry={setCurrentEntry}
+              getMessages={getMessages}
               // Ticket
               toggleTicketModal={toggleTicketModal}
             />

@@ -17,7 +17,7 @@ const ChatMessagesBox = ({ messages }) => {
     }
   };
 
-  console.log(messages);
+  // console.log(messages);
 
   return (
     <>

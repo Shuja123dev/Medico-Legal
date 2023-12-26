@@ -13,12 +13,12 @@ const ChatLeftbarItemLayout = ({
     toggleSidebar();
   };
 
+
   return (
     <>
       <button
-        className={`user_chatLeftbarItemLayout ${
-          currentValue === value ? "user_chatLeftbarItemLayout--active" : ""
-        }`}
+        className={`user_chatLeftbarItemLayout ${currentValue === value ? "user_chatLeftbarItemLayout--active" : ""
+          }`}
         onClick={handleClick}>
         {children}
       </button>

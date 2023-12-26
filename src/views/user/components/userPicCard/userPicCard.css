@@ -79,3 +79,9 @@
     min-width: 14rem;
   }
 }
+
+.user_pic_card_name {
+  width: 82%;
+  text-align: left;
+  margin: 0;
+}
