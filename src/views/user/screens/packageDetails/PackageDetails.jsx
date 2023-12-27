@@ -1,5 +1,5 @@
 import "./packageDetails.css";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CardLayout } from "../../containers";
 import {
   AvailablePackageDetailsTable,
@@ -17,12 +17,14 @@ import axios from "axios";
 const PackageDetails = ({ availablePackages }) => {
   const { t } = useTranslation();
   const location = useLocation().pathname.split("/")[3];
-  const [currentAvailablePackage, setCurrentAvailablePackage] = useState(
-    availablePackages && availablePackages.find(({ packageId }) => packageId == location)
-  );
+  const [currentAvailablePackage, setCurrentAvailablePackage] = useState({});
 
   const baseURL = import.meta.env.VITE_BASE_URL;
   const userId = Cookies.get("userId")
+  const token = Cookies.get("token")
+  const ticketNo = useLocation().pathname.split("/")[3];
+
+
 
   // Ticket
   const [newTicket, setNewTicket] = useState({
@@ -38,27 +40,39 @@ const PackageDetails = ({ availablePackages }) => {
     }));
   };
 
+  const getTicketDetails = async () => {
+    await axios.post(baseURL + "/api/getticketbyno", {
+      TicketNo: ticketNo
+    }, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    }).then((res) => {
+      setCurrentAvailablePackage(res.data.response.data[0])
+    })
+  }
+
+  useEffect(() => {
+    getTicketDetails()
+  }, [])
+
+  console.log(currentAvailablePackage);
+
   const createTicketHandler = async () => {
-    await axios.post(baseURL + "/api/login", {
-      PhoneNo: "03325501021",
-      Password: "abc123"
-    }).then(async response => {
-      const token = response.data.token;
-      await axios.post(baseURL + "/api/addticket", {
-        Subject: newTicket.subject,
-        Description: newTicket.description,
-        ClientId: userId,
-        Status: newTicket.status,
-        CreationDate: "2023-12-01 13:13:13"
-      }, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      }).then((res) => {
-        if (res.data.response.data.status) {
-          toggleTicketModal()
-        }
-      })
+    await axios.post(baseURL + "/api/addticket", {
+      Subject: newTicket.subject,
+      Description: newTicket.description,
+      ClientId: userId,
+      Status: newTicket.status,
+      CreationDate: "2023-12-01 13:13:13"
+    }, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    }).then((res) => {
+      if (res.data.response.data.status) {
+        toggleTicketModal()
+      }
     })
   };
 

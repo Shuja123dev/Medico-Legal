@@ -7,6 +7,9 @@ import Cookies from 'js-cookie';
 
 const useSignUp = () => {
 
+
+  const baseURL = import.meta.env.VITE_BASE_URL;
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
@@ -70,7 +73,7 @@ const useSignUp = () => {
   }
 
   const generateOTP = async (token) => {
-    await axios.post("http://202.182.110.16/medical/api/generateOTP", {
+    await axios.post(baseURL + "/api/generateOTP", {
       PhoneNo: formData.phoneNumber,
       Email: formData.email
     }, {
@@ -84,42 +87,41 @@ const useSignUp = () => {
   }
 
   const createUser = async () => {
-    await axios.post("http://202.182.110.16/medical/api/login", {
-      PhoneNo: "03325501021",
-      Password: "abc123"
-    }).then(async response => {
-      const token = response.data.token;
-      await axios.post("http://202.182.110.16/medical/api/signup", {
-        PhoneNo: formData.phoneNumber,
-        Email: formData.email,
-        ClientName: formData.fullName,
-        UserPassword: formData.password,
-        ExistingCase: (formData.isExistingCase === "No") ? 0 : 1,
-        Type: formData.profession,
-        PackageId: 1,
-        Address: "abc address"
-      }, {
-        headers: {
-          'Authorization': `Bearer ${token}`
+    // await axios.post("http://202.182.110.16/medical/api/login", {
+    //   PhoneNo: "03325501021",
+    //   Password: "abc123"
+    // }).then(async response => {
+    //   const token = response.data.token;
+    await axios.post(baseURL + "/api/signup", {
+      PhoneNo: formData.phoneNumber,
+      Email: formData.email,
+      ClientName: formData.fullName,
+      UserPassword: formData.password,
+      ExistingCase: (formData.isExistingCase === "No") ? 0 : 1,
+      Type: formData.profession,
+      PackageId: 1,
+      Address: "abc address"
+      // },
+      //  {
+      //   headers: {
+      //     'Authorization': `Bearer ${token}`
+      //   }
+    }).then(res => {
+      console.log(res);
+      if (res.status === 200) {
+        if (formData.isExistingCase === 'Yes') {
+          navigate('meet-setup');
         }
-      }).then(res => {
-        console.log(res);
-        if (res.status === 200) {
-          if (formData.isExistingCase === 'Yes') {
-            navigate('meet-setup');
-          }
-          else {
-            console.log("otp");
-            generateOTP(token);
-          }
+        else {
+          console.log("otp");
+          generateOTP();
         }
-      }).catch(error => {
-        console.log(error);
-      })
+      }
+    }).catch(error => {
+      console.log(error);
     })
+    // })
   }
-
-  console.log(formData.profession);
 
   const handleSubmit = async (event) => {
     event.preventDefault();

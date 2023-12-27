@@ -16,6 +16,7 @@ import {
 import ChatMessagesBox from "../chatMessagesBox/ChatMessagesBox";
 import { useTranslation } from "react-i18next";
 import axios from "axios";
+import { useLocation } from "react-router-dom";
 
 const ChatMain = ({
   toggleLeftSidebar,
@@ -34,13 +35,13 @@ const ChatMain = ({
   getMessages
 }) => {
   const { t } = useTranslation();
+  const location = useLocation().pathname.split('/')[2];
   const textareaRef = useRef();
   const [newMessage, setNewMessage] = useState("");
 
-  console.log(messagesToDisplay);
 
 
-  const sendMessage = async () => {
+  const sendMessageToTicket = async () => {
     await axios.post("http://202.182.110.16/medical/api/login", {
       PhoneNo: "03325501021",
       Password: "abc123"
@@ -81,7 +82,11 @@ const ChatMain = ({
       },
     ]);
     textareaRef.current.rows = 1;
-    sendMessage();
+
+    if (location == "support") {
+      sendMessageToTicket()
+    }
+
   };
 
   useEffect(() => {
@@ -133,8 +138,8 @@ const ChatMain = ({
                 chatType === "admin-chat"
                   ? t("UserPanel.Chat.Admin")
                   : chatType === "support"
-                    ? `#${currentEntry && currentEntry.TicketNo}`
-                    : currentEntry && currentEntry?.TicketNo
+                    ? `#${currentEntry && currentEntry[Object.keys(currentEntry)[0]]}`
+                    : currentEntry && "#" + currentEntry[Object.keys(currentEntry)[0]]
               }
               className="m-0 text-capitalize "
             />

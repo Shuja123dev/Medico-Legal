@@ -4,13 +4,15 @@ import { useTranslation } from "react-i18next";
 const AvailablePackageDetailsTable = ({ data }) => {
   const { t } = useTranslation();
 
+  console.log(data);
+
   return (
     <>
       <table className="user_available_package_details_table">
         <tbody>
           <AvailablePackageDetailsTableRow
             dataKey={t("UserPanel.Packages.Name")}
-            dataValue={data && data["PackageName"]}
+            dataValue={data && data["Subject"]}
           />
           <AvailablePackageDetailsTableRow
             dataKey={t("UserPanel.Packages.Description")}

@@ -64,7 +64,7 @@ const ChatLeftSidebar = ({
                 .filter(
                   (entry) =>
                     !searchVal ||
-                    entry.name.toLowerCase().includes(searchVal.toLowerCase())
+                    entry.ExpertName.toLowerCase().includes(searchVal.toLowerCase())
                 )
                 .map((entry, index) => (
                   <ChatLeftbarItemLayout
@@ -86,8 +86,8 @@ const ChatLeftSidebar = ({
                         <H4
                           text={
                             chatType === "experts-chat"
-                              ? entry.name
-                              : `#${entry.name}`
+                              ? entry.ExpertName
+                              : `#${entry.ExpertId}`
                           }
                           className={`text-capitalize
                           ${lang === "ar" ? "text-end " : "text-start "}
@@ -95,7 +95,7 @@ const ChatLeftSidebar = ({
                         />
                         <div className="d-flex align-items-center justify-content-between m-0 user_chatLeftSidebar__item__text">
                           <span>{t("UserPanel.Chat.LastMessage")}</span>
-                          <span>{entry.lastMessage}</span>
+                          <span>{entry.lastMessage || "12:00"}</span>
                         </div>
                       </div>
                     </div>

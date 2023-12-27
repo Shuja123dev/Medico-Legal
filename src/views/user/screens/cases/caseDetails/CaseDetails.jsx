@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./caseDetails.css";
 import {
   Button1,
@@ -15,6 +15,8 @@ import { useTranslation } from "react-i18next";
 import { CardLayout } from "../../../containers";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 const experts = [
   {
@@ -38,7 +40,7 @@ const experts = [
   },
 ];
 
-const CaseDetails = ({ cases, setCases }) => {
+const CaseDetails = () => {
   const { t } = useTranslation();
   const lang = useSelector((state) => state.language.value);
   const caseId = useParams().caseId;
@@ -54,14 +56,27 @@ const CaseDetails = ({ cases, setCases }) => {
     },
   };
 
-  const [currCase, setCurrCase] = useState(
-    cases.find((item) => item.id === +caseId)
-  );
+  const [currCase, setCurrCase] = useState({});
   const [currModalDataState, setCurrModalDataState] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const toggleModal = () => {
     setIsModalVisible((prevState) => !prevState);
+  };
+
+  const baseURL = import.meta.env.VITE_BASE_URL;
+  const token = Cookies.get('token');
+
+  const getCase = async () => {
+    await axios.post(baseURL + "/api/getcasebyid", {
+      CaseId: caseId
+    }, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    }).then(response => {
+      setCurrCase(response.data.response.data[0])
+    })
   };
 
   const caseUpdateHandler = (e) => {
@@ -73,14 +88,19 @@ const CaseDetails = ({ cases, setCases }) => {
     toggleModal();
   };
 
+  useEffect(() => {
+    getCase();
+  }, [])
+
+  console.log(currCase);
+
   const [editStatus, setEditStatus] = useState(false);
 
   return (
     <>
       <div
-        className={`user_caseDetails_outer ${
-          lang === "ar" ? "user_caseDetails_outer_ar" : ""
-        }`}>
+        className={`user_caseDetails_outer ${lang === "ar" ? "user_caseDetails_outer_ar" : ""
+          }`}>
         <H2 text={t("UserPanel.Cases.CaseDetailsPage.CaseDetails")} />
         <CardLayout className="user_caseDetails__card p-md-5 ">
           <div className="user_caseDetails__left">
@@ -104,7 +124,7 @@ const CaseDetails = ({ cases, setCases }) => {
                       "UserPanel.Cases.AddNewCasePage.NameOfTheCase"
                     )}
                     onChange={caseUpdateHandler}
-                    value={currCase.caseName}
+                    value={currCase.CaseName}
                   />
                   <InputBox
                     label={t("UserPanel.Cases.AddNewCasePage.Type")}
@@ -112,7 +132,7 @@ const CaseDetails = ({ cases, setCases }) => {
                     type={"select"}
                     options={[t("UserPanel.Cases.AddNewCasePage.PublicCourt")]}
                     onChange={caseUpdateHandler}
-                    value={currCase.type}
+                    value={currCase.CaseType}
                   />
                   <InputBox
                     label={t("UserPanel.Cases.AddNewCasePage.Description")}
@@ -122,7 +142,7 @@ const CaseDetails = ({ cases, setCases }) => {
                       "UserPanel.Cases.AddNewCasePage.DescriptionOfTheCase"
                     )}
                     onChange={caseUpdateHandler}
-                    value={currCase.description}
+                    value={currCase.Description}
                   />
                   <InputBox
                     label={t("UserPanel.Cases.AddNewCasePage.Status")}
@@ -139,7 +159,7 @@ const CaseDetails = ({ cases, setCases }) => {
                     ]}
                     type={"select"}
                     onChange={caseUpdateHandler}
-                    value={currCase.status}
+                    value={currCase.Status}
                   />
                 </div>
               ) : (
@@ -149,7 +169,7 @@ const CaseDetails = ({ cases, setCases }) => {
                     t("UserPanel.Cases.Type"),
                     t("UserPanel.Cases.Experts"),
                   ]}
-                  values={[currCase.caseName, currCase.type, currCase.experts]}
+                  details={currCase}
                 />
               )}
               {editStatus && (

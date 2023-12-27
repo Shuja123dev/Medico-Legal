@@ -5,6 +5,9 @@ import { useNavigate } from 'react-router-dom';
 
 const useSignIn = () => {
 
+
+  const baseURL = import.meta.env.VITE_BASE_URL;
+
   const [formData, setFormData] = useState({
     PhoneNo: '',
     Password: ''
@@ -42,6 +45,7 @@ const useSignIn = () => {
   const handleSubmit = async (event) => {
     let userRole;
     Cookies.remove('userId');
+    Cookies.remove('token');
 
     event.preventDefault();
     if (validateForm()) {
@@ -51,12 +55,14 @@ const useSignIn = () => {
       console.log('Form contains errors, please correct them.');
     }
 
-    await axios.post("http://202.182.110.16/medical/api/login", {
+    await axios.post(baseURL + "/api/login", {
       ...formData
     }).then(response => {
       const role = response.data.user.role;
+      const token = response.data.token;
       const userId = response.data.user.uid;
       Cookies.set('userId', userId, { expires: 7 });
+      Cookies.set('token', token, { expires: 30 });
       if (role === 'E') {
         userRole = 'expert/cases';
       }

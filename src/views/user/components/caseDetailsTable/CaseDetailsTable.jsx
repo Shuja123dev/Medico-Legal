@@ -1,19 +1,33 @@
 import React from "react";
 import "./caseDetailsTable.css";
 
-const CaseDetailsTable = ({ labels, values }) => {
+const CaseDetailsTable = ({ details }) => {
+
+  console.log(details);
+
   return (
     <>
       <table className="user_caseDetailsTable">
         <tbody>
-          {labels.map((label, index) => (
-            <tr key={index}>
-              <td className="user_user_caseDetailsTable_label">{label}</td>
-              <td className="user_user_caseDetailsTable_value">
-                {values[index]}
-              </td>
-            </tr>
-          ))}
+          <tr>
+            <td className="user_user_caseDetailsTable_label">Name</td>
+            <td className="user_user_caseDetailsTable_value">
+              {details && details.CaseName}
+            </td>
+          </tr>
+          <tr>
+            <td className="user_user_caseDetailsTable_label">Type</td>
+            <td className="user_user_caseDetailsTable_value">
+              {details && details.CaseType}
+            </td>
+          </tr>
+          <tr>
+            <td className="user_user_caseDetailsTable_label">Experts</td>
+            <td className="user_user_caseDetailsTable_value">
+              {/* {details && details.CaseType} */}
+              Experts
+            </td>
+          </tr>
         </tbody>
       </table>
     </>

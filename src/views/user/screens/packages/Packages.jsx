@@ -18,6 +18,7 @@ const currentPackage = {
 const Packages = ({ availablePackages }) => {
   const { t } = useTranslation();
 
+
   return (
     <>
       <div className="user_packages_outer">
@@ -30,17 +31,17 @@ const Packages = ({ availablePackages }) => {
         </CardLayout>
         <H2 text={t("UserPanel.Packages.AvailablePackages")} />
         <div className="user_packages__available_packages_outer">
-          {availablePackages && availablePackages.map(({ pkgName, amount, PackageId }, index) => (
+          {availablePackages && availablePackages.map(({ PackageName, Fee, PackageId }, index) => (
             <Link
               key={index}
               to={`/user/packages/${PackageId}`}
               className={
                 "user_packages__available_packages_btn text-center align-items-center d-flex flex-column"
               }>
-              <H3 text={pkgName} className={"flex-grow-1 "} />
+              <H3 text={PackageName} className={"flex-grow-1 "} />
               <p>Contract value without VAT</p>
               <div className="d-flex align-items-baseline justify-content-center gap-2">
-                <H2 text={amount} />
+                <H2 text={Fee} />
                 <H3 text={"SAR"} className={"text-secondary fw-bold "} />
               </div>
             </Link>

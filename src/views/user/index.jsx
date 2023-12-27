@@ -19,177 +19,40 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import Cookies from "js-cookie";
 
-const dummyCases = [
-  {
-    id: 1,
-    caseName: "Personal Injury Lawsuit",
-    type: "Public Court",
-    experts: 3,
-    status: "In Progress",
-  },
-  {
-    id: 2,
-    caseName: "Business Contract Dispute",
-    type: "Public Court",
-    experts: 2,
-    status: "New",
-  },
-  {
-    id: 3,
-    caseName: "Criminal Defense - Assault",
-    type: "Public Court",
-    experts: 1,
-    status: "Under Review",
-  },
-  {
-    id: 4,
-    caseName: "Intellectual Property Dispute",
-    type: "Public Court",
-    experts: 4,
-    status: "Closed",
-  },
-  {
-    id: 5,
-    caseName: "Family Law - Custody Battle",
-    type: "Public Court",
-    experts: 2,
-    status: "Opened",
-  },
-  {
-    id: 6,
-    caseName: "Real Estate Transaction Dispute",
-    type: "Public Court Arbitration",
-    experts: 3,
-    status: "In Progress",
-  },
-  {
-    id: 7,
-    caseName: "Labor Law Violation",
-    type: "Public Court",
-    experts: 2,
-    status: "Won",
-  },
-  {
-    id: 8,
-    caseName: "Environmental Regulations Violation",
-    type: "Public Court",
-    experts: 5,
-    status: "Lost",
-  },
-  {
-    id: 9,
-    caseName: "Medical Malpractice Lawsuit",
-    type: "Public Court",
-    experts: 3,
-    status: "Under Review",
-  },
-  {
-    id: 10,
-    caseName: "Tax Evasion Allegations",
-    type: "Public Court",
-    experts: 2,
-    status: "New",
-  },
-  {
-    id: 11,
-    caseName: "Product Liability Lawsuit",
-    type: "Public Court",
-    experts: 3,
-    status: "New",
-  },
-  {
-    id: 12,
-    caseName: "Employment Discrimination",
-    type: "Public Court",
-    experts: 2,
-    status: "Under Review",
-  },
-  {
-    id: 13,
-    caseName: "Bankruptcy Filing",
-    type: "Public Court",
-    experts: 1,
-    status: "In Progress",
-  },
-  {
-    id: 14,
-    caseName: "Insurance Fraud Investigation",
-    type: "Public Court",
-    experts: 4,
-    status: "Closed",
-  },
-  {
-    id: 15,
-    caseName: "Landlord-Tenant Dispute",
-    type: "Public Court",
-    experts: 2,
-    status: "Opened",
-  },
-  {
-    id: 16,
-    caseName: "Antitrust Violation",
-    type: "Public Court",
-    experts: 3,
-    status: "Won",
-  },
-  {
-    id: 17,
-    caseName: "Immigration Appeal",
-    type: "Public Court",
-    experts: 2,
-    status: "Lost",
-  },
-  {
-    id: 18,
-    caseName: "Personal Data Breach Lawsuit",
-    type: "Public Court Court",
-    experts: 5,
-    status: "Under Review",
-  },
-  {
-    id: 19,
-    caseName: "Construction Contract Dispute",
-    type: "Public Court",
-    experts: 3,
-    status: "New",
-  },
-  {
-    id: 20,
-    caseName: "Civil Rights Violation",
-    type: "Public Court Court",
-    experts: 2,
-    status: "In Progress",
-  },
-];
-
 const User = () => {
   const userBaseMainRef = useRef(null);
   const [isSidebarHidden, setIsSidebarHidden] = useState(true);
   const [availablePackages, setAvailablePackages] = useState()
   const lang = useSelector((state) => state.language.value);
-  const [cases, setCases] = useState(dummyCases);
+  const [cases, setCases] = useState([]);
   const { t } = useTranslation();
 
-  const token = Cookies.get('token') || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzAyMzkxMDg4LCJleHAiOjE3MDI1NjM4ODh9.N9NbD6o9_ByWAm0bTYIYHQrYMNUK3YWYnrBfZ6X-QmM";
+
+  const baseURL = import.meta.env.VITE_BASE_URL;
+  const token = Cookies.get('token');
 
   const toggleSidebar = () => {
     setIsSidebarHidden((prevState) => !prevState);
   };
 
+  const fetchCases = async () => {
+    await axios.get(baseURL + "/api/getallcase", {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    }).then(response => {
+      setCases(response.data.response.data)
+    })
+  }
+
 
   const fetchPackages = async () => {
-    await axios.post("http://202.182.110.16/medical/api/login", {
-      PhoneNo: "03325501021",
-      Password: "abc123"
-    }).then(async response => {
-      const token = response.data.token;
-      await axios.get("http://202.182.110.16/medical/api/getpackages", {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      }).then(res => {
-        setAvailablePackages(res.data.response.data);
-      })
+    await axios.get(baseURL + "/api/getpackages", {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    }).then(res => {
+      setAvailablePackages(res.data.response.data);
     })
   }
 
@@ -202,7 +65,8 @@ const User = () => {
   }, [isSidebarHidden]);
 
   useEffect(() => {
-    fetchPackages()
+    fetchPackages();
+    fetchCases();
   }, [])
 
   return (
@@ -259,7 +123,7 @@ const User = () => {
                 path="/cases/:caseId"
                 element={
                   <>
-                    <CaseDetails cases={cases} setCases={setCases} />
+                    <CaseDetails />
                   </>
                 }
               />

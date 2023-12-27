@@ -5,10 +5,6 @@ import { useTranslation } from "react-i18next";
 const CurrentPackageDetailsTable = ({ data }) => {
   const { t } = useTranslation();
 
-  console.log(data);
-
-
-
   return (
     <>
       <table className="user_current_package_details_table">

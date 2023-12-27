@@ -9,6 +9,7 @@ import { useTranslation } from "react-i18next";
 import "./chat.css";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 const expertsDummyMessages = [
   {
@@ -60,13 +61,6 @@ const expertsDummyMessages = [
     sender: null,
     sentTo: "saad",
   },
-];
-const experts = [
-  { name: "asad", lastMessage: "12:00" },
-  { name: "faisal", lastMessage: "12:00" },
-  { name: "hamza", lastMessage: "12:00" },
-  { name: "saad", lastMessage: "12:00" },
-  { name: "ali", lastMessage: "12:00" },
 ];
 
 const clients = [
@@ -278,6 +272,8 @@ const documents = [
 const Chat = () => {
   const { t } = useTranslation();
   const location = useLocation().pathname.split("/")[2];
+
+  const [experts, setExperts] = useState([])
   const [chatType, setChatType] = useState("");
   const [documentUploadModal, setDocumentUploadModal] = useState(false);
   const [tickets, setTickets] = useState([]);
@@ -289,44 +285,51 @@ const Chat = () => {
     setDocumentUploadModal((prevState) => !prevState);
   };
 
+  const baseURL = import.meta.env.VITE_BASE_URL;
+  const token = Cookies.get('token');
+
   const getTcikets = async () => {
-    await axios.post("http://202.182.110.16/medical/api/login", {
-      PhoneNo: "03325501021",
-      Password: "abc123"
-    }).then(async response => {
-      const token = response.data.token;
-      await axios.get("http://202.182.110.16/medical/api/getallticket", {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      }).then(res => {
-        setTickets(res.data.response.data)
-      })
+    await axios.get(baseURL + "/api/getallticket", {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    }).then(res => {
+      setTickets(res.data.response.data)
     })
   }
 
   const getMessages = async () => {
-    console.log(currentEntry.TicketNo);
-    await axios.post("http://202.182.110.16/medical/api/login", {
-      PhoneNo: "03325501021",
-      Password: "abc123"
-    }).then(async response => {
-      const token = response.data.token;
-      await axios.post("http://202.182.110.16/medical/api/getmessagebyticketno", {
-        TicketNo: currentEntry.TicketNo
-      }, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      }).then(res => {
-        console.log(res.data);
-        setChat(res.data.response.data)
-      })
+    await axios.post(baseURL + "/api/getmessagebyticketno", {
+      TicketNo: currentEntry.TicketNo
+    }, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    }).then(res => {
+      console.log(res.data);
+      setChat(res.data.response.data)
     })
   }
 
+  console.log(chat);
+
+  const getExperts = async () => {
+    await axios.get(baseURL + "/api/getallexperts", {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    }).then(response => {
+      setExperts(response.data.response.data)
+    })
+  }
+
+
+
   useEffect(() => {
-    getTcikets();
+    if (chatType === "support")
+      getTcikets();
+    else if (chatType === "experts-chat")
+      getExperts()
   }, [])
 
   useEffect(() => {
@@ -342,8 +345,7 @@ const Chat = () => {
   useEffect(() => {
     if (chatType === "experts-chat") {
       setEntries(experts);
-      setCurrentEntry(experts[0]);
-      setMessages(expertsDummyMessages);
+      setMessages(chat);
     } else if (chatType === "cases-chat") {
       setEntries(cases);
       setCurrentEntry(cases[0]);
@@ -365,10 +367,11 @@ const Chat = () => {
   useEffect(() => {
     if (chatType === "support")
       setCurrentEntry(tickets && tickets[0]);
+    else if (chatType === "cases-chat")
+      setCurrentEntry(experts[0]);
   }, [])
 
   console.log(messages);
-  console.log(currentEntry);
 
   const [messagesToDisplay, setMessagesToDisplay] = useState(messages);
 

@@ -58,7 +58,7 @@ const UserPicCard = ({
           }`}>
         <button className={`user_pic_card`} onClick={picCardClickHandler}>
           <img src={userIcon} alt="user name" />
-          <H4 text={userData?.Email} className="user_pic_card_name" />
+          <H4 text={userData ? userData.Email : "Loading..."} className="user_pic_card_name" />
         </button>
         {isPicCardExpanded && (
           <div className="user_pic_card__dropdown border p-1">
