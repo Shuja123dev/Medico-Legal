@@ -18,6 +18,7 @@ import {
 import { useSelector } from "react-redux";
 import axios from "axios";
 import Cookies from "js-cookie";
+import useAuthentication from "../../hooks/useAuthentication";
 
 const User = () => {
   const userBaseMainRef = useRef(null);
@@ -30,6 +31,7 @@ const User = () => {
 
   const baseURL = import.meta.env.VITE_BASE_URL;
   const token = Cookies.get('token');
+  const authenticate = useAuthentication();
 
   const toggleSidebar = () => {
     setIsSidebarHidden((prevState) => !prevState);
@@ -65,8 +67,10 @@ const User = () => {
   }, [isSidebarHidden]);
 
   useEffect(() => {
-    fetchPackages();
-    fetchCases();
+    if (authenticate) {
+      fetchPackages();
+      fetchCases();
+    }
   }, [])
 
   return (

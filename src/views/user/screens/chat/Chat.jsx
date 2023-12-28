@@ -311,8 +311,6 @@ const Chat = () => {
     })
   }
 
-  console.log(chat);
-
   const getExperts = async () => {
     await axios.get(baseURL + "/api/getallexperts", {
       headers: {
