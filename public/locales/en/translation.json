@@ -55,63 +55,6 @@
       "Heading": "Sign up today to experience the premium services that will transform the way you manage Cases",
       "ButtonText": "Sign Up",
       "Send": "Send"
-    },
-    "SignIn": {
-      "CompanyInfo": {
-        "Details": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-        "Contact:": "Contact:"
-      },
-      "Heading": "Sign In",
-      "Subheading": "Welcome back, please login to your account",
-      "Placeholders": {
-        "PhoneNo": "Phone Number",
-        "Password": "Password"
-      },
-      "SignIn": "Sign In",
-      "Prompt": "Don't have an account?",
-      "PromptLink": "create new account",
-      "Errors": {
-        "InvalidCredentials": "Invalid Phone Number or Password",
-        "FillAllFields": "Please fill in all the fields",
-        "PhoneNoNotRegistered": "Phone Number not registered",
-        "InvalidPassword": "Password must be atleast 8 characters long",
-        "InvalidPhoneNUmber": "Invalid Phone Number"
-      }
-    },
-    "SignUp": {
-      "CompanyInfo": {
-        "Details": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-        "Contact": "Contact"
-      },
-      "Heading": "Sign Up",
-      "Subheading": "Welcome, please create your account",
-      "Placeholders": {
-        "FullName": "Full Name",
-        "PhoneNo": "Phone Number",
-        "Password": "Password",
-        "ConfirmPassword": "Confirm Password",
-        "Profession": "Profession",
-        "Doctor": "Doctor",
-        "Surgeon": "Surgeon",
-        "NonSurgeon": "Non Surgeon",
-        "NonDoctor": "Non Doctor Medical Professional",
-        "ExistingCourtCase": "Any Existing Court Case",
-        "Yes": "Yes",
-        "No": "No"
-      },
-      "SignUp": "Sign Up",
-      "Prompt": "Already have an account?",
-      "PromptLink": "Sign In",
-      "Errors": {
-        "FillAllFields": "Please fill in all the fields",
-        "InvalidPhoneNUmber": "Invalid Phone Number",
-        "PasswordMismatch": "Passwords do not match",
-        "PhoneNoAlreadyExists": "Phone Number already exists",
-        "InvalidPassword": "Password must be atleast 8 characters long",
-        "InvalidProfession": "Please select a profession",
-        "InvalidDoctorType": "Please select a doctor type",
-        "InvalidExistingCourtCase": "Please select an option"
-      }
     }
   },
   "Services": {
@@ -135,7 +78,7 @@
   "SignIn":{
     "CompanyInfo":{
         "Details":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-        "Contact:" : "Contact:"
+        "Contact" : "Contact"
     },
     "Heading":"Sign In",
     "Subheading":"Welcome back, please login to your account",
@@ -164,17 +107,27 @@
     "Placeholders":{
         "FullName":"Full Name",
         "PhoneNo":"Phone Number",
+        "Email":"Email",
         "Password":"Password",
         "ConfirmPassword":"Confirm Password",
         "Profession":"Profession",
         "Doctor":"Doctor",
         "Surgeon":"Surgeon",
+        "PlasticAndCosmesis":"Plastic and Cosmesis",
+        "Dermatology":"Dermatology",
+        "Aneasthesia":"Aneasthesia",
+        "ObstetricAndGynacology":"Obstetric and Gynacology",
+        "EmergencyMedicine":"Emergency medicine",
         "NonSurgeon":"Non Surgeon",
         "NonDoctor":"Non Doctor Medical Professional",
         "ExistingCourtCase":"Any Existing Court Case",
         "Yes":"Yes",
         "No":"No"
     },
+    "DoctorType":"Select Doctor Type",
+    "SurgeonType":"Do you belong to this group?",
+    "Next":"Next",
+    "Back":"Back",
     "SignUp":"Sign Up",
     "Prompt":"Already have an account?",
     "PromptLink":"Sign In",
@@ -186,9 +139,55 @@
         "InvalidPassword":"Password must be atleast 8 characters long",
         "InvalidProfession":"Please select a profession",
         "InvalidDoctorType":"Please select a doctor type",
-        "InvalidExistingCourtCase":"Please select an option"
+        "InvalidExistingCourtCase":"Please select an option",
+        "InvalidSurgeonType":"Please select an option"
     }
 },
+"MeetSetup":{
+    "Heading":"Setup Meet with Officals",
+    "Subheading":"Meeting time will be communicated through email",
+    "Placeholders":{
+        "FullName":"Full Name",
+        "Email":"Email",
+        "PhoneNumber":"Phone Number",
+        "PreferredDate":"Preferred Date"
+    },
+    "Send":"Send",
+    "Errors":{
+        "FillAllFields":"Please fill in all the fields",
+        "InvalidPhoneNUmber":"Invalid Phone Number",
+        "InvalidEmail":"Invalid Phone Number"
+    }
+  },
+  "SignUpServices":{
+    "Heading":"Choose the plan that’s right for you",
+    "Subheading":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+    "ServicesType":{
+      "Surgeon":"Surgeon Doctor",
+      "NonSurgeon":"Non Surgeon Doctor",
+      "NonDoctor":"Non Doctor Medical Professional"
+    },
+    "Type":"Type",
+    "Next":"Next"
+  },
+  "Credit":{
+    "Heading":"Setup your credit or Mada card",
+    "Placeholders":{
+      "CardNumber":"Card Number",
+      "ExpiryDate":"Expiry Date",
+      "CVV":"CVV"
+    },
+    "Pay":"Pay",
+    "Errors":{
+      "FillAllFields":"Please fill in all the fields",
+      "InvalidCardNumber":"Invalid Card Number",
+      "InvalidExpiryDate":"Invalid Expiry Date",
+      "InvalidCVV":"Invalid CVV",
+      "InvalidPromo":"Invalid Promo code",
+      "InvalidCardType":"Please select an option",
+      "Agreed":"Please agree to the terms and conditions"
+    }
+  },
   "UserPanel": {
     "Sidebar": {
       "Packages": "Packages",
@@ -201,7 +200,8 @@
       "Admin": "Admin"
     },
     "UserPicCard": {
-      "Logout": "Logout"
+      "Logout": "Logout",
+      "EditProfile": "Edit Profile"
     },
     "Home": {
       "Heading": "USER PANEL"
@@ -215,7 +215,9 @@
       "Year": "Year",
       "Amount": "Amount",
       "DateOfContract": "Date of Contract",
-      "TimeRemaining": "Time Remaining"
+      "TimeRemaining": "Time Remaining",
+      "ContactUs": "Contact Us",
+      "ClickToUploadDocument": "Click to upload document +"
     },
     "Cases": {
       "Name": "Name",
@@ -324,6 +326,36 @@
       "Amount": "Amount",
       "PaymentMethod": "Payment Method",
       "Invoice": "Invoice"
+    },
+    "Profile": {
+      "UserProfile": "User Profile",
+      "PersonalInformation": "Personal Information",
+      "ProfilePicture": "Profile Picture",
+      "Name": "Name",
+      "YearsOfExperience": "Years of Experience",
+      "Speciality": "Speciality",
+      "ContactInformation": "Contact Information",
+      "Email": "Email",
+      "PhoneNo": "Phone No",
+      "NationalAddress": "National Address",
+      "SaveChanges": "Save Changes",
+      "SCFHSCopy": "Copy of SCFHS Registration",
+      "MedicalCopy": "Copy of Medical Malpractice Insurance",
+      "GovernmentId": "Government ID",
+      "Passport": "Passport",
+      "NationalAddressProof": "National Address Proof",
+      "Agreement": "Agreement",
+      "Password": "Password",
+      "Upload": "Upload",
+      "Download": "Download",
+      "ChangePassword": "Change Password",
+      "OTPVerification": "OTP Verification",
+      "OTPVerificationInfo": "We have sent a verification code to your phone number",
+      "Submit": "Submit",
+      "EnterNewPassword": "Enter New Password",
+      "Change": "Change",
+      "PasswordErrorMessage": "Password must contain at least 8 characters, including a letter, a number and a symbol.",
+      "PasswordChangedSuccessMessage": "Password changed successfully"
     }
   }
 }
