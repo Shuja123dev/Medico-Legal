@@ -7,6 +7,7 @@ const useSignIn = () => {
 
 
   const baseURL = import.meta.env.VITE_BASE_URL;
+  const checkToken = Cookies.get('token');
 
   const [formData, setFormData] = useState({
     PhoneNo: '',
@@ -44,8 +45,9 @@ const useSignIn = () => {
   const navigate = useNavigate();
   const handleSubmit = async (event) => {
     let userRole;
+    if (checkToken)
+      Cookies.remove('token');
     Cookies.remove('userId');
-    Cookies.remove('token');
 
     event.preventDefault();
     if (validateForm()) {

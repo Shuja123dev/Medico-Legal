@@ -1,9 +1,10 @@
 import Cookies from 'js-cookie'
 import { useNavigate } from 'react-router-dom';
 
-const token = Cookies.get('token');
 
 const useAuthentication = () => {
+    const token = Cookies.get('token');
+    console.log(token);
     const navigate = useNavigate();
     if (token) {
         return true;

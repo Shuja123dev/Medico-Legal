@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Pagination } from '../../../user/components'
 import { CardLayout } from '../../../user/containers';
 import ConfitmationModal from '../membership/ConfitmationModal';
+import { NavLink } from 'react-router-dom';
 
 const PaymentTable = ({ tableData, labels }) => {
 
@@ -11,6 +12,11 @@ const PaymentTable = ({ tableData, labels }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [showModal1, setShowModal1] = useState(false)
     const [showModal2, setShowModal2] = useState(false)
+
+
+    useEffect(() => {
+        setCasesToDisplay(tableData);
+    }, [tableData])
 
     useEffect(() => {
         const startIndex = (currentPage - 1) * recordsPerPage;
@@ -28,6 +34,12 @@ const PaymentTable = ({ tableData, labels }) => {
     }
     const toggleModal2 = () => {
         setShowModal2(!showModal2);
+    }
+
+    const formatDate = (inputDateString) => {
+        const inputDate = new Date(inputDateString);
+        const options = { year: 'numeric', month: 'short', day: '2-digit' };
+        return inputDate.toLocaleDateString('en-GB', options);
     }
 
     return (
@@ -48,14 +60,18 @@ const PaymentTable = ({ tableData, labels }) => {
                                     pageCasesToDisplay.map((record, index) => {
                                         return (
                                             <tr key={index} className="user_cases_display_table__row">
-                                                <td key={index} className="user_cases_display_table__cell">{record.id}</td>
-                                                <td key={index} className="user_cases_display_table__cell">{record.client}</td>
-                                                <td key={index} className="user_cases_display_table__cell">{record.phNo}</td>
-                                                <td key={index} className="user_cases_display_table__cell">{record.amount}</td>
-                                                <td key={index} className="user_cases_display_table__cell">{record.channel}</td>
-                                                <td key={index} className="user_cases_display_table__cell">{record.accountNo}</td>
-                                                <td key={index} className="user_cases_display_table__cell">{record.trxId}</td>
-                                                <td key={index} className="user_cases_display_table__cell">{record.date}</td>
+                                                <td key={index} className="user_cases_display_table__cell">{record.PaymentId}</td>
+                                                <td key={index} className="user_cases_display_table__cell">
+                                                    <NavLink to={record.PaymentId}>
+                                                        {record.TransactionId}
+                                                    </NavLink>
+                                                </td>
+                                                <td key={index} className="user_cases_display_table__cell">{record.CardType}</td>
+                                                <td key={index} className="user_cases_display_table__cell">{record.CardNo}</td>
+                                                <td key={index} className="user_cases_display_table__cell">{formatDate(record.TransactionDate)}</td>
+                                                <td key={index} className="user_cases_display_table__cell">{record.Amount}</td>
+                                                <td key={index} className="user_cases_display_table__cell">{record.Status}</td>
+                                                {/* <td key={index} className="user_cases_display_table__cell">{record.date}</td> */}
                                                 <td key={index} className="user_cases_display_table__cell memberActions">
                                                     <button style={{ color: "#46B744" }} onClick={toggleModal1}>Approve</button> /
                                                     <button style={{ color: "#EE3333" }} onClick={toggleModal2}>Deny</button>

@@ -2,7 +2,7 @@ import React from 'react'
 import { H2 } from '../../../user/components'
 import { CardLayout } from '../../../user/containers'
 
-const ContactInfo = ({ email, phNo }) => {
+const ContactInfo = ({ email, phNo, adress }) => {
     return (
         <>
             <CardLayout>
@@ -22,6 +22,14 @@ const ContactInfo = ({ email, phNo }) => {
                         </div>
                         <div className="col-md-8 tableinfo">
                             <p>{phNo}</p>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-md-4">
+                            <p className='headingBlur'>ADRESS</p>
+                        </div>
+                        <div className="col-md-8 tableinfo">
+                            <p>{adress}</p>
                         </div>
                     </div>
                 </div>

@@ -30,8 +30,12 @@ import Admins from './components/admins/Admins';
 import AdminDetails from './components/admins/AdminDetails';
 import AddAdmin from './components/admins/AddAdmin';
 import EditAdmin from './components/admins/EditAdmin';
+import useAuthentication from '../../hooks/useAuthentication';
 
 const Admin = () => {
+
+    const authenticate = useAuthentication()
+
     const lang = useSelector((state) => state.language.value);
     const userBaseMainRef = useRef(null)
     const [isSidebarHidden, setIsSidebarHidden] = useState(true);
@@ -51,6 +55,17 @@ const Admin = () => {
             userBaseMainRef.current.classList.remove("user_main_full_width");
         }
     }, [isSidebarHidden]);
+
+
+    useEffect(() => {
+        if (authenticate) {
+            console.log('authentication complete');
+        }
+        else {
+            console.log('not authentication complete');
+        }
+    }, [])
+
 
 
     return (

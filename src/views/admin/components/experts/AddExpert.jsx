@@ -5,8 +5,14 @@ import ClientAvatar from "./clientAvatar.png"
 import "./Expert.css";
 import axios from 'axios';
 import Dropzone from '../dropzone/Dropzone';
+import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 const AddExpert = ({ type = "experts" }) => {
+
+    const navigate = useNavigate();
+    const baseURL = import.meta.env.VITE_BASE_URL;
+    const token = Cookies.get('token');
 
     const [expertInfo, setExpertInfo] = useState({
         name: "",
@@ -26,37 +32,33 @@ const AddExpert = ({ type = "experts" }) => {
         });
     }
 
-    console.log(expertInfo);
 
     const addExpert = async () => {
-        await axios.post("http://202.182.110.16/medical/api/login", {
-            PhoneNo: "03325501021",
-            Password: "abc123"
-        }).then(async response => {
-            const token = response.data.token;
-            await axios.post("http://202.182.110.16/medical/api/addexpert", {
-                PhoneNo: expertInfo.phoneNo,
-                UserPassword: expertInfo.password,
-                Email: expertInfo.email,
-                Experience: expertInfo.yearsOfExperience,
-                ExpertName: expertInfo.name,
-                Address: expertInfo.nationalAddress,
-                Expertise: expertInfo.expertise
+        await axios.post("http://202.182.110.16/medical/api/addexpert", {
+            PhoneNo: expertInfo.phoneNo,
+            UserPassword: expertInfo.password,
+            Email: expertInfo.email,
+            Experience: expertInfo.yearsOfExperience,
+            ExpertName: expertInfo.name,
+            Address: expertInfo.nationalAddress,
+            Expertise: expertInfo.expertise
 
-                // PhoneNo: "03005000415",
-                // Email: "aries@gmail.com",
-                // UserPassword: "abc123",
-                // ExpertName: "ishtiaq",
-                // Experience: 2,
-                // Expertise: "Medical Wakeel",
-                // Address: "new address",
-            }, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            }).then(res => {
-                console.log(res);
-            })
+            // PhoneNo: "03005000415",
+            // Email: "aries@gmail.com",
+            // UserPassword: "abc123",
+            // ExpertName: "ishtiaq",
+            // Experience: 2,
+            // Expertise: "Medical Wakeel",
+            // Address: "new address",
+        }, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then(res => {
+            console.log(res);
+            if (res.data.response.status)
+                navigate("/admin/experts")
+
         })
     }
 

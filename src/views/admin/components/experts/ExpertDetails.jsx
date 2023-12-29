@@ -1,9 +1,12 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { H2 } from '../../../user/components'
 import { CardLayout } from '../../../user/containers'
 import clientAvatar from "./clientAvatar.png"
 import ContactInfo from '../clients/ContactInfo'
 import ClientCases from '../clients/ClientCases'
+import { useLocation } from 'react-router-dom'
+import axios from 'axios'
+import Cookies from 'js-cookie'
 
 const ExpertDetails = () => {
     const buttonsTxt = [
@@ -11,11 +14,35 @@ const ExpertDetails = () => {
         "Cases"
     ]
 
+    const baseURL = import.meta.env.VITE_BASE_URL;
+    const token = Cookies.get('token');
+
+    const expertId = useLocation().pathname.split("/")[3]
+
     const [activeInx, setActiveIndx] = useState(0);
+    const [expertDetails, setExpertDetails] = useState()
 
     const showContent = (index) => {
         setActiveIndx(index);
     }
+
+    const getExpertDetails = async () => {
+        await axios.post(baseURL + "/api/getexpertbyid", {
+            ExpertId: expertId
+        }, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then(res => {
+            console.log(res);
+            setExpertDetails(res.data.response.data[0])
+        })
+
+    }
+
+    useEffect(() => {
+        getExpertDetails()
+    }, [])
 
     const casesData = [
         {
@@ -35,6 +62,8 @@ const ExpertDetails = () => {
         },
     ]
 
+
+
     return (
         <>
             <H2 text={"EXPERT"} className='mb-4' />
@@ -46,7 +75,7 @@ const ExpertDetails = () => {
                     <div className="col-md-11">
                         <div className="flex_box px-3" style={{ justifyContent: "space-between" }}>
                             <div>
-                                <h5>Name</h5>
+                                <h5>{expertDetails && expertDetails.ExpertName}</h5>
                                 <p className='blurTxt font-weight-bold'>Surgeon, Doctor</p>
                             </div>
                             <select name="" id="">
@@ -59,12 +88,12 @@ const ExpertDetails = () => {
                 <div className="row mt-5">
                     <div className="col-md-2">
                         <p className='blurTxt headingBlur'>SPECIALITY</p>
-                        <p>Gastroentrology</p>
+                        <p>{expertDetails && expertDetails.Expertise}</p>
                     </div>
                     <div id="mid-line" className='col-md-1 mx-5'></div>
                     <div className="col-md-3" style={{ marginLeft: "2rem" }}>
                         <p className='blurTxt headingBlur'>YEAR OF EXPERIENCE</p>
-                        <p>10</p>
+                        <p>{expertDetails && expertDetails.Experience}</p>
                     </div>
                 </div>
             </CardLayout>
@@ -82,7 +111,7 @@ const ExpertDetails = () => {
                     }
                 </div>
                 <div className="col-md-9">
-                    {(activeInx === 0) ? <ContactInfo phNo={"+966 14847 9797"} email="example@gmail.com" /> : <ClientCases cases={casesData} />}
+                    {(activeInx === 0) ? <ContactInfo phNo={expertDetails && expertDetails.PhoneNo} email={expertDetails && expertDetails.Email} adress={expertDetails && expertDetails.Address} /> : <ClientCases cases={casesData} />}
                 </div>
             </div>
         </>

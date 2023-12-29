@@ -2,8 +2,14 @@ import React, { useEffect, useState } from 'react'
 import { CardLayout } from '../../../user/containers'
 import { Modal, Pagination } from '../../../user/components'
 import ConfitmationModal from './ConfitmationModal';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 
 const MembershipTable = ({ tableData }) => {
+
+
+    const baseURL = import.meta.env.VITE_BASE_URL;
+    const token = Cookies.get('token');
 
     const [casesToDisplay, setCasesToDisplay] = useState(tableData);
     const [status, setStatus] = useState("All");
@@ -12,6 +18,14 @@ const MembershipTable = ({ tableData }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [showModal1, setShowModal1] = useState(false)
     const [showModal2, setShowModal2] = useState(false)
+    const [memberId, setMemberId] = useState("")
+
+
+    useEffect(() => {
+        setCasesToDisplay(tableData);
+    }, [tableData])
+
+    console.log(token);
 
 
     useEffect(() => {
@@ -31,6 +45,31 @@ const MembershipTable = ({ tableData }) => {
     const toggleModal2 = () => {
         setShowModal2(!showModal2);
     }
+    const approveMembership = async () => {
+        await axios.get(baseURL + "/api/approvemember", {
+            MemberId: memberId
+        }, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then(response => {
+            console.log(response);
+            toggleModal1()
+        })
+    }
+
+    const rejectMembership = async () => {
+        await axios.get(baseURL + "/api/rejectmember", {
+            MemberId: memberId
+        }, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then(response => {
+            console.log(response);
+            toggleModal2()
+        })
+    }
 
     return (
         <>
@@ -40,10 +79,10 @@ const MembershipTable = ({ tableData }) => {
                         (pageCasesToDisplay?.length !== 0) ? (<table className="user_cases_display_table">
                             <thead>
                                 <tr className="user_cases_display_table__head">
-                                    <th className="user_cases_display_table__label" >ID</th>
+                                    <th className="user_cases_display_table__label" >MEMBER ID</th>
                                     <th className="user_cases_display_table__label" >CLIENT NAME</th>
                                     <th className="user_cases_display_table__label" >CLIENT TYPE</th>
-                                    <th className="user_cases_display_table__label" >CONTRACT NAME</th>
+                                    <th className="user_cases_display_table__label" >Package NAME</th>
                                     <th className="user_cases_display_table__label" >CONTRACT YEAR</th>
                                     <th className="user_cases_display_table__label" >AMOUNT</th>
                                     <th className="user_cases_display_table__label" >ACTION</th>
@@ -54,13 +93,13 @@ const MembershipTable = ({ tableData }) => {
                                     pageCasesToDisplay.map((record, index) => {
                                         return (
                                             <tr key={index} className="user_cases_display_table__row">
-                                                <td key={index} className="user_cases_display_table__cell">{record.id}</td>
-                                                <td key={index} className="user_cases_display_table__cell">{record.name}</td>
-                                                <td key={index} className="user_cases_display_table__cell">{record.clientType}</td>
-                                                <td key={index} className="user_cases_display_table__cell">{record.contractName}</td>
-                                                <td key={index} className="user_cases_display_table__cell">{record.contractYear}</td>
-                                                <td key={index} className="user_cases_display_table__cell">{record.amount}</td>
-                                                <td key={index} className="user_cases_display_table__cell memberActions">
+                                                <td key={index} className="user_cases_display_table__cell">{record.MemberId}</td>
+                                                <td key={index} className="user_cases_display_table__cell">{record.ClientName}</td>
+                                                <td key={index} className="user_cases_display_table__cell">{record.Type}</td>
+                                                <td key={index} className="user_cases_display_table__cell">{record.PackageName}</td>
+                                                <td key={index} className="user_cases_display_table__cell">{record.Year}</td>
+                                                <td key={index} className="user_cases_display_table__cell">{record.Fee}</td>
+                                                <td key={index} className="user_cases_display_table__cell memberActions" onClick={() => setMemberId(record.MemberId)}>
                                                     <button style={{ color: "#46B744" }} onClick={toggleModal1}>Approve</button> /
                                                     <button style={{ color: "#EE3333" }} onClick={toggleModal2}>Deny</button>
                                                 </td>
@@ -107,7 +146,7 @@ const MembershipTable = ({ tableData }) => {
                             <button className="mx-3 user_button1 user_button1--gray " onClick={toggleModal1}>
                                 <span>Cancel</span>
                             </button>
-                            <button className=" user_button1" onClick={toggleModal1}>
+                            <button className=" user_button1" onClick={approveMembership}>
                                 <span>Approve</span>
                             </button>
                         </div>
@@ -126,7 +165,7 @@ const MembershipTable = ({ tableData }) => {
                             <button className="mx-3 user_button1 user_button1--gray " onClick={toggleModal2}>
                                 <span>Cancel</span>
                             </button>
-                            <button className=" user_button1" onClick={toggleModal2}>
+                            <button className=" user_button1" onClick={rejectMembership}>
                                 <span>Deny</span>
                             </button>
                         </div>

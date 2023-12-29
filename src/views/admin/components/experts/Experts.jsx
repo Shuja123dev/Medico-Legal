@@ -6,8 +6,12 @@ import ClientsDisplayTable from '../clients/ClientsDisplayTable'
 import plusIcon from "../management/plusIcon.png"
 import filterIcon from "../management/filter.svg"
 import axios from 'axios'
+import Cookies from 'js-cookie'
 
 const Experts = () => {
+
+    const baseURL = import.meta.env.VITE_BASE_URL;
+    const token = Cookies.get("token")
 
     const [experts, setExperts] = useState([])
     const statusSelectRef = useRef(null);
@@ -23,19 +27,13 @@ const Experts = () => {
     };
 
     const getAllExperts = async () => {
-        await axios.post("http://202.182.110.16/medical/api/login", {
-            PhoneNo: "03325501021",
-            Password: "abc123"
-        }).then(async response => {
-            const token = response.data.token;
-            await axios.get("http://202.182.110.16/medical/api/getallexperts", {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            }).then(res => {
-                console.log(res);
-                setExperts(res.data.response.data)
-            })
+        await axios.get(baseURL + "/api/getallexperts", {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then(res => {
+            console.log(res);
+            setExperts(res.data.response.data)
         })
     }
 
@@ -140,10 +138,10 @@ const Experts = () => {
                                 "EXPERTIES",
                                 "EMAIL",
                                 "Adress",
-                                // "TOTAL CASES",
-                                // "WON",
-                                // "LOST",
-                                // "STATUS"
+                                "TOTAL CASES",
+                                "WON",
+                                "LOST",
+                                "STATUS"
                             ]}
                             pageCasesToDisplay={pageCasesToDisplay}
                         />
