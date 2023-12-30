@@ -22,11 +22,11 @@ const TicketDetails = ({
           <TicketDetailsTable
             labels={["subject", "description", "status"]}
             values={[
-              ticketDetails?.subject,
-              ticketDetails?.description,
-              ticketDetails?.status,
+              ticketDetails?.Subject,
+              ticketDetails?.Description,
+              ticketDetails?.Status,
             ]}
-            statusOptions={["open", "closed"]}
+            statusOptions={["New", "Completed", "In Progress"]}
             onStatusChange={statusChangeHandler}
           />
           <Button1
@@ -40,7 +40,7 @@ const TicketDetails = ({
         <div>
           <H3 text={"Experts"} className="mb-4" />
           <div className="expert_ticketDetails__experts_display">
-            {ticketDetails.experts?.map(({ name, areaOfExpertise }, index) => (
+            {ticketDetails && ticketDetails.experts?.map(({ name, areaOfExpertise }, index) => (
               <ExpertDisplay
                 key={index}
                 expertName={name}

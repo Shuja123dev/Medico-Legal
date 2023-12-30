@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useEffect, useState } from "react";
 import {
   CardLayout,
@@ -7,6 +8,7 @@ import {
 } from "../../containers";
 import "./chat.css";
 import { useLocation } from "react-router-dom";
+import Cookies from 'js-cookie';
 
 const clientsDummyMessages = [
   {
@@ -149,149 +151,6 @@ const adminDummyMessages = [
   },
 ];
 
-const tickets = [
-  {
-    name: "123456",
-    lastMessage: "12:00",
-    subject: "Subject of the ticket 1",
-    description: "Description of the ticket 1",
-    status: "open",
-    created: "10 JAN 2020",
-    experts: [
-      {
-        name: "asad",
-        areaOfExpertise: "legal",
-      },
-      {
-        name: "faisal",
-        areaOfExpertise: "legal",
-      },
-      {
-        name: "hamza",
-        areaOfExpertise: "legal",
-      },
-    ],
-  },
-  {
-    name: "432456",
-    lastMessage: "12:00",
-    subject: "Subject of the ticket 2",
-    description: "Description of the ticket 2",
-    status: "closed",
-    created: "24 OCT 2022",
-    experts: [
-      {
-        name: "asad",
-        areaOfExpertise: "legal",
-      },
-      {
-        name: "faisal",
-        areaOfExpertise: "legal",
-      },
-      {
-        name: "hamza",
-        areaOfExpertise: "legal",
-      },
-    ],
-  },
-  {
-    name: "131109",
-    lastMessage: "12:00",
-    subject: "Subject of the ticket 3",
-    description: "Description of the ticket 3",
-    status: "closed",
-    created: "10 JAN 2020",
-    experts: [
-      {
-        name: "asad",
-        areaOfExpertise: "legal",
-      },
-      {
-        name: "faisal",
-        areaOfExpertise: "legal",
-      },
-      {
-        name: "hamza",
-        areaOfExpertise: "legal",
-      },
-    ],
-  },
-  {
-    name: "313131",
-    lastMessage: "12:00",
-    subject: "Subject of the ticket 4",
-    description: "Description of the ticket 4",
-    status: "open",
-    created: "10 JAN 2020",
-    experts: [
-      {
-        name: "asad",
-        areaOfExpertise: "legal",
-      },
-      {
-        name: "faisal",
-        areaOfExpertise: "legal",
-      },
-      {
-        name: "hamza",
-        areaOfExpertise: "legal",
-      },
-    ],
-  },
-];
-
-const ticketsDummyMessages = [
-  {
-    text: "Hello Abdullah! I hope you're having a fantastic day. Have you tried the new restaurant downtown? I heard they have amazing food!",
-    time: "12:00",
-    isMine: false,
-    sender: "123456",
-    sentTo: null,
-  },
-  {
-    text: "Hey John! Yes, I went there last weekend. The food was indeed incredible. We should plan to go together sometime.",
-    time: "12:05",
-    isMine: false,
-    sender: "123456",
-    sentTo: null,
-  },
-  {
-    text: "Arslan, have you read the latest novel by your favorite author? It's a masterpiece!",
-    time: "12:10",
-    isMine: false,
-    sender: "432456",
-    sentTo: null,
-  },
-  {
-    text: "Oh wow! I haven't had the chance yet, but I'm definitely going to check it out. Thanks for the recommendation!",
-    time: "12:15",
-    isMine: false,
-    sender: "131109",
-    sentTo: null,
-  },
-  {
-    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    time: "12:20",
-    isMine: true,
-    sender: null,
-    sentTo: "123456",
-  },
-  {
-    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    time: "12:25",
-    isMine: true,
-    sender: null,
-    sentTo: "313131",
-  },
-  {
-    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    time: "12:25",
-    isMine: true,
-    sender: null,
-    sentTo: "123456",
-  },
-];
-
 const chatmembers = [
   { name: "asad", type: "expert" },
   { name: "faisal", type: "user" },
@@ -309,19 +168,50 @@ const documents = [
 const Chat = () => {
   const location = useLocation().pathname.split("/")[2];
   const [chatType, setChatType] = useState("");
+  const [tickets, setTickets] = useState([]);
   const [showTicketDetails, setShowTicketDetails] = useState(true);
   const [documentUploadModal, setDocumentUploadModal] = useState(false);
   const toggleDocumentUploadModal = () => {
     setDocumentUploadModal((prevState) => !prevState);
   };
+  const [entries, setEntries] = useState([]);
+  const [currentEntry, setCurrentEntry] = useState({});
+  const [messages, setMessages] = useState([]);
+
+
+
+  const baseURL = import.meta.env.VITE_BASE_URL;
+  const token = Cookies.get('token')
+
+  const getTickets = async () => {
+    await axios.get(baseURL + "/api/getallticket", {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    }).then(res => {
+      setTickets(res.data.response.data)
+    }).catch(error => {
+      console.log(error);
+    })
+
+  }
+
+  const getMessage = async () => {
+    await axios.post(baseURL + "/api/getmessagebyticketno", {
+      TicketNo: currentEntry.TicketNo
+    }, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    }).then(res => {
+      console.log(res.data);
+      setMessages(res.data.response.data);
+    })
+  }
 
   useEffect(() => {
     setChatType(location);
   }, [location]);
-
-  const [entries, setEntries] = useState([]);
-  const [currentEntry, setCurrentEntry] = useState({});
-  const [messages, setMessages] = useState([]);
 
   useEffect(() => {
     if (chatType === "clients-chat") {
@@ -337,22 +227,35 @@ const Chat = () => {
       setCurrentEntry({ name: "admin" });
       setMessages(adminDummyMessages);
     } else if (chatType === "tickets") {
-      setEntries(tickets);
-      setCurrentEntry(tickets[0]);
-      setMessages(ticketsDummyMessages);
+      getTickets().then(
+        getMessage()
+      );
     }
   }, [chatType]);
+
+  useEffect(() => {
+    getMessage();
+  }, [currentEntry])
+
+  useEffect(() => {
+    setMessagesToDisplay(messages)
+  }, [messages])
+
+  useEffect(() => {
+    setEntries(tickets);
+    setCurrentEntry(tickets[0]);
+  }, [tickets])
 
   const [messagesToDisplay, setMessagesToDisplay] = useState(messages);
 
   useEffect(() => {
-    setMessagesToDisplay(
-      messages.filter(
-        (message) =>
-          message.sender === currentEntry.name ||
-          message.sentTo === currentEntry.name
-      )
-    );
+    // setMessagesToDisplay(
+    //   messagesmessages.filter(
+    //     (message) =>
+    //       message.sender === currentEntry.name ||
+    //       message.sentTo === currentEntry.name
+    //   )
+    // );
   }, [currentEntry, messages]);
 
   const [isLeftSidebarHidden, setisLeftSidebarHidden] = useState(true);

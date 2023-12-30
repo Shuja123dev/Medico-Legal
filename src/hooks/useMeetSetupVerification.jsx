@@ -1,15 +1,22 @@
+import axios from 'axios';
+import Cookies from 'js-cookie';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import DateFormatForServer from '../components/custom/DateFormatForServer';
 
 
 const useMeetSetupVerification = () => {
+
+  const baseURL = import.meta.env.VITE_BASE_URL;
+  const token = Cookies.get('token');
 
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     fullName: '',
     phoneNumber: '',
     email: '',
-    date: ''
+    date: '',
+    adress: ''
   });
 
   const [errors, setErrors] = useState({});
@@ -52,11 +59,35 @@ const useMeetSetupVerification = () => {
     return Object.keys(newErrors).length === 0;
   }
 
+  const bookMeeting = async () => {
+    await axios.post(baseURL + "/api/addmeeting", {
+      ClientName: formData.fullName,
+      PhoneNo: formData.phoneNumber,
+      Email: formData.email,
+      MeetingDate: DateFormatForServer(formData.date),
+      Address: formData.adress,
+      Status: 0
+    }, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    }).then(response => {
+      if (response.data.response.status === true) {
+        navigate('/signin');
+      }
+    }).catch(err => {
+      console.log(err);
+    });
+  }
+
   const handleSubmit = (event) => {
     event.preventDefault();
+    bookMeeting();
 
     if (validateForm()) {
-      navigate('/signup/verification');
+      alert('we have receieved your meeting request , we will get back to you shortly .');
+      navigate('/');
     } else {
       console.log('Form contains errors, please correct them.');
     }

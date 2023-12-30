@@ -10,6 +10,7 @@ const CaseDetailsTable = ({
   selectValue = "",
 }) => {
   return (
+
     <>
       <table className="expert_caseDetailsTable">
         <tbody>
@@ -32,7 +33,7 @@ const CaseDetailsTable = ({
                 </td>
               ) : (
                 <td className="expert_caseDetailsTable_value">
-                  {values[index]}
+                  {values && values[index]}
                 </td>
               )}
             </tr>

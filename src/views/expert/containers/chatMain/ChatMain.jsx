@@ -48,8 +48,8 @@ const ChatMain = ({
 
   const adjustTextareaRows = () => {
     const textarea = textareaRef.current;
-    textarea.style.height = "auto";
-    textarea.style.height = `${textarea.scrollHeight}px`;
+    textarea && (textarea.style.height = "auto");
+    textarea && (textarea.style.height = `${textarea.scrollHeight}px`);
   };
 
   const textareaInputHandler = (e) => {
@@ -96,8 +96,8 @@ const ChatMain = ({
                     chatType === "admin-chat"
                       ? "Admin"
                       : chatType === "tickets"
-                      ? `#${currentEntry.name}`
-                      : currentEntry?.name
+                        ? `#${currentEntry.TicketNo}`
+                        : currentEntry?.TicketNo
                   }
                   className="m-0 text-capitalize "
                 />

@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import {useTranslation} from 'react-i18next'
 import {useSelector, useDispatch} from 'react-redux'
 import './signUpServices.css'
@@ -9,6 +9,9 @@ import {service} from '../../../features/service/serviceSlice'
 const SignUpServices = () => {
     const lang = useSelector(state => state.language.value)
     const profession = useSelector(state => state.profession.value)
+    const [services, setServices] = useState([])
+
+    console.log(profession)
 
     const [selectedService, setSelectedService] = useState('');
 
@@ -17,8 +20,38 @@ const SignUpServices = () => {
     const dispatch = useDispatch();
     const text = "Membership value without VAT"
 
-    const services = [
+    const packages = {
+        Aesthetic:[{
+            type:"General Court",
+            description:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
+            amount:"5000"
+        },
         {
+            type:"General Court and Insurance",
+            description:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
+            amount:"6500"
+        }],
+        Surgeon:[{
+            type:"General Court",
+            description:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
+            amount:"4500"
+        },
+        {
+            type:"General Court and Insurance",
+            description:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
+            amount:"5500"
+        }],
+        NonSurgeon:[{
+            type:"General Court",
+            description:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
+            amount:"3000"
+        },
+        {
+            type:"General Court and Insurance",
+            description:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
+            amount:"4000"
+        }],
+        MedicalProfessional:[{
             type:"General Court",
             description:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
             amount:"1500"
@@ -27,8 +60,22 @@ const SignUpServices = () => {
             type:"General Court and Insurance",
             description:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
             amount:"2500"
+        }],
+    };
+
+    
+
+    useEffect(() => {
+        if(profession === 'Aesthetic Surgeon'){
+            setServices(packages.Aesthetic);
+        }else if(profession === 'Surgeon'){
+            setServices(packages.Surgeon);
+        }else if(profession === 'Non-Surgeon'){
+            setServices(packages.NonSurgeon);
+        }else if(profession === 'Non Doctor Medical Professional'){
+            setServices(packages.MedicalProfessional);
         }
-    ];
+    },[])
 
     const handleService = (index) => {
         setSelectedService(index);

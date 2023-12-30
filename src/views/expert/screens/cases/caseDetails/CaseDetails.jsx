@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import axios from 'axios';
+import React, { useEffect, useState } from "react";
 import "./caseDetails.css";
 import {
   CaseDetailsTable,
@@ -10,6 +11,7 @@ import {
 } from "../../../components";
 import { CardLayout } from "../../../containers";
 import { useParams } from "react-router-dom";
+import Cookies from 'js-cookie';
 
 const experts = [
   {
@@ -33,12 +35,13 @@ const experts = [
   },
 ];
 
-const CaseDetails = ({ cases, setCases }) => {
+const CaseDetails = () => {
   const caseId = useParams().caseId;
+  const baseURL = import.meta.env.VITE_BASE_URL;
+  const token = Cookies.get('token')
 
-  const [currCase, setCurrCase] = useState(
-    cases.find((item) => item.id === +caseId)
-  );
+  const [currCase, setCurrCase] = useState({});
+  const [client, setClient] = useState({});
 
   const optionChangeHandler = (e) => {
     setCurrCase({
@@ -46,6 +49,38 @@ const CaseDetails = ({ cases, setCases }) => {
       status: e.target.value,
     });
   };
+
+  const getCaseDetails = async () => {
+    await axios.post(baseURL + "/api/getcasebyid", {
+      CaseId: caseId,
+    }, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      },
+    }).then(response => {
+      setCurrCase(response.data.response.data[0])
+    })
+  }
+
+  const getClientBYId = async () => {
+    await axios.post(baseURL + "/api/getclientbyid", {
+      ClientId: currCase.ClientId,
+    }, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    }).then(response => {
+      setClient(response.data.response.data[0])
+    })
+  }
+
+  useEffect(() => {
+    getCaseDetails().then(getClientBYId());
+  }, [])
+
+  console.log(client);
+  console.log(currCase);
+
 
   return (
     <>
@@ -57,10 +92,10 @@ const CaseDetails = ({ cases, setCases }) => {
               <H4 text={"Case"} />
               <CaseDetailsTable
                 labels={["name", "type", "status"]}
-                values={[currCase.caseName, currCase.type, currCase.status]}
+                values={currCase && [currCase.CaseName, currCase.CaseType, currCase.Status]}
                 optionsLabel={"status"}
                 onOptionChange={optionChangeHandler}
-                selectValue={currCase.status}
+                selectValue={currCase && currCase.Status}
                 options={[
                   "New",
                   "Opened",
@@ -76,11 +111,11 @@ const CaseDetails = ({ cases, setCases }) => {
               <H4 text={"Client"} />
               <CaseDetailsTable
                 labels={["name", "type", "speciality", "experience"]}
-                values={[
-                  currCase.clientName,
-                  currCase.clientType,
-                  currCase.clientSpeciality,
-                  currCase.clientExperience,
+                values={client && [
+                  client.ClientName,
+                  client.Type,
+                  client.Speciality,
+                  client.Experience,
                 ]}
               />
             </div>

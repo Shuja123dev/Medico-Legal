@@ -12,257 +12,36 @@ import {
   Home,
   Profile,
 } from "./screens";
+import Cookies from "js-cookie";
+import axios from "axios";
 
-const dummyCases = [
-  {
-    id: 1,
-    caseName: "Personal Injury Lawsuit",
-    type: "Public Court",
-    experts: 3,
-    documents: 3,
-    status: "In Progress",
-    clientName: "John Doe",
-    clientType: "Individual",
-    clientSpeciality: "Gastroentrology",
-    clientExperience: "10 years",
-  },
-  {
-    id: 2,
-    caseName: "Business Contract Dispute",
-    type: "Public Court",
-    experts: 2,
-    documents: 3,
-    status: "New",
-    clientName: "John Doe",
-    clientType: "Individual",
-    clientSpeciality: "Gastroentrology",
-    clientExperience: "10 years",
-  },
-  {
-    id: 3,
-    caseName: "Criminal Defense - Assault",
-    type: "Public Court",
-    experts: 1,
-    documents: 3,
-    status: "Under Review",
-    clientName: "John Doe",
-    clientType: "Individual",
-    clientSpeciality: "Gastroentrology",
-    clientExperience: "10 years",
-  },
-  {
-    id: 4,
-    caseName: "Intellectual Property Dispute",
-    type: "Public Court",
-    experts: 4,
-    documents: 3,
-    status: "Closed",
-    clientName: "John Doe",
-    clientType: "Individual",
-    clientSpeciality: "Gastroentrology",
-    clientExperience: "10 years",
-  },
-  {
-    id: 5,
-    caseName: "Family Law - Custody Battle",
-    type: "Public Court",
-    experts: 2,
-    documents: 3,
-    status: "Opened",
-    clientName: "John Doe",
-    clientType: "Individual",
-    clientSpeciality: "Gastroentrology",
-    clientExperience: "10 years",
-  },
-  {
-    id: 6,
-    caseName: "Real Estate Transaction Dispute",
-    type: "Public Court Arbitration",
-    experts: 3,
-    documents: 3,
-    status: "In Progress",
-    clientName: "John Doe",
-    clientType: "Individual",
-    clientSpeciality: "Gastroentrology",
-    clientExperience: "10 years",
-  },
-  {
-    id: 7,
-    caseName: "Labor Law Violation",
-    type: "Public Court",
-    experts: 2,
-    documents: 3,
-    status: "Won",
-    clientName: "John Doe",
-    clientType: "Individual",
-    clientSpeciality: "Gastroentrology",
-    clientExperience: "10 years",
-  },
-  {
-    id: 8,
-    caseName: "Environmental Regulations Violation",
-    type: "Public Court",
-    experts: 5,
-    documents: 3,
-    status: "Lost",
-    clientName: "John Doe",
-    clientType: "Individual",
-    clientSpeciality: "Gastroentrology",
-    clientExperience: "10 years",
-  },
-  {
-    id: 9,
-    caseName: "Medical Malpractice Lawsuit",
-    type: "Public Court",
-    experts: 3,
-    documents: 3,
-    status: "Under Review",
-    clientName: "John Doe",
-    clientType: "Individual",
-    clientSpeciality: "Gastroentrology",
-    clientExperience: "10 years",
-  },
-  {
-    id: 10,
-    caseName: "Tax Evasion Allegations",
-    type: "Public Court",
-    experts: 2,
-    documents: 3,
-    status: "New",
-    clientName: "John Doe",
-    clientType: "Individual",
-    clientSpeciality: "Gastroentrology",
-    clientExperience: "10 years",
-  },
-  {
-    id: 11,
-    caseName: "Product Liability Lawsuit",
-    type: "Public Court",
-    experts: 3,
-    documents: 3,
-    status: "New",
-    clientName: "John Doe",
-    clientType: "Individual",
-    clientSpeciality: "Gastroentrology",
-    clientExperience: "10 years",
-  },
-  {
-    id: 12,
-    caseName: "Employment Discrimination",
-    type: "Public Court",
-    experts: 2,
-    documents: 3,
-    status: "Under Review",
-    clientName: "John Doe",
-    clientType: "Individual",
-    clientSpeciality: "Gastroentrology",
-    clientExperience: "10 years",
-  },
-  {
-    id: 13,
-    caseName: "Bankruptcy Filing",
-    type: "Public Court",
-    experts: 1,
-    documents: 3,
-    status: "In Progress",
-    clientName: "John Doe",
-    clientType: "Individual",
-    clientSpeciality: "Gastroentrology",
-    clientExperience: "10 years",
-  },
-  {
-    id: 14,
-    caseName: "Insurance Fraud Investigation",
-    type: "Public Court",
-    experts: 4,
-    documents: 3,
-    status: "Closed",
-    clientName: "John Doe",
-    clientType: "Individual",
-    clientSpeciality: "Gastroentrology",
-    clientExperience: "10 years",
-  },
-  {
-    id: 15,
-    caseName: "Landlord-Tenant Dispute",
-    type: "Public Court",
-    experts: 2,
-    documents: 3,
-    status: "Opened",
-    clientName: "John Doe",
-    clientType: "Individual",
-    clientSpeciality: "Gastroentrology",
-    clientExperience: "10 years",
-  },
-  {
-    id: 16,
-    caseName: "Antitrust Violation",
-    type: "Public Court",
-    experts: 3,
-    documents: 3,
-    status: "Won",
-    clientName: "John Doe",
-    clientType: "Individual",
-    clientSpeciality: "Gastroentrology",
-    clientExperience: "10 years",
-  },
-  {
-    id: 17,
-    caseName: "Immigration Appeal",
-    type: "Public Court",
-    experts: 2,
-    documents: 3,
-    status: "Lost",
-    clientName: "John Doe",
-    clientType: "Individual",
-    clientSpeciality: "Gastroentrology",
-    clientExperience: "10 years",
-  },
-  {
-    id: 18,
-    caseName: "Personal Data Breach Lawsuit",
-    type: "Public Court Court",
-    experts: 5,
-    documents: 3,
-    status: "Under Review",
-    clientName: "John Doe",
-    clientType: "Individual",
-    clientSpeciality: "Gastroentrology",
-    clientExperience: "10 years",
-  },
-  {
-    id: 19,
-    caseName: "Construction Contract Dispute",
-    type: "Public Court",
-    experts: 3,
-    documents: 3,
-    status: "New",
-    clientName: "John Doe",
-    clientType: "Individual",
-    clientSpeciality: "Gastroentrology",
-    clientExperience: "10 years",
-  },
-  {
-    id: 20,
-    caseName: "Civil Rights Violation",
-    type: "Public Court Court",
-    experts: 2,
-    documents: 3,
-    status: "In Progress",
-    clientName: "John Doe",
-    clientType: "Individual",
-    clientSpeciality: "Gastroentrology",
-    clientExperience: "10 years",
-  },
-];
 
 const Expert = () => {
   const expertBaseMainRef = useRef(null);
   const [isSidebarHidden, setIsSidebarHidden] = useState(true);
-  const [cases, setCases] = useState(dummyCases);
+  const [cases, setCases] = useState([]);
   const toggleSidebar = () => {
     setIsSidebarHidden((prevState) => !prevState);
   };
+
+  const baseURL = import.meta.env.VITE_BASE_URL;
+  const token = Cookies.get('token')
+
+  const getCases = async () => {
+    await axios.get(baseURL + "/api/getallcase", {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    }).then(res => {
+      setCases(res.data.response.data)
+    }).catch(error => {
+      console.log(error);
+    })
+  }
+
+  useEffect(() => {
+    getCases()
+  }, [])
 
   useEffect(() => {
     if (isSidebarHidden) {
@@ -290,7 +69,7 @@ const Expert = () => {
               <Route path="/cases" element={<Cases cases={cases} />} />
               <Route
                 path="/cases/:caseId"
-                element={<CaseDetails cases={cases} setCases={setCases} />}
+                element={<CaseDetails />}
               />
               <Route path="/admin-chat" element={<Chat />} />
               <Route path="/clients-chat" element={<Chat />} />

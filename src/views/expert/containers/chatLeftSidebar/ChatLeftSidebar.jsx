@@ -14,12 +14,17 @@ const ChatLeftSidebar = ({
 }) => {
   const [searchVal, setSearchVal] = useState("");
 
+  const formatDate = (inputDateString) => {
+    const inputDate = new Date(inputDateString);
+    const options = { year: 'numeric', month: 'short', day: '2-digit' };
+    return inputDate.toLocaleDateString('en-GB', options);
+  }
+
   return (
     <>
       <div
-        className={`expert_chatLeftSidebar ${
-          isLeftSidebarHidden ? "expert_chatLeftSidebar--hidden" : ""
-        }`}>
+        className={`expert_chatLeftSidebar ${isLeftSidebarHidden ? "expert_chatLeftSidebar--hidden" : ""
+          }`}>
         <button
           onClick={toggleLeftSidebar}
           className="expert_chatLeftSidebar__close_btn">
@@ -89,32 +94,20 @@ const ChatLeftSidebar = ({
                     setCurrentValue={setCurrentEntry}>
                     <div className="w-100 d-flex flex-column align-items-start">
                       <H4
-                        text={
-                          chatType === "cases-chat"
-                            ? entry.name
-                            : `#${entry.name}`
-                        }
+                        text={`#${entry.TicketNo}`}
                         className="text-start text-capitalize "
                       />
-                      <p className="expert_chatLeftSidebar__case_p">
-                        {chatType === "cases-chat" ? (
-                          <>Last Message</>
-                        ) : (
-                          <>{entry.subject}</>
-                        )}
+                      <p className="my-2" style={{ color: "#5C6D85" }}>
+                        {entry.Subject}
                       </p>
-                      <div className="d-flex align-items-center justify-content-between m-0 expert_chatLeftSidebar__item__text expert_chatLeftSidebar__item__text--case">
-                        <span>{entry.status}</span>
-                        {chatType === "cases-chat" ? (
-                          <span>{entry.time}</span>
-                        ) : (
-                          <>
-                            <div>
-                              <span>Created: </span>
-                              <span>{entry.created}</span>
-                            </div>
-                          </>
-                        )}
+                      <div className="d-flex align-items-center justify-content-between m-0 user_chatLeftSidebar__item__text user_chatLeftSidebar__item__text--case">
+                        <span className="d-flex align-items-center ">
+                          <div className="status_color" style={{ backgroundColor: `${entry.Status === "1" && "#7ECD7C" || entry.Status === "2" && "#4A8AE6" || entry.Status === "New" && "#FDF52E"}` }}></div>
+                          {entry.Status === "1" ? "Completed" : "Progress"}</span>
+                        <div className="d-flex align-items-center">
+                          <span className="mx-2">Created: </span>
+                          <p className="m-0" style={{ color: "#2F4058" }}>{formatDate(entry.CreationDate)}</p>
+                        </div>
                       </div>
                     </div>
                   </ChatLeftbarItemLayout>

@@ -17,14 +17,14 @@ const CasesDisplayTable = ({ labels, pageCasesToDisplay, keysToDisplay }) => {
             </tr>
           </thead>
           <tbody>
-            {pageCasesToDisplay.map((caseItem, index) => (
+            {pageCasesToDisplay && pageCasesToDisplay.map((caseItem, index) => (
               <tr key={index} className="expert_cases_display_table__row">
                 {keysToDisplay.map((data, dataIndex) =>
-                  data === "caseName" ? (
+                  data === "CaseName" ? (
                     <td key={dataIndex}>
                       <Link
                         className="w-100 d-block expert_cases_display_table__cell_link"
-                        to={`/expert/cases/${caseItem.id}`}>
+                        to={`/expert/cases/${caseItem.CaseId}`}>
                         {caseItem[data]}
                       </Link>
                     </td>

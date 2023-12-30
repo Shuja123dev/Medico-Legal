@@ -17,6 +17,7 @@ import ChatMessagesBox from "../chatMessagesBox/ChatMessagesBox";
 import { useTranslation } from "react-i18next";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
+import { TicketDetails } from "../../../expert/components";
 
 const ChatMain = ({
   toggleLeftSidebar,
@@ -24,6 +25,9 @@ const ChatMain = ({
   messagesToDisplay,
   setMessages,
   currentEntry,
+  showTicketDetails,
+  setCurrentEntry,
+  setShowTicketDetails,
   chatType,
   // Ticket
   ticketInputHandler,
@@ -89,15 +93,16 @@ const ChatMain = ({
 
   };
 
-  useEffect(() => {
-    adjustTextareaRows();
-  }, [newMessage]);
 
   const adjustTextareaRows = () => {
     const textarea = textareaRef.current;
-    textarea.style.height = "auto";
-    textarea.style.height = `${textarea.scrollHeight}px`;
+    textarea && (textarea.style.height = "auto")
+    textarea && (textarea.style.height = `${textarea.scrollHeight}px`);
   };
+
+  useEffect(() => {
+    adjustTextareaRows();
+  }, [newMessage]);
 
   const textareaInputHandler = (e) => {
     const lines = e.target.value.split(/\r?\n/).length;
@@ -151,22 +156,32 @@ const ChatMain = ({
             <img src={userGroupIcon} alt="bars right" />
           </button>
         </div>
-        <ChatMessagesBox messages={messagesToDisplay} />
-        <div className="user_chatMain__input_div">
-          <textarea
-            ref={textareaRef}
-            type="text"
-            rows="1"
-            value={newMessage}
-            placeholder={t("UserPanel.Chat.TypeAMessage")}
-            onInput={textareaInputHandler}
-            onKeyDown={(e) => {
-              textareaKeyUpHandler(e);
-            }}></textarea>
-          <button onClick={sendMessageHandler} className="p-0">
-            <img src={sendIcon} alt="send" />
-          </button>
-        </div>
+        {(showTicketDetails && chatType === "support") ?
+
+          <TicketDetails
+            ticketDetails={currentEntry}
+            setTicketDetails={setCurrentEntry}
+            setShowTicketDetails={setShowTicketDetails}
+          />
+          :
+          <>
+            <ChatMessagesBox messages={messagesToDisplay} />
+            <div className="user_chatMain__input_div">
+              <textarea
+                ref={textareaRef}
+                type="text"
+                rows="1"
+                value={newMessage}
+                placeholder={t("UserPanel.Chat.TypeAMessage")}
+                onInput={textareaInputHandler}
+                onKeyDown={(e) => {
+                  textareaKeyUpHandler(e);
+                }}></textarea>
+              <button onClick={sendMessageHandler} className="p-0">
+                <img src={sendIcon} alt="send" />
+              </button>
+            </div>
+          </>}
         {createTicketModal && (
           <Modal toggleModal={toggleTicketModal}>
             <CreateTicketForm

@@ -12,6 +12,7 @@ import { CardLayout } from "../../containers";
 
 const Cases = ({ cases }) => {
   const statusSelectRef = useRef(null);
+
   const [searchVal, setSearchVal] = useState("");
   const [casesToDisplay, setCasesToDisplay] = useState(cases);
   const [pageCasesToDisplay, setPageCasesToDisplay] = useState(cases);
@@ -22,6 +23,10 @@ const Cases = ({ cases }) => {
   const filterHandler = () => {
     setStatus(statusSelectRef.current.value);
   };
+
+  useEffect(() => {
+    setCasesToDisplay(cases)
+  }, [cases])
 
   useEffect(() => {
     setCasesToDisplay(
@@ -45,6 +50,7 @@ const Cases = ({ cases }) => {
   useEffect(() => {
     setCurrentPage(1);
   }, [recordsPerPage]);
+
 
   return (
     <>
@@ -78,12 +84,12 @@ const Cases = ({ cases }) => {
             <CasesDisplayTable
               labels={["Id", "Name", "Type", "Experts", "Documents", "Status"]}
               keysToDisplay={[
-                "id",
-                "caseName",
-                "type",
-                "experts",
-                "documents",
-                "status",
+                "CaseId",
+                "CaseName",
+                "CaseType",
+                "Status",
+                "ExistingCase",
+                "ClientId",
               ]}
               pageCasesToDisplay={pageCasesToDisplay}
             />

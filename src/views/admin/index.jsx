@@ -110,7 +110,7 @@ const Admin = () => {
                             <H2 text={"CHAT"} className='mb-4' />
                             <Chat />
                         </>} />
-                        <Route path='/support' element={<Support />} />
+                        <Route path='/support' element={<Chat />} />
                         <Route path='/support/respond' element={<RespondTicket />} />
                         <Route path='/blogs' element={<Blogs />} />
                         <Route path='/blogs/:blogId/edit' element={<EditBlog />} />

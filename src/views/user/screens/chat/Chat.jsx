@@ -281,9 +281,11 @@ const Chat = () => {
   const [entries, setEntries] = useState([]);
   const [currentEntry, setCurrentEntry] = useState({});
   const [messages, setMessages] = useState([]);
+  const [showTicketDetails, setShowTicketDetails] = useState(true)
   const toggleDocumentUploadModal = () => {
     setDocumentUploadModal((prevState) => !prevState);
   };
+
 
   const baseURL = import.meta.env.VITE_BASE_URL;
   const token = Cookies.get('token');
@@ -294,6 +296,7 @@ const Chat = () => {
         'Authorization': `Bearer ${token}`
       }
     }).then(res => {
+      console.log(res.data);
       setTickets(res.data.response.data)
     })
   }
@@ -324,15 +327,13 @@ const Chat = () => {
 
 
   useEffect(() => {
+    console.log(chatType);
     if (chatType === "support")
-      getTcikets();
+      getTcikets().then(getMessages());
     else if (chatType === "experts-chat")
       getExperts()
-  }, [])
+  }, [chatType])
 
-  useEffect(() => {
-    getMessages();
-  }, [])
 
 
   useEffect(() => {
@@ -367,16 +368,17 @@ const Chat = () => {
       setCurrentEntry(tickets && tickets[0]);
     else if (chatType === "cases-chat")
       setCurrentEntry(experts[0]);
-  }, [])
+  }, [tickets, chatType])
 
-  console.log(messages);
-
-  const [messagesToDisplay, setMessagesToDisplay] = useState(messages);
 
   useEffect(() => {
+    setShowTicketDetails(true);
+    getMessages()
+  }, [currentEntry])
 
-    getMessages();
-  }, [currentEntry]);
+
+
+  const [messagesToDisplay, setMessagesToDisplay] = useState(messages);
 
 
   useEffect(() => {
@@ -434,9 +436,13 @@ const Chat = () => {
             setMessages={setMessages}
             messagesToDisplay={messagesToDisplay}
             currentEntry={currentEntry}
+            setCurrentEntry={setCurrentEntry}
+            showTicketDetails={showTicketDetails}
+            setShowTicketDetails={setShowTicketDetails}
             chatType={chatType}
             // Ticket
             ticketInputHandler={ticketInputHandler}
+            getMessages={getMessages}
             newTicket={newTicket}
             toggleTicketModal={toggleTicketModal}
             createTicketModal={createTicketModal}

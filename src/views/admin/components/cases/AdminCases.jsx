@@ -4,6 +4,7 @@ import Card from '../Card/Card'
 import { CardLayout } from '../../../user/containers'
 import { Cases } from '../../../user/screens'
 import axios from 'axios'
+import Cookies from 'js-cookie'
 
 const dummyCases = [
     {
@@ -150,23 +151,20 @@ const dummyCases = [
 
 const AdminCases = () => {
 
+    const baseURL = import.meta.env.VITE_BASE_URL;
+    const token = Cookies.get('token')
+
     const [cases, setCases] = useState([]);
 
     const getCases = async () => {
-        await axios.post("http://202.182.110.16/medical/api/login", {
-            PhoneNo: "03325501021",
-            Password: "abc123"
-        }).then(async response => {
-            const token = response.data.token;
-            await axios.get("http://202.182.110.16/medical/api/getallcase", {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            }).then(res => {
-                setCases(res.data.response.data)
-            }).catch(error => {
-                console.log(error);
-            })
+        await axios.get(baseURL + "/api/getallcase", {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then(res => {
+            setCases(res.data.response.data)
+        }).catch(error => {
+            console.log(error);
         })
     }
 
