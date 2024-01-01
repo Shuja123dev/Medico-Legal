@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const useCredit = () => {
   const naviagte = useNavigate();
@@ -21,7 +21,7 @@ const useCredit = () => {
     vat: '',
     total: ''
   });
-  
+
   const [promoApplied, setPromoApplied] = useState(false);
   const [errors, setErrors] = useState({});
 
@@ -39,7 +39,7 @@ const useCredit = () => {
     const newErrors = {};
 
     if (!formData.cardType) {
-        newErrors.cardType = true;
+      newErrors.cardType = true;
     }
 
     if (!formData.cardNumber.trim() || !formData.expiryMonth.trim() || !formData.expiryYear.trim() || !formData.cvv.trim()) {
@@ -47,18 +47,18 @@ const useCredit = () => {
     }
     else {
 
-        if (formData.cardNumber.length < 16) {
+      if (formData.cardNumber.length < 16) {
         newErrors.cardNumber = true;
-        }
+      }
 
-        if (formData.expiryMonth.length < 2) {
+      if (formData.expiryMonth.length < 2) {
         newErrors.expiryMonth = true;
-        }
+      }
 
-        if (formData.expiryYear.length < 2) {
-         newErrors.expiryYear = true;
-        }
-      
+      if (formData.expiryYear.length < 2) {
+        newErrors.expiryYear = true;
+      }
+
       if (formData.cvv.length < 4) {
         newErrors.cvv = true;
       }
@@ -78,7 +78,7 @@ const useCredit = () => {
     event.preventDefault();
     if (validateForm()) {
       console.log('Form is valid, submit the data:', formData);
-      naviagte('/user')
+      naviagte('/signin')
     } else {
       console.log('Form contains errors, please correct them.', errors);
     }
@@ -86,7 +86,7 @@ const useCredit = () => {
 
   const applyPromo = () => {
     console.log('apply')
-    if(!promoApplied){
+    if (!promoApplied) {
       setCredit({
         amount: credit.amount - 100,
         vat: ((credit.amount - 100) * 0.15).toFixed(2),
@@ -99,16 +99,16 @@ const useCredit = () => {
   const handleChange = (event) => {
     const { name, value } = event.target;
     // Update the form data based on the input type
-    if(name === 'isAgreed'){
-        setFormData((prevData) => ({
-            ...prevData,
-            [name]: !formData.isAgreed,
-        }));
-        } else {
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+    if (name === 'isAgreed') {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: !formData.isAgreed,
+      }));
+    } else {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
 
     }
   };

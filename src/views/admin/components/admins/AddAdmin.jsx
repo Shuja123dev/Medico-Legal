@@ -4,10 +4,13 @@ import ClientAvatar from "./clientAvatar.png"
 import { Button1, H2, H3, InputBox } from '../../../user/components'
 import { NavLink, useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import Cookies from 'js-cookie'
 
 const AddAdmin = () => {
 
     const navigate = useNavigate();
+    const baseURL = import.meta.env.VITE_BASE_URL;
+    const token = Cookies.get('token');
 
     const [adminInfo, setAdminInfo] = useState({
         PhoneNo: "",
@@ -27,22 +30,16 @@ const AddAdmin = () => {
     }
 
     const addNewAdmin = async () => {
-        await axios.post("http://202.182.110.16/medical/api/login", {
-            PhoneNo: "03325501021",
-            Password: "abc123"
-        }).then(async response => {
-            const token = response.data.token;
-            await axios.post("http://202.182.110.16/medical/api/addadmin", {
-                ...adminInfo
-            }, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            }).then(res => {
-                navigate("/admin/admins")
-            }).catch(error => {
-                console.log(error);
-            })
+        await axios.post(baseURL + "/api/addadmin", {
+            ...adminInfo
+        }, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then(res => {
+            navigate("/admin/admins")
+        }).catch(error => {
+            console.log(error);
         })
     }
 

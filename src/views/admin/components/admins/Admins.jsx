@@ -6,6 +6,7 @@ import plusIcon from "../management/plusIcon.png"
 import filterIcon from "../management/filter.svg"
 import AdminDisplayTable from './AdminDisplayTable'
 import axios from 'axios'
+import Cookies from 'js-cookie'
 
 const Admins = () => {
 
@@ -28,6 +29,9 @@ const Admins = () => {
     //     },
     // ]
 
+    const baseURL = import.meta.env.VITE_BASE_URL;
+    const token = Cookies.get('token');
+
     const statusSelectRef = useRef(null);
     const [admins, setAdmins] = useState([]);
     const [searchVal, setSearchVal] = useState("");
@@ -41,20 +45,14 @@ const Admins = () => {
     const statuses = ["Deactive", "Active"];
 
     const getAdmins = async () => {
-        await axios.post("http://202.182.110.16/medical/api/login", {
-            PhoneNo: "03325501021",
-            Password: "abc123"
-        }).then(async response => {
-            const token = response.data.token;
-            await axios.get("http://202.182.110.16/medical/api/getalladmin", {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            }).then(res => {
-                setAdmins(res.data.response.data)
-            }).catch(error => {
-                console.log(error);
-            })
+        await axios.get(baseURL + "/api/getalladmin", {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then(res => {
+            setAdmins(res.data.response.data)
+        }).catch(error => {
+            console.log(error);
         })
     }
 

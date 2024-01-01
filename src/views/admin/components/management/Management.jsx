@@ -58,6 +58,19 @@ const Management = () => {
     const [year, setYear] = useState("All");
     const [recordsPerPage, setRecordsPerPage] = useState(10);
     const [currentPage, setCurrentPage] = useState(1);
+    const [membershipDetails, setMembershipDetails] = useState({
+        ClientName: "",
+        PhoneNo: "",
+        Email: "",
+        Address: "",
+        Status: 0,
+        MeetingDate: "",
+        Discount: "",
+        PackageId: "",
+        UserPassword: "",
+        Type: "",
+        Year: 1
+    })
 
     const filterHandler = () => {
         setClientType(statusSelectRef1.current.value);
@@ -108,13 +121,13 @@ const Management = () => {
             <div className='space_between mb-3'>
                 <H2 text={
                     <>
-                        <span className='text-center'>MEMBERSHIPS</span>
+                        <span className='text-center'>PACKAGES</span>
                         <img src={bottomArrow} className='mx-2' />
                     </>
                 } />
                 <button className='user_link_button1' onClick={toggleModal1}>
                     <img src={plusIcon} alt="" />
-                    <span>Create Membership</span>
+                    <span>Create Package</span>
                 </button>
             </div>
             <ManagementTable tableData={memberships} />
@@ -123,7 +136,7 @@ const Management = () => {
                 showModal1 && <>
                     <Modal toggleModal={toggleModal1} modalHead={"Approval Confirmation"}>
                         <div className="user_createTicketForm">
-                            <H3 text={"CREATE MEMBERSHIP"} />
+                            <H3 text={"CREATE PACKAGE"} />
                             <InputBox type={"text"} placeholder={"Name"} />
                             <InputBox type={"textarea"} placeholder={"Description"} />
                             <InputBox type={"date"} placeholder={"Year"} />

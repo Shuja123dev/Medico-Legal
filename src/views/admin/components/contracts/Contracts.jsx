@@ -7,25 +7,23 @@ import circleGraph from "./CircleGraph.png"
 import { CardLayout } from '../../../user/containers'
 import NameCard from '../Card/NameCard'
 import axios from 'axios'
+import Cookies from 'js-cookie'
 
 const Contracts = () => {
 
     const [experts, setExperts] = useState([]);
 
+    const baseURL = import.meta.env.VITE_BASE_URL;
+    const token = Cookies.get('token');
+
     const getExperts = async () => {
-        await axios.post("http://202.182.110.16/medical/api/login", {
-            PhoneNo: "03325501021",
-            Password: "abc123"
-        }).then(async response => {
-            const token = response.data.token;
-            await axios.get("http://202.182.110.16/medical/api/getallexperts", {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            }).then(res => {
-                console.log(res);
-                setExperts(res.data.response.data)
-            })
+        await axios.get(baseURL + "/api/getallexperts", {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then(res => {
+            console.log(res);
+            setExperts(res.data.response.data)
         })
     }
 

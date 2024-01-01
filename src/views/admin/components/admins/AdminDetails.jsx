@@ -4,31 +4,29 @@ import { CardLayout } from '../../../user/containers'
 import ClientAvatar from "./clientAvatar.png"
 import { NavLink, useLocation } from 'react-router-dom'
 import axios from 'axios'
+import Cookies from 'js-cookie'
 
 const AdminDetails = () => {
 
     const location = useLocation();
+    const baseURL = import.meta.env.VITE_BASE_URL;
+    const token = Cookies.get('token');
 
     const AdminId = location.pathname.split("/").pop();
     const [admin, setAdmin] = useState();
 
     const getAdminById = async () => {
-        await axios.post("http://202.182.110.16/medical/api/login", {
-            PhoneNo: "03325501021",
-            Password: "abc123"
-        }).then(async response => {
-            const token = response.data.token;
-            await axios.post("http://202.182.110.16/medical/api/getadminbyid", {
-                AdminId
-            }, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            }).then(res => {
-                setAdmin(res.data.response.data[0])
-            }).catch(error => {
-                console.log(error);
-            })
+        await axios.post(baseURL + "/api/getadminbyid", {
+            AdminId
+        }, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then(res => {
+            console.log(res);
+            setAdmin(res.data.response.data[0])
+        }).catch(error => {
+            console.log(error);
         })
     }
 

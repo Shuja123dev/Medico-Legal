@@ -24,6 +24,8 @@ const useSignUp = () => {
     isExistingCase: '',
   });
 
+  console.log(formData);
+
   const [errors, setErrors] = useState({});
 
   const validateForm = () => {
@@ -72,14 +74,10 @@ const useSignUp = () => {
     return Object.keys(newErrors).length === 0;
   }
 
-  const generateOTP = async (token) => {
+  const generateOTP = async () => {
     await axios.post(baseURL + "/api/generateOTP", {
       PhoneNo: formData.phoneNumber,
       Email: formData.email
-    }, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
     }).then(res => {
       console.log(res);
       navigate('verification');
@@ -87,11 +85,6 @@ const useSignUp = () => {
   }
 
   const createUser = async () => {
-    // await axios.post("http://202.182.110.16/medical/api/login", {
-    //   PhoneNo: "03325501021",
-    //   Password: "abc123"
-    // }).then(async response => {
-    //   const token = response.data.token;
     await axios.post(baseURL + "/api/signup", {
       PhoneNo: formData.phoneNumber,
       Email: formData.email,
@@ -101,14 +94,11 @@ const useSignUp = () => {
       Type: formData.profession,
       PackageId: 1,
       Address: "abc address"
-      // },
-      //  {
-      //   headers: {
-      //     'Authorization': `Bearer ${token}`
-      //   }
     }).then(res => {
       console.log(res);
+      Cookies.set('PhoneNumber', formData.phoneNumber, { expires: 1 });
       if (res.status === 200) {
+        console.log(res);
         if (formData.isExistingCase === 'Yes') {
           navigate('meet-setup');
         }
@@ -156,31 +146,6 @@ const useSignUp = () => {
     }
 
     // signup
-    await axios.post("http://202.182.110.16/medical/api/login", {
-      PhoneNo: "03325501021",
-      Password: "abc123"
-    }).then(async response => {
-      const token = response.data.token;
-      await axios.post("http://202.182.110.16/medical/api/signup", {
-        PhoneNo: formData.phoneNumber,
-        Email: formData.emailmail,
-        ClientName: formData.fullName,
-        UserPassword: formData.password,
-        ExistingCase: (formData.isExistingCase === "No") ? 0 : 1,
-        Type: formData.profession,
-        PackageId: 1,
-        Address: "abc address"
-      }, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      }).then(res => {
-        console.log(res);
-        Cookies.set('PhoneNumber', formData.phoneNumber, { expires: 1 });
-      }).catch(error => {
-        console.log(error);
-      })
-    })
 
   };
 

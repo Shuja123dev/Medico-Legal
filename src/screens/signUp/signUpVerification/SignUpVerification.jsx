@@ -11,6 +11,8 @@ const SignUpVerification = () => {
   const navigate = useNavigate();
 
   const phoneNumber = Cookies.get('PhoneNumber');
+  const baseURL = import.meta.env.VITE_BASE_URL;
+
 
   useEffect(() => {
     const inputs = inputsRef.current;
@@ -60,27 +62,17 @@ const SignUpVerification = () => {
 
   console.log(otp);
   const handleVerification = async () => {
-    await axios.post("http://202.182.110.16/medical/api/login", {
-      PhoneNo: "03325501021",
-      Password: "abc123"
-    }).then(async response => {
-      const token = response.data.token;
-      await axios.post("http://202.182.110.16/medical/api/verifyOTP", {
-        PhoneNo: phoneNumber,
-        OTP: otp
-      }, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      }).then(res => {
-        console.log(res);
-        if (res.data.response.status) {
-          Cookies.remove("PhoneNumber")
-          navigate('/signup/services-form')
-        }
-        else
-          alert("Wrong OTP")
-      })
+    await axios.post(baseURL + "/api/verifyOTP", {
+      PhoneNo: phoneNumber,
+      OTP: otp
+    }).then(res => {
+      console.log(res);
+      if (res.data.response.status) {
+        Cookies.remove("PhoneNumber")
+        navigate('/signup/services-form')
+      }
+      else
+        alert("Wrong OTP")
     })
 
     if (otp.length === 5) {

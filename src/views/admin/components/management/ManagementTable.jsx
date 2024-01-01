@@ -110,7 +110,7 @@ const ManagementTable = ({ tableData }) => {
         showModal1 && <>
           <Modal toggleModal={toggleModal1} modalHead={"Approval Confirmation"}>
             <div className="user_createTicketForm">
-              <H3 text={"UPDATE MEMBERSHIP"} />
+              <H3 text={"UPDATE PACKAGE"} />
               <InputBox type={"text"} placeholder={"Name"} />
               <InputBox type={"textarea"} placeholder={"Description"} />
               <InputBox type={"date"} placeholder={"Year"} />
@@ -149,7 +149,7 @@ const ManagementTable = ({ tableData }) => {
         showModal2 && <>
           <ConfitmationModal toggleModal={toggleModal2} modalHead={"Approval Confirmation"}>
             <div className='flex_box my-3'>
-              <p>Are you sure you want to Delete this Membership?</p>
+              <p>Are you sure you want to Delete this Package?</p>
             </div>
             <div className="d-flex align-items-center justify-content-end ">
               <button className="mx-3 user_button1 user_button1--gray " onClick={toggleModal2}>

@@ -15,6 +15,9 @@ const UserPicCard = ({
   setIsLanguageToggleExpanded,
 }) => {
 
+  const baseURL = import.meta.env.VITE_BASE_URL;
+  const token = Cookies.get('token');
+
   const userId = Cookies.get("userId");
   const { t } = useTranslation();
   const lang = useSelector((state) => state.language.value);
@@ -26,21 +29,15 @@ const UserPicCard = ({
   };
 
   const getUserInfo = async () => {
-    await axios.post("http://202.182.110.16/medical/api/login", {
-      PhoneNo: "03325501021",
-      Password: "abc123"
-    }).then(async response => {
-      const token = response.data.token;
-      await axios.post("http://202.182.110.16/medical/api/getuserbyid", {
-        UserId: userId
-      }, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      }).then((res) => {
-        console.log(res);
-        setUserData(res.data.response.data[0]);
-      })
+    await axios.post(baseURL + "/api/getuserbyid", {
+      UserId: userId
+    }, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    }).then((res) => {
+      console.log(res);
+      setUserData(res.data.response.data[0]);
     })
   };
 
