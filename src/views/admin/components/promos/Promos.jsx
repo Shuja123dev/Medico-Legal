@@ -4,8 +4,12 @@ import plusIcon from "../management/plusIcon.png"
 import bottomArrow from "../management/bottomCheveron.png"
 import AdminTable from '../Table/AdminTable'
 import axios from 'axios'
+import Cookies from 'js-cookie'
 
 const Promos = () => {
+
+    const baseURL = import.meta.env.VITE_BASE_URL;
+    const token = Cookies.get('token');
 
     const [showModal1, setShowModal1] = useState(false)
     const [type, setType] = useState("Amount");
@@ -40,51 +44,39 @@ const Promos = () => {
     }
 
     const getPromos = async () => {
-        await axios.post("http://202.182.110.16/medical/api/login", {
-            PhoneNo: "03325501021",
-            Password: "abc123"
-        }).then(async response => {
-            const token = response.data.token;
-            await axios.get("http://202.182.110.16/medical/api/getallpromo", {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            }).then(res => {
-                setPromos(res.data.response.data);
-            })
+        await axios.get(baseURL + "/api/getallpromo", {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then(res => {
+            setPromos(res.data.response.data);
         })
     }
 
     const addPromo = async () => {
-        await axios.post("http://202.182.110.16/medical/api/login", {
-            PhoneNo: "03325501021",
-            Password: "abc123"
-        }).then(async response => {
-            const token = response.data.token;
-            await axios.post("http://202.182.110.16/medical/api/addpromo", {
-                PromoName: promoDetails.name,
-                Code: promoDetails.code,
-                Type: promoDetails.type,
-                Percentage: promoDetails.percentage,
-                Amount: promoDetails.amount,
-                Status: promoDetails.status
-            }, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            }).then(res => {
-                toggleModal1();
-                setPromoDetails({
-                    name: "",
-                    code: "",
-                    type: "",
-                    value: "",
-                    status: 1,
-                    amount: "",
-                    percentage: ""
-                })
-                getPromos()
+        await axios.post(baseURL + "/api/addpromo", {
+            PromoName: promoDetails.name,
+            Code: promoDetails.code,
+            Type: promoDetails.type,
+            Percentage: promoDetails.percentage,
+            Amount: promoDetails.amount,
+            Status: promoDetails.status
+        }, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then(res => {
+            toggleModal1();
+            setPromoDetails({
+                name: "",
+                code: "",
+                type: "",
+                value: "",
+                status: 1,
+                amount: "",
+                percentage: ""
             })
+            getPromos()
         })
     }
 

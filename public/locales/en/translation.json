@@ -12,24 +12,30 @@
   },
   "Home": {
     "Hero": {
-      "HeroHeading1": "Loren Gypsum",
-      "HeroHeading2": " is simply dummy text ",
-      "HeroSubheading": "Contrary to popular belief, Loren Gypsum is not simply random text."
+      "HeroHeading1": "RASAN PLATFORM",
+      "HeroHeading2": " FOR LEGAL PROTECTION AGAINST MEDICAL MALPRACTICE  ",
+      "HeroSubheading": "ANNUAL MEMBERSHIP TO PROVIDE SPECIALIZED LEGAL SERVICES"
     },
     "Benefits": {
-      "BenefitsHeading": "Empowering You with Expert Guidance and Support for Your Legal Needs",
+      "BenefitsHeading": "CONSULTING, ADVOCACY AND LEGAL REPRESENTATION",
       "Benefit": [
         {
-          "Heading": "Loren Gypsum is simply dummy text ",
-          "Subheading": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+          "Heading": "Our Goal",
+          "Subheading": "is to provide legal services to healthcare practitioners of all specialties and positions in the Kingdom of Saudi Arabia. We aim to save time, effort, and money by creating this platform, which facilitates easy communication with us. Through this platform, we offer legal advice to members and cover all their medical malpractice-related issues. We also handle the management and follow-up of these cases. Our objective is to represent and defend members before all courts and specialized committees."
         },
         {
-          "Heading": "Loren Gypsum is simply dummy text ",
-          "Subheading": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+          "Heading": "Our Specialty ",
+          "Subheading": "Our professional expertise begins with providing legal advice to members and extends to representing them in defense and advocacy, presenting objections and appeals before administrative investigation committees, as well as before all relevant courts. Our services also include pursuing claims against insurance companies through dispute resolution committees for coverage of medical malpractice, if necessary."
         },
         {
-          "Heading": "Loren Gypsum is simply dummy text ",
-          "Subheading": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+          "Heading": "Our Membership",
+          "Subheading": "Membership on the platform is divided into four categories based on the healthcare practitioner's specialization. Each category has two types of membership:",
+          "Membership": {
+            "Heading1": "1. Basic Protection Membership:",
+            "Deascription1": "Our services for members with this type of membership are limited to representing them before the relevant courts (General Court).",
+            "Heading2": "2. Full Protection Membership:",
+            "Deascription2": "Our services for members with this type of membership encompass representing them in their cases before the relevant courts (General Court), as well as before dispute resolution committees for insurance disputes."
+          }
         }
       ]
     },
@@ -75,117 +81,117 @@
     },
     "Send": "Send"
   },
-  "SignIn":{
-    "CompanyInfo":{
-        "Details":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-        "Contact" : "Contact"
+  "SignIn": {
+    "CompanyInfo": {
+      "Details": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      "Contact": "Contact"
     },
-    "Heading":"Sign In",
-    "Subheading":"Welcome back, please login to your account",
-    "Placeholders":{
-        "PhoneNo":"Phone Number",
-        "Password":"Password"
+    "Heading": "Sign In",
+    "Subheading": "Welcome back, please login to your account",
+    "Placeholders": {
+      "PhoneNo": "Phone Number",
+      "Password": "Password"
     },
-    "SignIn":"Sign In",
-    "Prompt":"Don't have an account?",
-    "PromptLink":"create new account",
-    "Errors":{
-        "InvalidCredentials":"Invalid Phone Number or Password",
-        "FillAllFields":"Please fill in all the fields",
-        "PhoneNoNotRegistered":"Phone Number not registered",
-        "InvalidPassword":"Password must be atleast 8 characters long",
-        "InvalidPhoneNUmber":"Invalid Phone Number"
-    }
-},
-"SignUp":{
-    "CompanyInfo":{
-        "Details":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-        "Contact" : "Contact"
-    },
-    "Heading":"Sign Up",
-    "Subheading":"Welcome, please create your account",
-    "Placeholders":{
-        "FullName":"Full Name",
-        "PhoneNo":"Phone Number",
-        "Email":"Email",
-        "Password":"Password",
-        "ConfirmPassword":"Confirm Password",
-        "Profession":"Profession",
-        "Doctor":"Doctor",
-        "Surgeon":"Surgeon",
-        "PlasticAndCosmesis":"Plastic and Cosmesis",
-        "Dermatology":"Dermatology",
-        "Aneasthesia":"Aneasthesia",
-        "ObstetricAndGynacology":"Obstetric and Gynacology",
-        "EmergencyMedicine":"Emergency medicine",
-        "NonSurgeon":"Non Surgeon",
-        "NonDoctor":"Non Doctor Medical Professional",
-        "ExistingCourtCase":"Any Existing Court Case",
-        "Yes":"Yes",
-        "No":"No"
-    },
-    "DoctorType":"Select Doctor Type",
-    "SurgeonType":"Do you belong to this group?",
-    "Next":"Next",
-    "Back":"Back",
-    "SignUp":"Sign Up",
-    "Prompt":"Already have an account?",
-    "PromptLink":"Sign In",
-    "Errors":{
-        "FillAllFields":"Please fill in all the fields",
-        "InvalidPhoneNUmber":"Invalid Phone Number",
-        "PasswordMismatch":"Passwords do not match",
-        "PhoneNoAlreadyExists":"Phone Number already exists",
-        "InvalidPassword":"Password must be atleast 8 characters long",
-        "InvalidProfession":"Please select a profession",
-        "InvalidDoctorType":"Please select a doctor type",
-        "InvalidExistingCourtCase":"Please select an option",
-        "InvalidSurgeonType":"Please select an option"
-    }
-},
-"MeetSetup":{
-    "Heading":"Setup Meet with Officals",
-    "Subheading":"Meeting time will be communicated through email",
-    "Placeholders":{
-        "FullName":"Full Name",
-        "Email":"Email",
-        "PhoneNumber":"Phone Number",
-        "PreferredDate":"Preferred Date"
-    },
-    "Send":"Send",
-    "Errors":{
-        "FillAllFields":"Please fill in all the fields",
-        "InvalidPhoneNUmber":"Invalid Phone Number",
-        "InvalidEmail":"Invalid Phone Number"
+    "SignIn": "Sign In",
+    "Prompt": "Don't have an account?",
+    "PromptLink": "create new account",
+    "Errors": {
+      "InvalidCredentials": "Invalid Phone Number or Password",
+      "FillAllFields": "Please fill in all the fields",
+      "PhoneNoNotRegistered": "Phone Number not registered",
+      "InvalidPassword": "Password must be atleast 8 characters long",
+      "InvalidPhoneNUmber": "Invalid Phone Number"
     }
   },
-  "SignUpServices":{
-    "Heading":"Choose the plan that’s right for you",
-    "Subheading":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-    "ServicesType":{
-      "Surgeon":"Surgeon Doctor",
-      "NonSurgeon":"Non Surgeon Doctor",
-      "NonDoctor":"Non Doctor Medical Professional"
+  "SignUp": {
+    "CompanyInfo": {
+      "Details": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "Contact": "Contact"
     },
-    "Type":"Type",
-    "Next":"Next"
+    "Heading": "Sign Up",
+    "Subheading": "Welcome, please create your account",
+    "Placeholders": {
+      "FullName": "Full Name",
+      "PhoneNo": "Phone Number",
+      "Email": "Email",
+      "Password": "Password",
+      "ConfirmPassword": "Confirm Password",
+      "Profession": "Profession",
+      "Doctor": "Doctor",
+      "Surgeon": "Surgeon",
+      "PlasticAndCosmesis": "Plastic and Cosmesis",
+      "Dermatology": "Dermatology",
+      "Aneasthesia": "Aneasthesia",
+      "ObstetricAndGynacology": "Obstetric and Gynacology",
+      "EmergencyMedicine": "Emergency medicine",
+      "NonSurgeon": "Non Surgeon",
+      "NonDoctor": "Non Doctor Medical Professional",
+      "ExistingCourtCase": "Any Existing Court Case",
+      "Yes": "Yes",
+      "No": "No"
+    },
+    "DoctorType": "Select Doctor Type",
+    "SurgeonType": "Do you belong to this group?",
+    "Next": "Next",
+    "Back": "Back",
+    "SignUp": "Sign Up",
+    "Prompt": "Already have an account?",
+    "PromptLink": "Sign In",
+    "Errors": {
+      "FillAllFields": "Please fill in all the fields",
+      "InvalidPhoneNUmber": "Invalid Phone Number",
+      "PasswordMismatch": "Passwords do not match",
+      "PhoneNoAlreadyExists": "Phone Number already exists",
+      "InvalidPassword": "Password must be atleast 8 characters long",
+      "InvalidProfession": "Please select a profession",
+      "InvalidDoctorType": "Please select a doctor type",
+      "InvalidExistingCourtCase": "Please select an option",
+      "InvalidSurgeonType": "Please select an option"
+    }
   },
-  "Credit":{
-    "Heading":"Setup your credit or Mada card",
-    "Placeholders":{
-      "CardNumber":"Card Number",
-      "ExpiryDate":"Expiry Date",
-      "CVV":"CVV"
+  "MeetSetup": {
+    "Heading": "Setup Meet with Officals",
+    "Subheading": "Meeting time will be communicated through email",
+    "Placeholders": {
+      "FullName": "Full Name",
+      "Email": "Email",
+      "PhoneNumber": "Phone Number",
+      "PreferredDate": "Preferred Date"
     },
-    "Pay":"Pay",
-    "Errors":{
-      "FillAllFields":"Please fill in all the fields",
-      "InvalidCardNumber":"Invalid Card Number",
-      "InvalidExpiryDate":"Invalid Expiry Date",
-      "InvalidCVV":"Invalid CVV",
-      "InvalidPromo":"Invalid Promo code",
-      "InvalidCardType":"Please select an option",
-      "Agreed":"Please agree to the terms and conditions"
+    "Send": "Send",
+    "Errors": {
+      "FillAllFields": "Please fill in all the fields",
+      "InvalidPhoneNUmber": "Invalid Phone Number",
+      "InvalidEmail": "Invalid Phone Number"
+    }
+  },
+  "SignUpServices": {
+    "Heading": "Choose the plan that’s right for you",
+    "Subheading": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+    "ServicesType": {
+      "Surgeon": "Surgeon Doctor",
+      "NonSurgeon": "Non Surgeon Doctor",
+      "NonDoctor": "Non Doctor Medical Professional"
+    },
+    "Type": "Type",
+    "Next": "Next"
+  },
+  "Credit": {
+    "Heading": "Setup your credit or Mada card",
+    "Placeholders": {
+      "CardNumber": "Card Number",
+      "ExpiryDate": "Expiry Date",
+      "CVV": "CVV"
+    },
+    "Pay": "Pay",
+    "Errors": {
+      "FillAllFields": "Please fill in all the fields",
+      "InvalidCardNumber": "Invalid Card Number",
+      "InvalidExpiryDate": "Invalid Expiry Date",
+      "InvalidCVV": "Invalid CVV",
+      "InvalidPromo": "Invalid Promo code",
+      "InvalidCardType": "Please select an option",
+      "Agreed": "Please agree to the terms and conditions"
     }
   },
   "UserPanel": {

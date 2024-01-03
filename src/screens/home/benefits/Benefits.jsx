@@ -4,6 +4,9 @@ import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux';
 import benefitsBgLeft from '../../../assets/home/benefits-bg-left.svg'
 import benefitsBgRight from '../../../assets/home/benefits-bg-right.svg'
+import image1 from "../../../assets/home/image1.webp"
+import image2 from "../../../assets/home/image2.jpg"
+import image3 from "../../../assets/home/image3.jpg"
 
 const Benefits = () => {
   const { t } = useTranslation();
@@ -70,7 +73,10 @@ const Benefits = () => {
             return (
               <div className={`benefit-item d-flex justify-content-center gap-5 align-items-center mt-5 ${benefit % 2 == 0 ? '' : 'reverse'}`} key={index}>
                 <div ref={(el) => (imageRefs.current[index] = el)} className={`benefit-image `}>
-                  <img src={benefit % 2 == 0 ? benefitsBgLeft : benefitsBgRight} alt="" className='' />
+                  <img src={index === 0 ? image1 :
+                    (
+                      index === 1 ? image2 : image3
+                    )} alt="" className='' />
                 </div>
                 <div ref={(el) => (textRefs.current[index] = el)} className='benefit-text d-flex flex-column gap-3'>
                   <h3 className={`benefit-heading ${lang == 'en' ? '' : 'text-end'}`}>
@@ -79,6 +85,15 @@ const Benefits = () => {
                   <p className={`benefit-subheading ${lang == 'en' ? '' : 'text-end'}`}>
                     {t(`Home.Benefits.Benefit.${benefit}.Subheading`)}
                   </p>
+                  {
+                    index == 2 && [0, 1].map((membership) => {
+                      return (
+                        <>
+                          <p><b>{t(`Home.Benefits.Benefit.${benefit}.Membership.Heading${membership + 1}`)}</b> {t(`Home.Benefits.Benefit.${benefit}.Membership.Deascription${membership + 1}`)}</p>
+                        </>
+                      )
+                    })
+                  }
                 </div>
               </div>
             )

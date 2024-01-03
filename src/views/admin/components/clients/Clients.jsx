@@ -6,8 +6,12 @@ import filterIcon from "../management/filter.svg"
 import { CardLayout } from '../../../user/containers'
 import ClientsDisplayTable from './ClientsDisplayTable'
 import axios from 'axios'
+import Cookies from 'js-cookie'
 
 const Clients = () => {
+
+    const baseURL = import.meta.env.VITE_BASE_URL;
+    const token = Cookies.get('token');
 
     const [clients, setClients] = useState([]);
     const statusSelectRef = useRef(null);
@@ -23,20 +27,14 @@ const Clients = () => {
     };
 
     const getAllClients = async () => {
-        await axios.post("http://202.182.110.16/medical/api/login", {
-            PhoneNo: "03325501021",
-            Password: "abc123"
-        }).then(async response => {
-            const token = response.data.token;
-            await axios.get("http://202.182.110.16/medical/api/getallclient", {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            }).then(res => {
-                setClients(res.data.response.data)
-            }).catch(error => {
-                console.log(error);
-            })
+        await axios.get(baseURL + "/api/getallclient", {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then(res => {
+            setClients(res.data.response.data)
+        }).catch(error => {
+            console.log(error);
         })
     }
 

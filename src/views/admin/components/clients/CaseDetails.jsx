@@ -4,6 +4,7 @@ import { Button1, CaseDetailsTable, CasesDisplayTable, ExpertDisplay, H3, H4, In
 import deleteIcon from "../support/deleteIcon.svg"
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 const experts = [
     {
@@ -30,76 +31,90 @@ const experts = [
 const CaseDetails = ({ role = null, type = "cases" }) => {
 
     const location = useLocation();
+    const baseURL = import.meta.env.VITE_BASE_URL;
+    const token = Cookies.get('token');
 
     const userId = type === "cases" ? location.pathname.split("/").pop() : location.pathname.split("/")[3];
 
+    const [clients, setClients] = useState([])
+    const [experts, setExperts] = useState([])
     const [caseDetails, setCaseDetails] = useState();
     const [editStatus, setEditStatus] = useState(false);
+    const [expertId, setExpertId] = useState("0");
+
+    const getClients = async () => {
+        await axios.get(baseURL + "/api/getallclient", {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then(res => {
+            console.log(res);
+            setClients(res.data.response.data)
+        })
+    }
+
+
+    const getExperts = async () => {
+        await axios.get(baseURL + "/api/getallexperts", {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then(res => {
+            console.log(res);
+            setExperts(res.data.response.data)
+        })
+    }
 
     const getCaseById = async () => {
-        await axios.post("http://202.182.110.16/medical/api/login", {
-            PhoneNo: "03325501021",
-            Password: "abc123"
-        }).then(async response => {
-            const token = response.data.token;
-            await axios.post("http://202.182.110.16/medical/api/getcasebyid", {
-                CaseId: userId
-            }, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            }).then(res => {
-                setCaseDetails(res.data.response.data[0])
-            }).catch(error => {
-                console.log(error);
-            })
+        await axios.post(baseURL + "/api/getcasebyid", {
+            CaseId: userId
+        }, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then(res => {
+            setCaseDetails(res.data.response.data[0])
+        }).catch(error => {
+            console.log(error);
         })
     }
 
     const addExpertToCase = async () => {
-        await axios.post("http://202.182.110.16/medical/api/login", {
-            PhoneNo: "03325501021",
-            Password: "abc123"
-        }).then(async response => {
-            const token = response.data.token;
-            await axios.post("http://202.182.110.16/medical/api/addexperttocase", {
-                CaseId: userId,
-                ExpertId: 1
-            }, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            }).then(res => {
-                // console.log(res);
-            }).catch(error => {
-                console.log(error);
-            })
+        expertId !== "0" && await axios.post(baseURL + "/api/addexperttocase", {
+            CaseId: userId,
+            ExpertId: expertId
+        }, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then(res => {
+            console.log(res);
+        }).catch(error => {
+            console.log(error);
         })
     }
 
+    console.log(experts);
+
     const removeExpertFromCase = async () => {
-        await axios.post("http://202.182.110.16/medical/api/login", {
-            PhoneNo: "03325501021",
-            Password: "abc123"
-        }).then(async response => {
-            const token = response.data.token;
-            await axios.post("http://202.182.110.16/medical/api/removexpertfromcase", {
-                CaseId: userId,
-                ExpertId: 1
-            }, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            }).then(res => {
-                // console.log(res);
-            }).catch(error => {
-                console.log(error);
-            })
+        await axios.post(baseURL + "/api/removexpertfromcase", {
+            CaseId: userId,
+            ExpertId: 1
+        }, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then(res => {
+            // console.log(res);
+        }).catch(error => {
+            console.log(error);
         })
     }
 
     useEffect(() => {
         getCaseById();
+        getClients();
+        getExperts();
     }, [])
 
     const modalData = {
@@ -129,7 +144,7 @@ const CaseDetails = ({ role = null, type = "cases" }) => {
         toggleModal();
     };
 
-
+    console.log(experts);
 
 
     return (
@@ -184,6 +199,13 @@ const CaseDetails = ({ role = null, type = "cases" }) => {
                                         <div className="col-md-12 d-flex">
                                             <select name="" id="" className='px-2' style={{ width: "70%", marginRight: "1rem" }}>
                                                 <option value="">Client Name</option>
+                                                {
+                                                    clients.length > 0 && clients.map((client, index) => {
+                                                        return (
+                                                            <option value={client.ClientId}>{client.ClientName}</option>
+                                                        )
+                                                    })
+                                                }
                                             </select>
                                             <Button1 text={"Add"} />
                                         </div>
@@ -226,8 +248,15 @@ const CaseDetails = ({ role = null, type = "cases" }) => {
                         <H4 text={"Experts"} />
                         <div className="row my-4">
                             <div className="col-md-12 d-flex">
-                                <select name="" id="" className='px-2' style={{ width: "70%", marginRight: "1rem" }}>
-                                    <option value="">Expert Name</option>
+                                <select name="" id="" value={expertId} onChange={e => setExpertId(e.target.value)} className='px-2' style={{ width: "70%", marginRight: "1rem" }}>
+                                    <option value="0">Expert Name</option>
+                                    {
+                                        experts.length > 0 && experts.map((expert, index) => {
+                                            return (
+                                                <option value={expert.ExpertId}>{expert.ExpertName}</option>
+                                            )
+                                        })
+                                    }
                                 </select>
                                 <Button1 text={"Add"} onClick={addExpertToCase} />
                             </div>

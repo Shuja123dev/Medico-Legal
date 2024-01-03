@@ -59,6 +59,8 @@ const useSignIn = () => {
 
     await axios.post(baseURL + "/api/login", {
       ...formData
+      // PhoneNo: formData.PhoneNo,
+      // Password: formData.Password
     }).then(response => {
       console.log(response);
       const role = response.data.user.role;

@@ -3,10 +3,13 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { H3, InputBox, Modal } from '../../../user/components';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 const PromosDisplayTable = ({ labels, pageCasesToDisplay, path = "/admin/promos/", getPromos }) => {
 
     const { t } = useTranslation();
+    const baseURL = import.meta.env.VITE_BASE_URL;
+    const token = Cookies.get('token');
 
     const [showModal1, setShowModal1] = useState(false)
     const [type, setType] = useState("Amount");
@@ -27,22 +30,16 @@ const PromosDisplayTable = ({ labels, pageCasesToDisplay, path = "/admin/promos/
     }
 
     const updatePromo = async () => {
-        await axios.post("http://202.182.110.16/medical/api/login", {
-            PhoneNo: "03325501021",
-            Password: "abc123"
-        }).then(async response => {
-            const token = response.data.token;
-            await axios.post("http://202.182.110.16/medical/api/updatepromo", {
-                ...promo,
-            }, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            }).then(res => {
-                console.log(res);
-                toggleModal1();
-                getPromos();
-            })
+        await axios.post(baseURL + "/api/updatepromo", {
+            ...promo,
+        }, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then(res => {
+            console.log(res);
+            toggleModal1();
+            getPromos();
         })
     }
 

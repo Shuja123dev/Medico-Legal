@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
 import arrow from '../../../assets/home/arrow.png'
 import heroBg from '../../../assets/home/bg-element.svg'
+import banner from "../../../assets/home/bannerImg.jpg"
 
 const Hero = () => {
     const { t } = useTranslation();
@@ -22,7 +23,7 @@ const Hero = () => {
                         </div>
                     </div>
                     <div className={`hero-image-bg ${lang == 'en' ? 'ltr fade-out-right' : 'rtl fade-out-left'}`}>
-                        <img src={heroBg} alt="" className='hero-image' />
+                        <img src={banner} alt="" className='hero-image' />
                     </div>
                 </div>
             </div>

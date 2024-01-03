@@ -7,9 +7,12 @@ import './Blogs.css';
 import { InputBox } from '../../../user/components';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 const EditBlog = () => {
 
     const navigate = useNavigate();
+    const baseURL = import.meta.env.VITE_BASE_URL;
+    const token = Cookies.get('token');
 
     const location = useLocation();
     const BlogId = location.pathname.split('/')[3];
@@ -18,23 +21,17 @@ const EditBlog = () => {
     console.log(BlogId);
 
     const getBlogById = async () => {
-        await axios.post("http://202.182.110.16/medical/api/login", {
-            PhoneNo: "03325501021",
-            Password: "abc123"
-        }).then(async response => {
-            const token = response.data.token;
-            await axios.post("http://202.182.110.16/medical/api/getblogbyid", {
-                BlogId: BlogId
-            }, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            }).then(res => {
-                console.log(res);
-                setBlogDetails(res.data.response.data[0])
-            }).catch(error => {
-                console.log(error);
-            })
+        await axios.post(baseURL + "/api/getblogbyid", {
+            BlogId: BlogId
+        }, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then(res => {
+            console.log(res);
+            setBlogDetails(res.data.response.data[0])
+        }).catch(error => {
+            console.log(error);
         })
     }
 
@@ -48,30 +45,24 @@ const EditBlog = () => {
 
     const updateBlog = async (event) => {
         event.preventDefault();
-        await axios.post("http://202.182.110.16/medical/api/login", {
-            PhoneNo: "03325501021",
-            Password: "abc123"
-        }).then(async response => {
-            const token = response.data.token;
-            await axios.post("http://202.182.110.16/medical/api/updateblog", {
-                BlogId: BlogId,
-                Title: blogDetails.Title,
-                BlogTime: "2023-12-02 12:12:12",
-                Writer: blogDetails.Writer,
-                BlogText: blogDetails.BlogText,
-                Status: blogDetails.Status,
-                MetaDescription: blogDetails.MetaDescription,
-                Kewords: blogDetails.Kewords,
-                MetaTags: blogDetails.MetaTags,
-            }, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            }).then(res => {
-                navigate("/admin/blogs")
-            }).catch(error => {
-                console.log(error);
-            })
+        await axios.post(baseURL + "/api/updateblog", {
+            BlogId: BlogId,
+            Title: blogDetails.Title,
+            BlogTime: "2023-12-02 12:12:12",
+            Writer: blogDetails.Writer,
+            BlogText: blogDetails.BlogText,
+            Status: blogDetails.Status,
+            MetaDescription: blogDetails.MetaDescription,
+            Kewords: blogDetails.Kewords,
+            MetaTags: blogDetails.MetaTags,
+        }, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then(res => {
+            navigate("/admin/blogs")
+        }).catch(error => {
+            console.log(error);
         })
     }
 

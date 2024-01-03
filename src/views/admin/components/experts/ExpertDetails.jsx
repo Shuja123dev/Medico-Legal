@@ -44,23 +44,7 @@ const ExpertDetails = () => {
         getExpertDetails()
     }, [])
 
-    const casesData = [
-        {
-            name: "Name",
-            description: "Public and Insurance Court",
-            status: "Status"
-        },
-        {
-            name: "Name",
-            description: "Public and Insurance Court",
-            status: "Status"
-        },
-        {
-            name: "Name",
-            description: "Public and Insurance Court",
-            status: "Status"
-        },
-    ]
+
 
 
 
@@ -111,7 +95,7 @@ const ExpertDetails = () => {
                     }
                 </div>
                 <div className="col-md-9">
-                    {(activeInx === 0) ? <ContactInfo phNo={expertDetails && expertDetails.PhoneNo} email={expertDetails && expertDetails.Email} adress={expertDetails && expertDetails.Address} /> : <ClientCases cases={casesData} />}
+                    {(activeInx === 0) ? <ContactInfo phNo={expertDetails && expertDetails.PhoneNo} email={expertDetails && expertDetails.Email} adress={expertDetails && expertDetails.Address} /> : <ClientCases />}
                 </div>
             </div>
         </>

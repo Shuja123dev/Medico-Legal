@@ -5,10 +5,13 @@ import { plusIcon, filterIcon } from '../../../user/assets';
 import BlogDisplayTable from './BlogDisplayTable';
 import blogImg1 from "./blogImg1.png"
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 const Blogs = () => {
 
     const statusSelectRef = useRef(null);
+    const baseURL = import.meta.env.VITE_BASE_URL;
+    const token = Cookies.get('token');
 
     const [blogs, setBlogs] = useState([]);
     const [searchVal, setSearchVal] = useState("");
@@ -25,20 +28,14 @@ const Blogs = () => {
     const statuses = ["All", "Published", "Draft",];
 
     const getAllBlogs = async () => {
-        await axios.post("http://202.182.110.16/medical/api/login", {
-            PhoneNo: "03325501021",
-            Password: "abc123"
-        }).then(async response => {
-            const token = response.data.token;
-            await axios.get("http://202.182.110.16/medical/api/getallblog", {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            }).then(res => {
-                setBlogs(res.data.response.data)
-            }).catch(error => {
-                console.log(error);
-            })
+        await axios.get(baseURL + "/api/getallblog", {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then(res => {
+            setBlogs(res.data.response.data)
+        }).catch(error => {
+            console.log(error);
         })
     }
 

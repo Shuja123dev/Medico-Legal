@@ -7,8 +7,12 @@ import ContactInfo from './ContactInfo'
 import ClientCases from './ClientCases'
 import { useLocation } from 'react-router-dom'
 import axios from 'axios'
+import Cookies from 'js-cookie'
 
 const ClientDetails = () => {
+
+    const baseURL = import.meta.env.VITE_BASE_URL;
+    const token = Cookies.get('token');
 
     const location = useLocation();
     const [clientInfo, setClientData] = useState();
@@ -22,44 +26,32 @@ const ClientDetails = () => {
 
     const clientId = location.pathname.split('/').pop();
     const getClientbyId = async () => {
-        await axios.post("http://202.182.110.16/medical/api/login", {
-            PhoneNo: "03325501021",
-            Password: "abc123"
-        }).then(async response => {
-            const token = response.data.token;
-            await axios.post("http://202.182.110.16/medical/api/getclientbyid", {
-                ClientId: clientId
-            }, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
+        await axios.post(baseURL + "/api/getclientbyid", {
+            ClientId: clientId
+        }, {
+            headers: {
+                'Authorization': `Bearer ${token}`
             }
-            ).then(res => {
-                setClientData(res.data.response.data)
-            }).catch(error => {
-                console.log(error);
-            })
+        }
+        ).then(res => {
+            setClientData(res.data.response.data)
+        }).catch(error => {
+            console.log(error);
         })
     }
 
     const getCasesOfCLient = async () => {
-        await axios.post("http://202.182.110.16/medical/api/login", {
-            PhoneNo: "03325501021",
-            Password: "abc123"
-        }).then(async response => {
-            const token = response.data.token;
-            await axios.post("http://202.182.110.16/medical/api/getcasebyclient", {
-                ClientId: clientId
-            }, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
+        await axios.post(baseURL + "/api/getcasebyclient", {
+            ClientId: clientId
+        }, {
+            headers: {
+                'Authorization': `Bearer ${token}`
             }
-            ).then(res => {
-                setClientCases(res.data.response.data)
-            }).catch(error => {
-                console.log(error);
-            })
+        }
+        ).then(res => {
+            setClientCases(res.data.response.data)
+        }).catch(error => {
+            console.log(error);
         })
     }
 

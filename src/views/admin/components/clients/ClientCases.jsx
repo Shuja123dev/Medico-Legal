@@ -3,7 +3,7 @@ import { H2 } from '../../../user/components'
 import { CardLayout } from '../../../user/containers'
 import { NavLink } from 'react-router-dom'
 
-const ClientCases = ({ cases }) => {
+const ClientCases = ({ cases = [] }) => {
 
     return (
         <>

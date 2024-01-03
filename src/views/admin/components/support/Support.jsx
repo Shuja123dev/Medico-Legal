@@ -4,6 +4,7 @@ import { CardLayout, ChatLeftSidebar, ChatRightSidebar } from '../../../user/con
 import { NavLink, useLocation } from 'react-router-dom'
 import deleteIcon from "./deleteIcon.svg"
 import axios from 'axios'
+import Cookies from 'js-cookie'
 
 const chatmembers = [
     { name: "asad", type: "Expertise" },
@@ -21,6 +22,8 @@ const documents = [
 
 const Support = () => {
     const location = useLocation().pathname.split("/")[2];
+    const baseURL = import.meta.env.VITE_BASE_URL;
+    const token = Cookies.get('token');
 
     const [isLeftSidebarHidden, setisLeftSidebarHidden] = useState(true);
     const [createTicketModal, setCreateTicketModal] = useState(false);
@@ -36,18 +39,12 @@ const Support = () => {
     };
 
     const getTcikets = async () => {
-        await axios.post("http://202.182.110.16/medical/api/login", {
-            PhoneNo: "03325501021",
-            Password: "abc123"
-        }).then(async response => {
-            const token = response.data.token;
-            await axios.get("http://202.182.110.16/medical/api/getallticket", {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            }).then(res => {
-                setTickets(res.data.response.data)
-            })
+        await axios.get(baseURL + "/api/getallticket", {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then(res => {
+            setTickets(res.data.response.data)
         })
     }
 
