@@ -14,11 +14,15 @@ import {
 } from "./screens";
 import Cookies from "js-cookie";
 import axios from "axios";
+import { UserPicCard } from "../user/components";
 
 
 const Expert = () => {
   const expertBaseMainRef = useRef(null);
   const [isSidebarHidden, setIsSidebarHidden] = useState(true);
+  const [isPicCardExpanded, setIsPicCardExpanded] = useState(false);
+  const [isLanguageToggleExpanded, setIsLanguageToggleExpanded] =
+    useState(false);
   const [cases, setCases] = useState([]);
   const toggleSidebar = () => {
     setIsSidebarHidden((prevState) => !prevState);
@@ -59,7 +63,12 @@ const Expert = () => {
             isSidebarHidden={isSidebarHidden}
             toggleSidebar={toggleSidebar}
           />
-          <ExpertPicCard />
+          <UserPicCard
+            isPicCardExpanded={isPicCardExpanded}
+            setIsPicCardExpanded={setIsPicCardExpanded}
+            isLanguageToggleExpanded={isLanguageToggleExpanded}
+            setIsLanguageToggleExpanded={setIsLanguageToggleExpanded}
+          />
           <button className={`expert_bars_btn`} onClick={toggleSidebar}>
             <img src={barsIcon} alt="bars" />
           </button>

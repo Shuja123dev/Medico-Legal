@@ -3,7 +3,7 @@ import "./userPicCard.css";
 import { userIcon } from "../../assets";
 import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import axios from "axios";
 import H4 from "../h4/H4";
@@ -14,6 +14,9 @@ const UserPicCard = ({
   isLanguageToggleExpanded,
   setIsLanguageToggleExpanded,
 }) => {
+
+  const role = useLocation().pathname.split("/")[1];
+
 
   const baseURL = import.meta.env.VITE_BASE_URL;
   const token = Cookies.get('token');
@@ -59,9 +62,9 @@ const UserPicCard = ({
         </button>
         {isPicCardExpanded && (
           <div className="user_pic_card__dropdown border p-1">
-            <button onClick={() => navigate("/signin")}>{t("UserPanel.UserPicCard.Logout")}</button>
+            <button onClick={() => navigate(`/${role}/profile`)}>{t("UserPanel.UserPicCard.EditProfile")}</button>
             <hr />
-            <button>{t("UserPanel.UserPicCard.EditProfile")}</button>
+            <button onClick={() => navigate("/signin")}>{t("UserPanel.UserPicCard.Logout")}</button>
           </div>
         )}
       </div>

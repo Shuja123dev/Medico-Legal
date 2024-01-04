@@ -82,7 +82,7 @@ const Cases = ({ cases }) => {
         <CardLayout>
           <div className="expert_cases_table_outer">
             <CasesDisplayTable
-              labels={["Id", "Name", "Type", "Experts", "Documents", "Status"]}
+              labels={["Id", "Name", "Type", "Status", "Documents", "Members"]}
               keysToDisplay={[
                 "CaseId",
                 "CaseName",

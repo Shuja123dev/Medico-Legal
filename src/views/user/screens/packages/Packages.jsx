@@ -1,23 +1,44 @@
+import axios from 'axios';
 import "./packages.css";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { CardLayout } from "../../containers";
 import { CurrentPackageDetailsTable, H2, H3 } from "../../components";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+import Cookies from 'js-cookie';
 
-const currentPackage = {
-  pkgName: "Full Protection",
-  description:
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut.",
-  year: 2,
-  amount: 5000,
-  dateOfContract: "12/04/2022",
-  timeRemaining: 45,
-};
+// const currentPackage = {
+//   pkgName: "Full Protection",
+//   description:
+//     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut.",
+//   year: 2,
+//   amount: 5000,
+//   dateOfContract: "12/04/2022",
+//   timeRemaining: 45,
+// };
 
 const Packages = ({ availablePackages }) => {
+  const baseURL = import.meta.env.VITE_BASE_URL;
+  const token = Cookies.get('token');
   const { t } = useTranslation();
 
+  const [currentPackage, setCurrentPackage] = useState();
+
+  const getCurrentPackage = async () => {
+    await axios.post(baseURL + "/api/getcontractbyclient", {
+      ClientId: 1
+    }, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    }).then((res) => {
+      setCurrentPackage(res.data.response.data);
+    })
+  }
+
+  useEffect(() => {
+    getCurrentPackage()
+  }, [])
 
   return (
     <>
@@ -26,7 +47,7 @@ const Packages = ({ availablePackages }) => {
         <CardLayout>
           <H3 text={t("UserPanel.Packages.PackageDetails")} />
           <div className="user_packages_table_outer">
-            <CurrentPackageDetailsTable data={availablePackages} />
+            <CurrentPackageDetailsTable data={currentPackage} />
           </div>
         </CardLayout>
         <H2 text={t("UserPanel.Packages.AvailablePackages")} />

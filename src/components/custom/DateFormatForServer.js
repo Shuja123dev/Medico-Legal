@@ -19,4 +19,11 @@ const DateFormatForServer = (dateString) => {
     return formattedDate; // Returns "2024-01-01 12:00:00" or "2024-01-01T12:00:00" depending on the target format. Example: "2024-01-01 12:00:00" or "2024-01-01T12:
 }
 
+const DateFormatForUser = (inputDateString) => {
+    const inputDate = new Date(inputDateString);
+    const options = { year: 'numeric', month: 'short', day: '2-digit' };
+    return inputDate.toLocaleDateString('en-GB', options);
+}
+
 export default DateFormatForServer
+export { DateFormatForUser }

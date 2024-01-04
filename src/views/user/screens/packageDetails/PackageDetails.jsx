@@ -28,7 +28,7 @@ const PackageDetails = ({ availablePackages }) => {
 
   // Ticket
   const [newTicket, setNewTicket] = useState({
-    subject: currentAvailablePackage && currentAvailablePackage.PackageName,
+    subject: currentAvailablePackage && currentAvailablePackage.Subject,
     description: currentAvailablePackage && currentAvailablePackage.Description,
     status: "New",
   });
@@ -48,7 +48,12 @@ const PackageDetails = ({ availablePackages }) => {
         'Authorization': `Bearer ${token}`
       }
     }).then((res) => {
+      console.log(res);
       setCurrentAvailablePackage(res.data.response.data[0])
+      setNewTicket({
+        subject: currentAvailablePackage && currentAvailablePackage.Subject,
+        description: currentAvailablePackage && currentAvailablePackage.Description,
+      })
     })
   }
 
@@ -62,15 +67,16 @@ const PackageDetails = ({ availablePackages }) => {
     await axios.post(baseURL + "/api/addticket", {
       Subject: newTicket.subject,
       Description: newTicket.description,
-      ClientId: userId,
-      Status: newTicket.status,
+      ClientId: 1,
+      Status: (newTicket.status === "New" ? 1 : 0),
       CreationDate: "2023-12-01 13:13:13"
     }, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
     }).then((res) => {
-      if (res.data.response.data.status) {
+      console.log(res);
+      if (res.data.response.status) {
         toggleTicketModal()
       }
     })

@@ -27,8 +27,106 @@ const Contracts = () => {
         })
     }
 
+    const plotCirlceGraph = () => {
+        const xValues = ["Opened", "New", "Under Review", "In progress", "Closed", "Lost", "Won"];
+        const yValues = [55, 49, 44, 24, 15, 20, 10];
+        const barColors = [
+            "#2F4058",
+            "#5C6D85",
+            "#BFC0C2",
+            "#D9D9D9",
+            "#F0F0F0",
+            "#5C6D85",
+            "#A3A3A3",
+        ];
+
+        new Chart("circleGraph", {
+            type: "pie",
+            data: {
+                labels: xValues,
+                datasets: [{
+                    backgroundColor: barColors,
+                    data: yValues
+                }]
+            },
+            options: {
+                title: {
+                    display: true,
+                }
+            }
+        });
+    }
+
+    const plotLineGraph = () => {
+        const xValues = [0, 10, 20, 30, 40];
+        const yValues = [1, 5, 15, 8, 9, 9, 9, 10, 45, 14, 14, 15];
+
+        new Chart("lineGraph", {
+            type: "line",
+            data: {
+                labels: xValues,
+                datasets: [{
+                    fill: false,
+                    lineTension: 0,
+                    backgroundColor: "#2F4058",
+                    borderColor: "#2F4058",
+                    data: yValues
+                }]
+            },
+            options: {
+                legend: { display: false },
+                scales: {
+                    yAxes: [{ ticks: { min: 0, max: 30, stepSize: 10 } }],
+                }
+            }
+        });
+    }
+
+    const plotBarGraph = () => {
+        const xValues = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+        const yValues = [10, 20, 35, 20, 36, 35, 35, 30, 0, 25, 20, 39]
+        const barColors = "#2F4058"
+
+        new Chart("barGraph", {
+            type: "bar",
+            data: {
+                labels: xValues,
+                // yValues: yLables,
+                datasets: [{
+                    backgroundColor: barColors,
+                    data: yValues
+                }]
+            },
+            options: {
+                legend: { display: false },
+                title: {
+                    display: true,
+                    // text: "World Wine Production 2018"
+                },
+                scales: {
+                    x: [{
+                        grid: {
+                            display: false,
+                        },
+                    }],
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            stepSize: 10,
+                            max: 40,
+                        }
+                    }]
+                }
+            }
+        })
+    }
+
+
     useEffect(() => {
-        getExperts()
+        getExperts();
+        plotBarGraph();
+        plotCirlceGraph();
+        plotLineGraph();
     }, [])
 
     return (
@@ -63,7 +161,7 @@ const Contracts = () => {
                 <div className="col-lg-6 px-3">
                     <CardLayout className='bar_chart'>
                         <p className='blurTxt'>Last Year</p>
-                        <img src={lineChart} alt="" />
+                        <canvas id="lineGraph" style={{ width: "100%" }}></canvas>
                     </CardLayout>
                 </div>
             </div>
@@ -134,7 +232,7 @@ const Contracts = () => {
                         <div className="col-lg-9 col-md-12">
                             <CardLayout className='bar_chart mx-2'>
                                 <p className='blurTxt'>Last Year</p>
-                                <img src={barChart} alt="" />
+                                <canvas id="barGraph" style={{ width: "100%" }}></canvas>
                             </CardLayout>
                         </div>
                     </div>
@@ -146,7 +244,7 @@ const Contracts = () => {
                             <CardLayout className='mx-2'>
                                 <p className='blurTxt'>All Cases</p>
                                 <div className="flex_box">
-                                    <img src={circleGraph} alt="" />
+                                    <canvas id="circleGraph" style={{ width: "100%", height: '350px' }}></canvas>
                                 </div>
                             </CardLayout>
                         </div>

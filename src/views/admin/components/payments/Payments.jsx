@@ -4,18 +4,6 @@ import PaymentTable from './PaymentTable'
 import axios from 'axios'
 import Cookies from 'js-cookie'
 
-const tableData = [
-    {
-        id: "123",
-        client: "Ali Ahmad",
-        phNo: "966 - 899 - 9789789",
-        amount: "2500",
-        channel: "Bank Name",
-        accountNo: "000000608010167519",
-        trxId: "123345232",
-        date: "12/23/2021",
-    }
-]
 
 const Payments = () => {
 
@@ -37,7 +25,10 @@ const Payments = () => {
 
     useEffect(() => {
         getPayments();
+
+
     }, [])
+
 
     return (
         <>
@@ -61,6 +52,7 @@ const Payments = () => {
                     "STATUS",
                     "ACTION"
                 ]} />
+
         </>
     )
 }

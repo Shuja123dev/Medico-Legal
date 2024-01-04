@@ -18,6 +18,7 @@ import { useTranslation } from "react-i18next";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import { TicketDetails } from "../../../expert/components";
+import Cookies from "js-cookie";
 
 const ChatMain = ({
   toggleLeftSidebar,
@@ -41,34 +42,32 @@ const ChatMain = ({
   const { t } = useTranslation();
   const location = useLocation().pathname.split('/')[2];
   const textareaRef = useRef();
+  const baseURL = import.meta.env.VITE_BASE_URL;
+  const token = Cookies.get('token');
+
+
   const [newMessage, setNewMessage] = useState("");
 
 
 
   const sendMessageToTicket = async () => {
-    await axios.post("http://202.182.110.16/medical/api/login", {
-      PhoneNo: "03325501021",
-      Password: "abc123"
-    }).then(async response => {
-      const token = response.data.token;
-      await axios.post("http://202.182.110.16/medical/api/addmessagetoticket", {
-        TicketNo: currentEntry.TicketNo,
-        MemberId: 1,
-        MemberType: "Client",
-        Message: newMessage,
-        MessageTime: "2024-12-03 13:13:13",
-        // MessageTime: newMessage.time,
-        DocumentId: 0
-      }, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      }).then(res => {
-        console.log(res);
-        getMessages()
-      }).catch(error => {
-        console.log(error);
-      })
+    await axios.post(baseURL + "/api/addmessagetoticket", {
+      TicketNo: currentEntry.TicketNo,
+      MemberId: 1,
+      MemberType: "Client",
+      Message: newMessage,
+      MessageTime: "2024-12-03 13:13:13",
+      // MessageTime: newMessage.time,
+      DocumentId: 0
+    }, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    }).then(res => {
+      console.log(res);
+      getMessages()
+    }).catch(error => {
+      console.log(error);
     })
   };
 

@@ -83,6 +83,8 @@ const MeetingTable = ({ tableData }) => {
                                     <th className="user_cases_display_table__label" >CLIENT NAME</th>
                                     <th className="user_cases_display_table__label" >CLIENT TYPE</th>
                                     <th className="user_cases_display_table__label" >EMAIL</th>
+                                    <th className="user_cases_display_table__label" >PHONE NO.</th>
+                                    <th className="user_cases_display_table__label" >ADRESS</th>
                                     <th className="user_cases_display_table__label" >MEETING DATE</th>
                                     <th className="user_cases_display_table__label" >DATE</th>
                                     <th className="user_cases_display_table__label" >ACTION</th>
