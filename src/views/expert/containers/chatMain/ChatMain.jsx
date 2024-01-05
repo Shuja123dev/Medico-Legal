@@ -9,6 +9,8 @@ import {
   Button1,
 } from "../../components";
 import { barsLeftIcon, barsRightIcon, sendIcon, expertImg } from "../../assets";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 const ChatMain = ({
   toggleLeftSidebar,
@@ -22,9 +24,13 @@ const ChatMain = ({
   setShowTicketDetails,
   toggleDocumentUploadModal,
   documentUploadModal,
+  getMessage
 }) => {
   const textareaRef = useRef();
   const [newMessage, setNewMessage] = useState("");
+
+  const baseURL = import.meta.env.VITE_BASE_URL;
+  const token = Cookies.get('token');
 
   const sendMessageHandler = () => {
     if (newMessage.trim() == "") return;
@@ -40,6 +46,7 @@ const ChatMain = ({
       },
     ]);
     textareaRef.current.rows = 1;
+    sendMessageToTicket();
   };
 
   useEffect(() => {
@@ -67,6 +74,29 @@ const ChatMain = ({
       sendMessageHandler();
     }
   };
+
+  const sendMessageToTicket = async () => {
+    await axios.post(baseURL + "/api/addmessagetoticket", {
+      TicketNo: currentEntry.TicketNo,
+      MemberId: 1,
+      MemberType: "Client",
+      Message: newMessage,
+      MessageTime: "2024-12-03 13:13:13",
+      // MessageTime: newMessage.time,
+      DocumentId: 0
+    }, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    }).then(res => {
+      console.log(res);
+      getMessage()
+    }).catch(error => {
+      console.log(error);
+    })
+  };
+
+
 
   return (
     <>

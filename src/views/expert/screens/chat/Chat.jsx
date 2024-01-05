@@ -249,14 +249,12 @@ const Chat = () => {
   const [messagesToDisplay, setMessagesToDisplay] = useState(messages);
 
   useEffect(() => {
-    // setMessagesToDisplay(
-    //   messagesmessages.filter(
-    //     (message) =>
-    //       message.sender === currentEntry.name ||
-    //       message.sentTo === currentEntry.name
-    //   )
-    // );
+    setMessagesToDisplay(
+      messages
+    );
   }, [currentEntry, messages]);
+
+
 
   const [isLeftSidebarHidden, setisLeftSidebarHidden] = useState(true);
   const toggleLeftSidebar = () => {
@@ -294,6 +292,7 @@ const Chat = () => {
             setShowTicketDetails={setShowTicketDetails}
             toggleDocumentUploadModal={toggleDocumentUploadModal}
             documentUploadModal={documentUploadModal}
+            getMessage={getMessage}
           />
           <ChatRightSidebar
             isRightSidebarHidden={isRightSidebarHidden}

@@ -15,6 +15,7 @@ import {
 import Cookies from "js-cookie";
 import axios from "axios";
 import { UserPicCard } from "../user/components";
+import useAuthentication from "../../hooks/useAuthentication";
 
 
 const Expert = () => {
@@ -29,7 +30,8 @@ const Expert = () => {
   };
 
   const baseURL = import.meta.env.VITE_BASE_URL;
-  const token = Cookies.get('token')
+  const token = Cookies.get('token');
+  const authenticate = useAuthentication()
 
   const getCases = async () => {
     await axios.get(baseURL + "/api/getallcase", {
@@ -54,6 +56,16 @@ const Expert = () => {
       expertBaseMainRef.current.classList.remove("expert_main_full_width");
     }
   }, [isSidebarHidden]);
+
+  useEffect(() => {
+    if (authenticate) {
+      console.log('authentication complete');
+    }
+    else {
+      console.log('not authentication complete');
+    }
+  }, [])
+
 
   return (
     <>

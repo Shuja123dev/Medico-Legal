@@ -60,7 +60,10 @@ const EditBlog = () => {
                 'Authorization': `Bearer ${token}`
             }
         }).then(res => {
-            navigate("/admin/blogs")
+            console.log(res);
+            if (res.data.response.status) {
+                navigate("/admin/blogs")
+            }
         }).catch(error => {
             console.log(error);
         })

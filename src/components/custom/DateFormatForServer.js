@@ -4,7 +4,7 @@ const DateFormatForServer = (dateString) => {
     const inputDate = new Date(dateString);
 
     // Target format: "2024-01-01 12:00:00"
-    const targetDate = new Date("2024-01-01T12:00:00");
+    const targetDate = new Date(inputDate);
 
     // Convert input date to target format
     const year = targetDate.getFullYear();

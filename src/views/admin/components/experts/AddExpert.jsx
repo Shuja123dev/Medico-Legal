@@ -63,14 +63,14 @@ const AddExpert = ({ type = "experts" }) => {
     }
 
     const addClient = async () => {
-        await axios.post(baseURL + "/api/addexpert", {
-            // PhoneNo: expertInfo.phoneNo,
-            // UserPassword: expertInfo.password,
-            // Email: expertInfo.email,
-            // Experience: expertInfo.yearsOfExperience,
-            // ExpertName: expertInfo.name,
-            // Adress: expertInfo.nationalAddress,
-            // Expertise: expertInfo.expertise
+        await axios.post(baseURL + "/api/addclient", {
+            PhoneNo: expertInfo.phoneNo,
+            UserPassword: expertInfo.password,
+            Email: expertInfo.email,
+            ClientName: expertInfo.name,
+            Experience: expertInfo.yearsOfExperience,
+            Adress: expertInfo.nationalAddress,
+            Speciality: expertInfo.expertise
 
             // PhoneNo: "03005000415",
             // UserPassword: "abc123",
@@ -85,6 +85,8 @@ const AddExpert = ({ type = "experts" }) => {
             }
         }).then(res => {
             console.log(res);
+            if (res.data.response.status)
+                navigate("/admin/clients")
         })
     }
 

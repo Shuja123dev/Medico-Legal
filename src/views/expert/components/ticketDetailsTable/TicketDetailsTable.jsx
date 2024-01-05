@@ -18,7 +18,7 @@ const TicketDetailsTable = ({
                 {label == "status" ? (
                   <select
                     className="expert_ticketDetailsTable_statusSelect"
-                    value={values[index]}
+                    value={values[index] === "1" ? "Completed" : "In Progress"}
                     onChange={onStatusChange}>
                     {statusOptions.map((option, index) => (
                       <option key={index} value={option}>

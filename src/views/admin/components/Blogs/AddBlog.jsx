@@ -7,9 +7,13 @@ import { CardLayout } from '../../../user/containers';
 import { Button1 } from '../../../user/components';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Cookies from 'js-cookie';
+import DateFormatForServer from '../../../../components/custom/DateFormatForServer';
 const AddBlog = () => {
     const navigate = useNavigate();
     const fileInputRef = useRef(null);
+    const baseURL = import.meta.env.VITE_BASE_URL;
+    const token = Cookies.get('token');
 
     const [imageSrc, setImgSrc] = useState();
     const [keywords, setKeywords] = useState();
@@ -82,57 +86,46 @@ const AddBlog = () => {
     }
 
     const uploadImage = async () => {
-        const formData = new File();
-        formData.append('image', imageFile)
-        await axios.post("http://202.182.110.16/medical/api/login", {
-            PhoneNo: "03325501021",
-            Password: "abc123"
-        }).then(async response => {
-            const token = response.data.token;
-            await axios.post("http://202.182.110.16/medical/api/uploadblogimage", {
-                BlogId: 2,
-                blogimage: imageFile
-            }, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            }).then(res => {
-                console.log(res);
-            }).catch(error => {
-                console.log(error);
-            })
+        let formData = new FormData();
+        formData.append("image", imageFile);
+        console.log(formData);
+        await axios.post(baseURL + "/api/uploadblogimage", {
+            BlogId: 2,
+            blogimage: formData
+        }, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then(res => {
+            console.log(res);
+        }).catch(error => {
+            console.log(error);
         })
     }
 
     const addBlog = async () => {
         const currentDate = new Date();
         uploadImage()
-        // console.log(formatDate(currentDate).toString());
-        // await axios.post("http://202.182.110.16/medical/api/login", {
-        //     PhoneNo: "03325501021",
-        //     Password: "abc123"
-        // }).then(async response => {
-        //     const token = response.data.token;
-        //     await axios.post("http://202.182.110.16/medical/api/addblog", {
-        //         Title: blogInfo.Title,
-        //         Writer: blogInfo.Writer,
-        //         BlogText: blogInfo.BlogText,
-        //         BlogImage: imageFile.name,
-        //         Status: 1,
-        //         BlogTime: "2023-12-02 12:12:12",
-        //         Keywords: tagConverter(keywords),
-        //         MetaTags: blogInfo.MetaTags,
-        //         MetaDescription: blogInfo.MetaDescription
-        //     }, {
-        //         headers: {
-        //             'Authorization': `Bearer ${token}`
-        //         }
-        //     }).then(res => {
-        //         navigate("/admin/blogs")
-        //     }).catch(error => {
-        //         console.log(error);
-        //     })
-        // })
+
+        await axios.post(baseURL + "/api/addblog", {
+            Title: blogInfo.Title,
+            Writer: blogInfo.Writer,
+            BlogText: blogInfo.BlogText,
+            BlogImage: imageFile.name,
+            Status: 1,
+            BlogTime: DateFormatForServer(currentDate),
+            Keywords: tagConverter(keywords),
+            MetaTags: blogInfo.MetaTags,
+            MetaDescription: blogInfo.MetaDescription
+        }, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then(res => {
+            navigate("/admin/blogs")
+        }).catch(error => {
+            console.log(error);
+        })
     }
 
 

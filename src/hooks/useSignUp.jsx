@@ -91,7 +91,8 @@ const useSignUp = () => {
       ClientName: formData.fullName,
       UserPassword: formData.password,
       ExistingCase: (formData.isExistingCase === "No") ? 0 : 1,
-      Type: formData.profession,
+      // Type: formData.profession,
+      Type: "Doctor",
       PackageId: 1,
       Address: "abc address"
     }).then(res => {
@@ -118,32 +119,33 @@ const useSignUp = () => {
     Cookies.remove('PhoneNumber');
     createUser();
 
-    if (validateForm()) {
+    // if (validateForm()) {
+    console.log("aesthetic");
 
-      if (formData.profession === 'Doctor') {
-        if (formData.doctorType === 'Surgeon' && formData.isAestheticGroup === 'Yes') {
-          dispatch(profession('Aesthetic Surgeon'));
-        }
-        else if (formData.doctorType === 'Surgeon' && formData.isAestheticGroup === 'No') {
-          dispatch(profession('Surgeon'));
-        }
-        else {
-          dispatch(profession(formData.doctorType));
-        }
-      } else {
-        dispatch(profession(formData.profession));
+    if (formData.profession === 'Doctor') {
+      if (formData.doctorType === 'Surgeon' && formData.isAestheticGroup === 'Yes') {
+        dispatch(profession('Aesthetic Surgeon'));
       }
-
-      if (formData.isExistingCase === 'Yes') {
-        navigate('meet-setup');
+      else if (formData.doctorType === 'Surgeon' && formData.isAestheticGroup === 'No') {
+        dispatch(profession('Surgeon'));
       }
       else {
-        navigate('verification');
+        dispatch(profession(formData.doctorType));
       }
     } else {
-
-      console.log('Form contains errors, please correct them.', errors);
+      dispatch(profession(formData.profession));
     }
+
+    if (formData.isExistingCase === 'Yes') {
+      navigate('meet-setup');
+    }
+    else {
+      navigate('verification');
+    }
+    // } else {
+
+    //   console.log('Form contains errors, please correct them.', errors);
+    // }
 
     // signup
 

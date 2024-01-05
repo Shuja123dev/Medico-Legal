@@ -5,26 +5,30 @@ import {
   H2,
   H3,
   H4,
-  Dropzone,
   InputBox,
   Modal,
   Pdf,
   UploadModal,
   Button1,
 } from "../../../components";
+import { Dropzone } from "../../../components";
 import { useTranslation } from "react-i18next";
 import { CardLayout } from "../../../containers";
 import { plusIcon } from "../../../assets";
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 const AddNewCase = () => {
   const location = useLocation();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const baseURL = import.meta.env.VITE_BASE_URL;
+  const token = Cookies.get('token');
 
   const lang = useSelector((state) => state.language.value);
   const { t } = useTranslation();
+  const [files, setFiles] = useState();
   const [newCase, setNewCase] = useState({
     caseExistance: "existingCase",
     caseName: "",
@@ -40,29 +44,23 @@ const AddNewCase = () => {
   });
 
   const addNewCase = async () => {
-    await axios.post("http://202.182.110.16/medical/api/login", {
-      PhoneNo: "03325501021",
-      Password: "abc123"
-    }).then(async response => {
-      const token = response.data.token;
-      await axios.post("http://202.182.110.16/medical/api/addcase", {
-        CaseName: newCase.caseName,
-        CaseType: newCase.type,
-        Status: newCase.status,
-        ExistingCase: 0,
-        Description: newCase.description,
-        ClientId: 1
-      }, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      }).then(res => {
-        toggleModal();
-        console.log(res);
-        navigate("/admin/cases")
-      }).catch(error => {
-        console.log(error);
-      })
+    await axios.post(baseURL + "/api/addcase", {
+      CaseName: newCase.caseName,
+      CaseType: newCase.type,
+      Status: newCase.status,
+      ExistingCase: 0,
+      Description: newCase.description,
+      ClientId: 1
+    }, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    }).then(res => {
+      toggleModal();
+      console.log(res);
+      navigate("/admin/cases")
+    }).catch(error => {
+      console.log(error);
     })
   }
 
@@ -255,7 +253,7 @@ const AddNewCase = () => {
             <div className="user_addNewCase_form__submit_btn_div">
               <button
                 type="button"
-                onClick={() => { uploadSubmitClickHandler("submit"), addNewCase() }}>
+                onClick={() => { uploadSubmitClickHandler("submit") }}>
                 {t("UserPanel.Cases.AddNewCasePage.Submit")}
               </button>
               {newCase.caseExistance === "existingCase" && (
@@ -288,10 +286,17 @@ const AddNewCase = () => {
                 <div>
                   <p>{t("UserPanel.Cases.AddNewCasePage.Signature")}</p>
                   <Dropzone
+                    files={files}
+                    setFiles={setFiles}
                     content={t(
                       "UserPanel.Cases.AddNewCasePage.UploadDigitalSignature"
                     )}
                   />
+                  {
+                    files && files.map((file) => {
+                      return <Pdf key={file.name} name={file.name} size={file.size} />
+                    })
+                  }
                 </div>
               </div>
             )}
@@ -302,6 +307,7 @@ const AddNewCase = () => {
                 color="gray"
               />
               <Button1
+                onClick={addNewCase}
                 text={t("UserPanel.Cases.AddNewCasePage.Submit")}
               />
             </div>
