@@ -125,15 +125,19 @@ const useSignUp = () => {
     if (formData.profession === 'Doctor') {
       if (formData.doctorType === 'Surgeon' && formData.isAestheticGroup === 'Yes') {
         dispatch(profession('Aesthetic Surgeon'));
+        Cookies.set('profession', 'Aesthetic Surgeon', { expires: 1 });
       }
       else if (formData.doctorType === 'Surgeon' && formData.isAestheticGroup === 'No') {
         dispatch(profession('Surgeon'));
+        Cookies.set('profession', 'Surgeon', { expires: 1 });
       }
       else {
         dispatch(profession(formData.doctorType));
+        Cookies.set('profession', formData.doctorType, { expires: 1 });
       }
     } else {
       dispatch(profession(formData.profession));
+      Cookies.set('profession', formData.profession, { expires: 1 });
     }
 
     if (formData.isExistingCase === 'Yes') {

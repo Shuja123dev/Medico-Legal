@@ -22,9 +22,9 @@ const SignIn = () => {
   return (
     <div className='container-fluid d-flex justify-content-center align-items-center'>
       <HeaderWithoutCTA />
-      <div className='row justify-content-center align-items-center mb-5'>
-        <div className='col-md-8 signin-container d-flex justify-content-center align-items-center gap-5'>
-          <div className={`company-info d-flex flex-column justify-content-between gap-5`}>
+      <div className='signinBox row justify-content-center align-items-center mb-5' style={{ minHeight: '700px' }}>
+        <div className='col-md-8 signin-container d-flex justify-content-center align-items-center '>
+          <div className={`company-info d-flex flex-column justify-content-between `}>
             <div className={`company-description ${lang === 'en' ? 'pe-5' : ''} `}>
               <div className={`${lang === 'en' ? 'image-start' : 'image-end'} mb-3`}>
                 <img src={logo} className='mid-logo' alt="Logo" style={{ maxHeight: "150px", }} />

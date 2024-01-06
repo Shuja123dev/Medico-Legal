@@ -38,7 +38,7 @@ const CasesDisplayTable = ({ labels, pageCasesToDisplay, path = "/user/cases/" }
                       }
                     </td>
                   ) : (
-                    dataIndex < 5 &&
+                    dataIndex < 6 &&
                     <td
                       key={dataIndex}
                       className="user_cases_display_table__cell">

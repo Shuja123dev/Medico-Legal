@@ -30,7 +30,7 @@ const Header = () => {
                 <div className={lang == 'en' ? 'd-flex' : 'd-flex flex-row-reverse'}>
                     <div className={lang == 'en' ? 'me-5' : 'ms-5'}>
                         <Link to={'/'}>
-                            <img src={logo} alt="Logo" style={{maxHeight:"50px"}}/>
+                            <img src={logo} alt="Logo" style={{ maxHeight: "50px", transform: 'scale(1.5)' }} />
                         </Link>
                     </div>
                     <ul className={`navigation-bar list-unstyled align-items-center gap-5 max-width-[1200px] ${lang == 'en' ? 'ms-5' : 'flex-row-reverse me-5'}`}>
@@ -47,9 +47,9 @@ const Header = () => {
                     </ul>
                 </div>
                 <div className='d-flex gap-3'>
-                    <SmallScreenMenu/>
+                    <SmallScreenMenu />
                 </div>
-                
+
             </div>
         </div>
     )

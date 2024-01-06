@@ -24,6 +24,10 @@
   position: absolute;
 }
 
+.headLogo {
+  transform: scale(2);
+}
+
 .pointer {
   cursor: pointer;
 }
@@ -111,6 +115,7 @@ li {
 
 .ham-icon {
   display: none;
+  transform: scale(1.3);
 }
 
 .cross-icon {

@@ -104,7 +104,8 @@ const Cases = ({ cases, role = "user" }) => {
                 t("UserPanel.Cases.Name"),
                 t("UserPanel.Cases.Type"),
                 t("UserPanel.Cases.Status"),
-                t("UserPanel.Cases.Experts"),
+                t("Existing Cases"),
+                t("Description"),
               ]}
               pageCasesToDisplay={pageCasesToDisplay}
             />

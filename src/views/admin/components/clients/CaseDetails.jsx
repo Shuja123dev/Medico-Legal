@@ -39,6 +39,7 @@ const CaseDetails = ({ role = null, type = "cases" }) => {
     const [clients, setClients] = useState([])
     const [experts, setExperts] = useState([])
     const [caseDetails, setCaseDetails] = useState();
+    const [memberDetails, setMemberDetails] = useState()
     const [editStatus, setEditStatus] = useState(false);
     const [expertId, setExpertId] = useState("0");
 
@@ -79,6 +80,20 @@ const CaseDetails = ({ role = null, type = "cases" }) => {
         })
     }
 
+    const getCientInfo = async () => {
+        await axios.post(baseURL + "/api/getexpertclientbycase", {
+            CaseId: userId
+        }, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then(res => {
+            setMemberDetails(res.data.response.data)
+        }).catch(error => {
+            console.log(error);
+        })
+    }
+
     const addExpertToCase = async () => {
         expertId !== "0" && await axios.post(baseURL + "/api/addexperttocase", {
             CaseId: userId,
@@ -89,23 +104,27 @@ const CaseDetails = ({ role = null, type = "cases" }) => {
             }
         }).then(res => {
             console.log(res);
+            getCientInfo();
         }).catch(error => {
             console.log(error);
         })
     }
 
+
+
     console.log(experts);
 
-    const removeExpertFromCase = async () => {
+    const removeExpertFromCase = async (ExpertId) => {
         await axios.post(baseURL + "/api/removexpertfromcase", {
             CaseId: userId,
-            ExpertId: 1
+            ExpertId
         }, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
         }).then(res => {
             // console.log(res);
+            getCientInfo();
         }).catch(error => {
             console.log(error);
         })
@@ -115,6 +134,7 @@ const CaseDetails = ({ role = null, type = "cases" }) => {
         getCaseById();
         getClients();
         getExperts();
+        getCientInfo()
     }, [])
 
     const modalData = {
@@ -173,11 +193,10 @@ const CaseDetails = ({ role = null, type = "cases" }) => {
                             <div className="col-md-12 d-flex my-2">
                                 <H4 text={"STATUS"} className='support_light_txt' />
                                 <select value={caseDetails && caseDetails.Status}>
-                                    <option value="Active">Active</option>
-                                    <option value="Completed">Completed</option>
-                                    <option value="Progress">Progress</option>
-                                    <option value="Opennn">Open</option>
-                                    <option value="New">New</option>
+                                    <option value="NEW">NEW</option>
+                                    <option value="OPEN">OPEN</option>
+                                    <option value="WON">WON</option>
+                                    <option value="LOST">LOST</option>
                                 </select>
                             </div>
                         </div>
@@ -195,7 +214,7 @@ const CaseDetails = ({ role = null, type = "cases" }) => {
                         <div className="row my-4 mb-5">
                             {
                                 role === "admin" ? <>
-                                    <div className="row my-4">
+                                    {/* <div className="row my-4">
                                         <div className="col-md-12 d-flex">
                                             <select name="" id="" className='px-2' style={{ width: "70%", marginRight: "1rem" }}>
                                                 <option value="">Client Name</option>
@@ -209,7 +228,23 @@ const CaseDetails = ({ role = null, type = "cases" }) => {
                                             </select>
                                             <Button1 text={"Add"} />
                                         </div>
-                                    </div>
+                                    </div> */}
+                                    <table className="user_caseDetailsTable">
+                                        <tbody>
+                                            <tr>
+                                                <td className="user_user_caseDetailsTable_label">ID</td>
+                                                <td className="user_user_caseDetailsTable_value">
+                                                    {memberDetails && (memberDetails[0].ClientId)}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td className="user_user_caseDetailsTable_label">Name</td>
+                                                <td className="user_user_caseDetailsTable_value">
+                                                    {memberDetails && (memberDetails[0].ClientName)}
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </>
                                     :
                                     <>
@@ -262,45 +297,25 @@ const CaseDetails = ({ role = null, type = "cases" }) => {
                             </div>
                         </div>
                         <div className="row expert_cards_box">
-                            <div className="col-lg-6 col-md-12 my-3">
-                                <CardLayout className='p-4'>
-                                    <div className="row">
-                                        <div className="col-md-10">
-                                            <H4 text={"Name of the Expert"} />
-                                            <p>Area of experties</p>
+                            {
+                                memberDetails && memberDetails.map((member) => {
+                                    return (
+                                        <div className="col-lg-6 col-md-12 my-3">
+                                            <CardLayout className='p-4'>
+                                                <div className="row">
+                                                    <div className="col-md-10">
+                                                        <H4 text={member.ExpertName} />
+                                                        <p>Area of experties</p>
+                                                    </div>
+                                                    <div className="col-md-2 d-flex text-center align-items-center">
+                                                        <img src={deleteIcon} alt="" onClick={() => removeExpertFromCase(member.ExpertId)} />
+                                                    </div>
+                                                </div>
+                                            </CardLayout>
                                         </div>
-                                        <div className="col-md-2 d-flex text-center align-items-center">
-                                            <img src={deleteIcon} alt="" onClick={removeExpertFromCase} />
-                                        </div>
-                                    </div>
-                                </CardLayout>
-                            </div>
-                            <div className="col-lg-6 col-md-12 my-3">
-                                <CardLayout className='p-4'>
-                                    <div className="row">
-                                        <div className="col-md-10">
-                                            <H4 text={"Name of the Expert"} />
-                                            <p>Area of experties</p>
-                                        </div>
-                                        <div className="col-md-2 d-flex text-center align-items-center">
-                                            <img src={deleteIcon} alt="" />
-                                        </div>
-                                    </div>
-                                </CardLayout>
-                            </div>
-                            <div className="col-lg-6 col-md-12 my-3">
-                                <CardLayout className='p-4'>
-                                    <div className="row">
-                                        <div className="col-md-10">
-                                            <H4 text={"Name of the Expert"} />
-                                            <p>Area of experties</p>
-                                        </div>
-                                        <div className="col-md-2 d-flex text-center align-items-center">
-                                            <img src={deleteIcon} alt="" />
-                                        </div>
-                                    </div>
-                                </CardLayout>
-                            </div>
+                                    )
+                                })
+                            }
                         </div>
                     </div>
                 </div>

@@ -1,6 +1,6 @@
-.signin-container {
+/* .signin-container {
   height: 100vh;
-}
+} */
 
 .company-description {
   width: 50%;
@@ -175,6 +175,8 @@
     border-radius: 15px;
   }
 
+
+
   .ser-hero-heading h1 {
     font-size: 40px;
   }
@@ -182,6 +184,19 @@
   .company-description,
   .company-contacts {
     width: 80%;
+  }
+
+
+}
+
+@media (max-width: 1201px) {
+
+  .signinBox {
+    flex-direction: column-reverse;
+  }
+
+  .signin-form {
+    margin-top: 10rem;
   }
 }
 
