@@ -12,29 +12,19 @@
 
 
 .hero-text.ltr {
-  position: absolute;
-  top: 200px;
-  width: 47%;
-  z-index: 0;
   animation: fadeOutDown 2s ease-in-out forwards;
 }
 
 .hero-text.rtl {
-  position: absolute;
-  top: 200px;
-  right: 0px;
-  z-index: 0;
   animation: fadeOutDown 2s ease-in-out forwards;
 }
 
 
+.mt-7 {
+  margin-top: 7rem;
+}
 
 .hero-image-bg.ltr {
-  position: absolute;
-  top: 100px;
-  right: 0px;
-  transform: translateX(40%);
-  z-index: -1;
   animation: fadeOutRightBG 750ms ease-in-out forwards;
 }
 
@@ -45,17 +35,12 @@
   }
 
   100% {
-    transform: translateX(40%);
+    transform: translateX(2%);
     opacity: 1;
   }
 }
 
 .hero-image-bg.rtl {
-  position: absolute;
-  top: 100px;
-  left: 0px;
-  transform: translateX(-40%);
-  z-index: -1;
   animation: fadeOutLeftBG 750ms ease-in-out forwards;
 }
 
@@ -66,14 +51,15 @@
   }
 
   100% {
-    transform: translateX(-40%);
+    transform: translateX(0%);
     opacity: 1;
   }
 }
 
 .hero-image-bg .hero-image {
-  height: 80vh;
+  /* height: 80vh; */
   max-height: 700px;
+  width: 100%;
 }
 
 .hero-heading {

@@ -22,12 +22,12 @@ const SignIn = () => {
   return (
     <div className='container-fluid d-flex justify-content-center align-items-center'>
       <HeaderWithoutCTA />
-      <div className='row justify-content-center align-items-center'>
-        <div className='col-xl-9 col-md-12 signin-container d-flex justify-content-center align-items-center gap-5'>
+      <div className='row justify-content-center align-items-center mb-5'>
+        <div className='col-md-8 signin-container d-flex justify-content-center align-items-center gap-5'>
           <div className={`company-info d-flex flex-column justify-content-between gap-5`}>
             <div className={`company-description ${lang === 'en' ? 'pe-5' : ''} `}>
-              <div className={`${lang === 'en' ? '' : 'float-end'} mb-3`}>
-                <img src={logo} alt="Logo" style={{ maxHeight: "150px", transform: "translateX(-70px)" }} />
+              <div className={`${lang === 'en' ? 'image-start' : 'image-end'} mb-3`}>
+                <img src={logo} className='mid-logo' alt="Logo" style={{ maxHeight: "150px", }} />
               </div>
               <br />
               <p className={`${lang === 'en' ? '' : 'text-end'}`}>
@@ -45,7 +45,7 @@ const SignIn = () => {
             </div>
           </div>
         </div>
-        <div className='col-xl-3 col-md-8 signin-form'>
+        <div className='col-md-4 d-flex signin-form justify-content-center align-items-center'>
           <MainPagesCard>
             <div className='signin-form-container'>
               <div className='signin-form-title'>

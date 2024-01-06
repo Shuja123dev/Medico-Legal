@@ -40,10 +40,10 @@ const SignUpForm = () => {
   return (
     <div className='container-fluid d-flex justify-content-center align-items-center'>
       <div className='signup-container d-flex justify-content-center align-items-center gap-5 signUpBox'>
-        <div className={`company-info d-flex flex-column justify-content-between gap-5`}>
+        <div className={`company-info d-flex flex-column justify-content-center`}>
           <div className={`company-description ${lang === 'en' ? 'pe-5' : ''} `}>
-            <div className={`${lang === 'en' ? '' : 'float-end'} mb-3`}>
-              <img src={logo} alt="Logo" style={{ maxHeight: "150px", transform: "translateX(-70px)" }} />
+            <div className={`${lang === 'en' ? 'image-start' : 'image-end'} mb-3`}>
+              <img src={logo} className='mid-logo' alt="Logo" style={{ maxHeight: "150px", }} />
             </div>
             <br />
             <p className={`${lang === 'en' ? '' : 'text-end'}`}>
