@@ -81,13 +81,13 @@ const Profile = () => {
                 type={"email"}
                 onChange={infoChangeHandler}
               />
-              <InputBox
+              {/* <InputBox
                 value={personalInfo.phoneNo}
                 nameIdHtmlFor={"phoneNo"}
                 label={t("UserPanel.Profile.PhoneNo")}
                 type={"number"}
                 onChange={infoChangeHandler}
-              />
+              /> */}
               <InputBox
                 value={personalInfo.nationalAddress}
                 nameIdHtmlFor={"nationalAddress"}

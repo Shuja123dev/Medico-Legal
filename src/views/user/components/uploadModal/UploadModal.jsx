@@ -10,11 +10,10 @@ const UploadModal = ({
 }) => {
   const { t } = useTranslation();
   const [files, setFiles] = useState([]);
-  console.log(files);
   return (
     <>
       <div className="user_upload_modal_div">
-        {modalType === "documentUpload" && (
+        {(modalType === "documentUpload") && (
           <Dropzone
             files={files}
             setFiles={setFiles}

@@ -4,11 +4,11 @@ import "./dropzone.css";
 const Dropzone = ({ content, className = "", setFiles, files }) => {
 
   const uploadFile = (event) => {
+    console.log(event.target.files);
     setFiles([
       ...files,
       event.target.files[0]
     ])
-    // console.log(event.target.files[0]);
   }
 
   return (

@@ -47,6 +47,22 @@ const TicketDetails = ({
     })
   }
 
+  const removeExpertFromTicket = async (ExpertId) => {
+    await axios.post(baseURL + "/api/removexpertfromcase", {
+      CaseId: userId,
+      ExpertId
+    }, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    }).then(res => {
+      // console.log(res);
+      getCientInfo();
+    }).catch(error => {
+      console.log(error);
+    })
+  }
+
   useEffect(() => {
     getallexperts()
   }, [])
@@ -92,12 +108,20 @@ const TicketDetails = ({
             </div>
           </div>
           <div className="expert_ticketDetails__experts_display">
-            {ticketDetails && ticketDetails.experts?.map(({ name, areaOfExpertise }, index) => (
-              <ExpertDisplay
-                key={index}
-                expertName={name}
-                areaOfExpertise={areaOfExpertise}
-              />
+            {ticketDetails && ticketDetails.experts?.map((expert, { name, areaOfExpertise }, index) => (
+              <div className="col-lg-6 col-md-12 my-3">
+                <CardLayout className='p-4'>
+                  <div className="row">
+                    <div className="col-md-10">
+                      <H4 text={name} />
+                      <p>{areaOfExpertise}</p>
+                    </div>
+                    <div className="col-md-2 d-flex text-center align-items-center">
+                      <img src={deleteIcon} alt="" onClick={() => removeExpertFromTicket(expert.ExpertId)} />
+                    </div>
+                  </div>
+                </CardLayout>
+              </div>
             ))}
           </div>
         </div>

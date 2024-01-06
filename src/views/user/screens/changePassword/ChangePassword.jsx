@@ -3,6 +3,7 @@ import "./changePassword.css";
 import { CardLayout } from "../../containers";
 import { Button1, H3, InputBox, OtpInput } from "../../components";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 const ChangePassword = () => {
   const [isOtpVerified, setIsOtpVerified] = useState(false);
@@ -10,6 +11,7 @@ const ChangePassword = () => {
   const [passwordError, setPasswordError] = useState("");
   const [isSuccessMsgVisible, setIsSuccessMsgVisible] = useState(false);
   const { t } = useTranslation();
+  const navigate = useNavigate()
 
   const validatePassword = (password) => {
     const passwordRegex =
@@ -69,11 +71,19 @@ const ChangePassword = () => {
             <H3 text={t("UserPanel.Profile.OTPVerification")} />
             <p>{t("UserPanel.Profile.OTPVerificationInfo")}</p>
             <OtpInput />
-            <Button1
-              text={t("UserPanel.Profile.Submit")}
-              className="mt-4"
-              onClick={() => setIsOtpVerified(true)}
-            />
+            <div className="d-flex" style={{ justifyContent: "space-between", width: "100%" }}>
+              <Button1
+                text={t("UserPanel.Profile.Submit")}
+                className="mt-4"
+                onClick={() => setIsOtpVerified(true)}
+              />
+              <Button1
+                text="Cancel"
+                className="mt-4"
+                onClick={() => navigate("/user/profile")}
+                color="gray"
+              />
+            </div>
           </>
         )}
       </CardLayout>

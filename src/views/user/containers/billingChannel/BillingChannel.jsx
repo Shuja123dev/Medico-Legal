@@ -53,7 +53,7 @@ const BillingChannel = () => {
         value = e.target.max;
       }
     }
-    
+
     // If month is less than 10 then adding 0 before it
     if (name === "expireDateMonth" && value < 10) {
       value = "0" + value;
@@ -135,9 +135,8 @@ const BillingChannel = () => {
           </div>
         </div>
         <div
-          className={`user_billingChannel__body_outer ${
-            isChannelExpanded ? "user_billingChannel__body_outer-expanded" : ""
-          }`}>
+          className={`user_billingChannel__body_outer ${isChannelExpanded ? "user_billingChannel__body_outer-expanded" : ""
+            }`}>
           <div className="user_billingChannel__body">
             {membershipStatus !== "expired" && (
               <div className="user_billingChannel__radio_divs">
@@ -172,7 +171,6 @@ const BillingChannel = () => {
             {channelType === "credit_card" && (
               <div className="user_billingChannel___input_div">
                 <InputBox
-                  type={"credit_card"}
                   type={"credit_card"}
                   placeholder={t("UserPanel.Billing.AccountNumber")}
                   value={creditCardDetails.accountNumber}

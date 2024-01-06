@@ -94,7 +94,7 @@ const InputBox = ({
             title="Please enter a valid credit card number in the format xxxx-xxxx-xxxx-xxxx"
           />
         )}
-        {type === "credit_card" && (
+        {/* {type === "credit_card" && (
           <input
             type="text"
             id={nameIdHtmlFor}
@@ -106,7 +106,7 @@ const InputBox = ({
             maxLength={19} // 16 digits + 3 dashes
             title="Please enter a valid credit card number in the format xxxx-xxxx-xxxx-xxxx"
           />
-        )}
+        )} */}
       </div>
     </>
   );
