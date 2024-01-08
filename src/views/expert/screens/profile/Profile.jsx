@@ -1,11 +1,20 @@
-import React, { useState } from "react";
+import axios from 'axios';
+import React, { useEffect, useState } from "react";
 import "./profile.css";
 import { CardLayout } from "../../containers";
 import { H2, H3, InputBox, Dropzone, Button1, H4 } from "../../components";
 import { user2Img } from "../../assets";
 import { Link } from "react-router-dom";
+import Cookies from 'js-cookie';
 
 const Profile = () => {
+
+  const baseURL = import.meta.env.VITE_BASE_URL;
+  const token = Cookies.get('token');
+  const ExpertId = Cookies.get('userId');
+
+  console.log(token);
+
   const [workingHoursStartSt, setWorkingHoursStartSt] = useState({
     time: "",
     amPm: "AM",
@@ -26,6 +35,19 @@ const Profile = () => {
     workingHoursEnd: workingHoursEndSt,
     status: "active",
   });
+
+  const getExpertDetails = async () => {
+    await axios.post(`${baseURL}/api/getexpertbyid`, {
+      ExpertId: 5
+    }, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    }).then(response => {
+      console.log(response.data);
+      setPersonalInfo(response.data.response.data[0])
+    })
+  }
 
   const infoChangeHandler = (e) => {
     setPersonalInfo({ ...personalInfo, [e.target.name]: e.target.value });
@@ -51,6 +73,10 @@ const Profile = () => {
       },
     });
   };
+
+  useEffect(() => {
+    getExpertDetails();
+  }, [])
 
   return (
     <>

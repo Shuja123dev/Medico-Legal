@@ -13,11 +13,10 @@ const ExpertDisplay = ({
   return (
     <>
       <div
-        className={`user_expertDisplay ${
-          lang === "ar" ? "user_expertDisplay_ar" : ""
-        }`}>
+        className={`user_expertDisplay ${lang === "ar" ? "user_expertDisplay_ar" : ""
+          }`}>
         <h5>{expertName}</h5>
-        <h6>{areaOfExpertise}</h6>
+        <h6>{areaOfExpertise && areaOfExpertise}</h6>
         {editStatus && (
           <button onClick={onDeleteClick}>
             <img src={binIcon} alt="bin" />

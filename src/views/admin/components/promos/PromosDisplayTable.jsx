@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { H3, InputBox, Modal } from '../../../user/components';
@@ -13,6 +13,7 @@ const PromosDisplayTable = ({ labels, pageCasesToDisplay, path = "/admin/promos/
 
     const [showModal1, setShowModal1] = useState(false)
     const [type, setType] = useState("Amount");
+    const [Status, setStatus] = useState()
     const [promo, setPromo] = useState({
         PromoId: "",
         PromoName: "",
@@ -20,11 +21,13 @@ const PromosDisplayTable = ({ labels, pageCasesToDisplay, path = "/admin/promos/
         Type: "",
         Percentage: "",
         Amount: "",
-        Status: 1
+        Status
     });
 
     const toggleModal1 = (data) => {
         setShowModal1(!showModal1);
+        data && setStatus(data.Status === 1 ? "Active" : "Deactive")
+        console.log(data);
         data && setType(data.Type)
         data && setPromo(data)
     }
@@ -43,6 +46,10 @@ const PromosDisplayTable = ({ labels, pageCasesToDisplay, path = "/admin/promos/
         })
     }
 
+    const handleChangeStatus = (event) => {
+        setStatus(event.target.value)
+    }
+
     const handleChange = (event) => {
         const { name, value } = event.target;
         setPromo({
@@ -50,6 +57,16 @@ const PromosDisplayTable = ({ labels, pageCasesToDisplay, path = "/admin/promos/
             [name]: value,
         })
     }
+
+    useEffect(() => {
+        setPromo({
+            ...promo,
+            Status: (Status === "Active" ? 1 : 0)
+        })
+    }, [Status])
+
+
+    console.log(promo);
 
     return (
         <>
@@ -82,14 +99,15 @@ const PromosDisplayTable = ({ labels, pageCasesToDisplay, path = "/admin/promos/
                                             className="user_cases_display_table__cell">
                                             {caseItem[data]}
                                         </td> : <td>
-                                            <InputBox
+                                            {/* <InputBox
                                                 type={"select"}
                                                 value={caseItem[data] === 1 ? "Active" : "Deactive"}
                                                 options={[
                                                     "Active",
                                                     "Deactive"
                                                 ]}
-                                            />
+                                            /> */}
+                                            {caseItem[data] === 1 ? "Active" : "Deactive"}
                                         </td>
                                     )
                                 )}
@@ -135,6 +153,16 @@ const PromosDisplayTable = ({ labels, pageCasesToDisplay, path = "/admin/promos/
                                 </div>
                             </div>
                             <InputBox type={"text"} nameIdHtmlFor={type} placeholder={type} value={type === "Percentage" ? promo.Percentage : promo.Amount} onChange={handleChange} />
+                            <InputBox
+                                type={"select"}
+                                nameIdHtmlFor={"Status"}
+                                onChange={handleChangeStatus}
+                                value={Status}
+                                options={[
+                                    "Active",
+                                    "Deactive"
+                                ]}
+                            />
                         </div>
 
                         <div className="d-flex align-items-center justify-content-end ">

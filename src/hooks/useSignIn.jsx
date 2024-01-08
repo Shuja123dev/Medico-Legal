@@ -45,6 +45,7 @@ const useSignIn = () => {
   const navigate = useNavigate();
   const handleSubmit = async (event) => {
     let userRole;
+    console.log(checkToken);
     if (checkToken)
       Cookies.remove('token');
     Cookies.remove('userId');
@@ -66,6 +67,7 @@ const useSignIn = () => {
       const role = response.data.user.role;
       const token = response.data.token;
       const userId = response.data.user.uid;
+      console.log(token);
       Cookies.set('userId', userId, { expires: 7 });
       Cookies.set('token', token, { expires: 30 });
       if (role === 'E') {

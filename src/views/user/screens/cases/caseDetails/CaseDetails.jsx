@@ -18,32 +18,12 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import Cookies from "js-cookie";
 
-const experts = [
-  {
-    expertName: "Dr. John Doe",
-    areaOfExpertise: "Forensic Pathology",
-  },
-
-  {
-    expertName: "Dr. Jane Smith",
-    areaOfExpertise: "Criminal Psychology",
-  },
-
-  {
-    expertName: "Dr. Mark Johnson",
-    areaOfExpertise: "Digital Forensics",
-  },
-
-  {
-    expertName: "Dr. Emily Davis",
-    areaOfExpertise: "Forensic Anthropology",
-  },
-];
-
 const CaseDetails = () => {
   const { t } = useTranslation();
   const lang = useSelector((state) => state.language.value);
   const caseId = useParams().caseId;
+  const baseURL = import.meta.env.VITE_BASE_URL;
+  const token = Cookies.get('token');
 
   const modalData = {
     expertRemoval: {
@@ -56,16 +36,28 @@ const CaseDetails = () => {
     },
   };
 
+
   const [currCase, setCurrCase] = useState({});
   const [currModalDataState, setCurrModalDataState] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [experts, setExperts] = useState([])
+
+  const getExpertsByCase = async () => {
+    await axios.post(baseURL + "/api/getexpertclientbycase", {
+      CaseId: caseId
+    }, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    }).then(response => {
+      setExperts(response.data.response.data)
+    });
+  }
 
   const toggleModal = () => {
     setIsModalVisible((prevState) => !prevState);
   };
 
-  const baseURL = import.meta.env.VITE_BASE_URL;
-  const token = Cookies.get('token');
 
   const getCase = async () => {
     await axios.post(baseURL + "/api/getcasebyid", {
@@ -90,6 +82,7 @@ const CaseDetails = () => {
 
   useEffect(() => {
     getCase();
+    getExpertsByCase();
   }, [])
 
   console.log(currCase);
@@ -195,15 +188,19 @@ const CaseDetails = () => {
               )}
               <H4 text={t("UserPanel.Cases.Experts")} />
               <div className="user_caseDetails__experts_div__inner">
-                {experts.map(({ expertName, areaOfExpertise }, index) => (
-                  <ExpertDisplay
-                    key={index}
-                    editStatus={editStatus}
-                    expertName={expertName}
-                    areaOfExpertise={areaOfExpertise}
-                    onDeleteClick={() => deleteClickHandler("expertRemoval")}
-                  />
-                ))}
+                {experts.length !== 0 ?
+                  experts.map(({ ExpertName }, index) => (
+                    <ExpertDisplay
+                      key={index}
+                      editStatus={editStatus}
+                      expertName={ExpertName}
+                      areaOfExpertise={"Area of Expertise"}
+                      onDeleteClick={() => deleteClickHandler("expertRemoval")}
+                    />
+                  ))
+                  :
+                  <p>No Experts Found</p>
+                }
               </div>
             </div>
           </div>

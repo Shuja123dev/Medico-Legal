@@ -6,25 +6,32 @@ import ManagementTable from './ManagementTable'
 import plusIcon from "./plusIcon.png"
 import filterIcon from "./filter.svg"
 import { CardLayout } from '../../../user/containers'
+import axios from 'axios'
+import Cookies from 'js-cookie'
 
 const Management = () => {
 
-    const [showModal1, setShowModal1] = useState(false)
+    const baseURL = import.meta.env.VITE_BASE_URL;
+    const token = Cookies.get('token');
+
+    const [showModal1, setShowModal1] = useState(false);
+    const [packages, setPackages] = useState([]);
+
+    const getAllPackages = async () => {
+        await axios.get(baseURL + "/api/getpackages", {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
+        }).then(res => {
+            setPackages(res.data.response.data)
+        })
+    }
+
 
     const toggleModal1 = () => {
         setShowModal1(!showModal1);
     }
 
-    const memberships = [
-        {
-            id: "123",
-            name: "Complete Protection",
-            description: "Lorem ipsum dolor sit amet....",
-            year: "2",
-            amount: "500",
-            discount: "30%",
-        },
-    ]
 
     const clientsMemberships = [
         {
@@ -103,6 +110,10 @@ const Management = () => {
         setCurrentPage(1);
     }, [recordsPerPage]);
 
+    useEffect(() => {
+        getAllPackages();
+    }, [])
+
     return (
         <>
             <div className="cards_box mb-5">
@@ -130,7 +141,7 @@ const Management = () => {
                     <span>Create Package</span>
                 </button>
             </div>
-            <ManagementTable tableData={memberships} />
+            <ManagementTable tableData={packages} />
 
             {
                 showModal1 && <>

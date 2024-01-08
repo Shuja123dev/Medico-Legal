@@ -40,6 +40,8 @@ const UserPicCard = ({
       }
     }).then((res) => {
       console.log(res);
+      // if (role === 'expert')
+
       setUserData(res.data.response.data[0]);
     })
   };
@@ -49,7 +51,6 @@ const UserPicCard = ({
   }, [])
 
   const navigate = useNavigate();
-
 
   return (
     <>

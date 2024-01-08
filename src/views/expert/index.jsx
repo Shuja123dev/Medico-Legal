@@ -33,6 +33,8 @@ const Expert = () => {
   const token = Cookies.get('token');
   const authenticate = useAuthentication()
 
+  console.log(token);
+
   const getCases = async () => {
     await axios.get(baseURL + "/api/getallcase", {
       headers: {

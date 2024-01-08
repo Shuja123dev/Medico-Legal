@@ -5,6 +5,8 @@ import ConfitmationModal from '../membership/ConfitmationModal';
 
 const ManagementTable = ({ tableData }) => {
 
+  console.log(tableData);
+
   const [casesToDisplay, setCasesToDisplay] = useState(tableData);
   const [status, setStatus] = useState("All");
   const [pageCasesToDisplay, setPageCasesToDisplay] = useState(tableData);
@@ -24,6 +26,10 @@ const ManagementTable = ({ tableData }) => {
   useEffect(() => {
     setCurrentPage(1);
   }, [recordsPerPage]);
+
+  useEffect(() => {
+    setCasesToDisplay(tableData);
+  }, [tableData])
 
   const toggleModal1 = () => {
     setShowModal1(!showModal1);
@@ -45,7 +51,7 @@ const ManagementTable = ({ tableData }) => {
                   <th className="user_cases_display_table__label" >ID</th>
                   <th className="user_cases_display_table__label" >NAME</th>
                   <th className="user_cases_display_table__label" >DESCRIPTION</th>
-                  <th className="user_cases_display_table__label" >YEAR</th>
+                  <th className="user_cases_display_table__label" >VALID</th>
                   <th className="user_cases_display_table__label" >AMOUNT</th>
                   <th className="user_cases_display_table__label" >DISCOUNT</th>
                   <th className="user_cases_display_table__label" >STATUS</th>
@@ -57,11 +63,11 @@ const ManagementTable = ({ tableData }) => {
                   pageCasesToDisplay.map((record, index) => {
                     return (
                       <tr key={index} className="user_cases_display_table__row">
-                        <td key={index} className="user_cases_display_table__cell">{record.id}</td>
-                        <td key={index} className="user_cases_display_table__cell">{record.name}</td>
-                        <td key={index} className="user_cases_display_table__cell">{record.description}</td>
-                        <td key={index} className="user_cases_display_table__cell">{record.year}</td>
-                        <td key={index} className="user_cases_display_table__cell">{record.amount}</td>
+                        <td key={index} className="user_cases_display_table__cell">{record.PackageId}</td>
+                        <td key={index} className="user_cases_display_table__cell">{record.PackageName}</td>
+                        <td key={index} className="user_cases_display_table__cell">{record.Description}</td>
+                        <td key={index} className="user_cases_display_table__cell">{record.Valid}</td>
+                        <td key={index} className="user_cases_display_table__cell">{record.Fee}</td>
                         <td key={index} className="user_cases_display_table__cell">{record.discount}</td>
                         <td key={index} className="user_cases_display_table__cell">
                           <select>

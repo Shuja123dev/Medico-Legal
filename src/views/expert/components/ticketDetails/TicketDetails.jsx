@@ -3,6 +3,9 @@ import "./ticketDetails.css";
 import { Button1, ExpertDisplay, H3, TicketDetailsTable } from "../";
 import Cookies from "js-cookie";
 import axios from "axios";
+import { CardLayout } from "../../containers";
+import { H4 } from "../../../user/components";
+import deleteIcon from "./deleteIcon.svg"
 
 const TicketDetails = ({
   ticketDetails,
@@ -14,7 +17,21 @@ const TicketDetails = ({
   const token = Cookies.get('token');
 
   const [expertId, setExpertId] = useState("0");
-  const [experts, setExperts] = useState([])
+  const [experts, setExperts] = useState([]);
+  const [ticketExerts, setTicketExperts] = useState([]);
+
+  const getTicketExperts = async () => {
+    await axios.post(`${baseURL}/api/getticketexperts`, {
+      TicketNo: ticketDetails.TicketNo
+    }, {
+      headers: {
+        'Authorization': 'Bearer ' + token
+      }
+    }).then(res => {
+      console.log(res);
+      setTicketExperts(res.data.response.data)
+    })
+  }
 
   const statusChangeHandler = (e) => {
     setTicketDetails((prevEntry) => ({
@@ -43,21 +60,22 @@ const TicketDetails = ({
         'Authorization': 'Bearer ' + token
       }
     }).then(res => {
+      getTicketExperts()
       console.log(res);
     })
   }
 
   const removeExpertFromTicket = async (ExpertId) => {
-    await axios.post(baseURL + "/api/removexpertfromcase", {
-      CaseId: userId,
+    await axios.post(baseURL + "/api/removexpertfromticket", {
+      TicketNo: ticketDetails.TicketNo,
       ExpertId
     }, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
     }).then(res => {
-      // console.log(res);
-      getCientInfo();
+      console.log(res);
+      getTicketExperts();
     }).catch(error => {
       console.log(error);
     })
@@ -66,6 +84,10 @@ const TicketDetails = ({
   useEffect(() => {
     getallexperts()
   }, [])
+  useEffect(() => {
+    getTicketExperts()
+  }, [ticketDetails])
+  console.log(ticketExerts);
 
   return (
     <>
@@ -90,7 +112,7 @@ const TicketDetails = ({
             }}
           />
         </div>
-        <div>
+        <div className="mb-5">
           <H3 text={"Experts"} className="mb-4" />
           <div className="row my-4">
             <div className="col-md-12 d-flex">
@@ -107,22 +129,26 @@ const TicketDetails = ({
               <Button1 text={"Add"} onClick={addExpertToTicket} />
             </div>
           </div>
-          <div className="expert_ticketDetails__experts_display">
-            {ticketDetails && ticketDetails.experts?.map((expert, { name, areaOfExpertise }, index) => (
-              <div className="col-lg-6 col-md-12 my-3">
+          <div className="row expert_ticketDetails__experts_display">
+            {ticketExerts.length > 0 ? ticketExerts.map((expert, { ExpertName, areaOfExpertise }, index) => (
+              <div className="col-md-12 my-3">
                 <CardLayout className='p-4'>
                   <div className="row">
                     <div className="col-md-10">
-                      <H4 text={name} />
-                      <p>{areaOfExpertise}</p>
+                      <H4 text={expert.ExpertName} />
+                      <p>{areaOfExpertise || "Area Of Experties"}</p>
                     </div>
-                    <div className="col-md-2 d-flex text-center align-items-center">
-                      <img src={deleteIcon} alt="" onClick={() => removeExpertFromTicket(expert.ExpertId)} />
+                    <div className="col-md-2 d-flex text-center align-items-center" onClick={() => removeExpertFromTicket(expert.ExpertId)}>
+                      <img src={deleteIcon} alt="" />
                     </div>
                   </div>
                 </CardLayout>
               </div>
-            ))}
+            ))
+              :
+              <p>No Experts Exist in this Ticket</p>
+
+            }
           </div>
         </div>
       </div>
